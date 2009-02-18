@@ -6,6 +6,7 @@
 <!ENTITY pleaseWait "Proszę czekać...">
 <!ENTITY dashboard "kokpit">
 <!ENTITY reply "odpowiedz">
+<!ENTITY quote "cytuj">
 <!ENTITY plugin.turnoff "wyłącz">
 <!ENTITY statusbar.contextmenu.preferences "Ustawienia">
 <!ENTITY statusbar.contextmenu.turnon "Włącz">

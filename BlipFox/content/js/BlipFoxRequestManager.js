@@ -343,7 +343,7 @@ function BlipFoxRequestManager()
 			url += '/since/' + BlipFox.getLastMessageId();
 		}
 		
-		url += '?include=pictures,user,recipient,user[avatar],recipient[avatar]&limit=25';
+		url += '?include=pictures,user,recipient,user[avatar],recipient[avatar]';
 
 		_sendRequest(url, callback);
 	}

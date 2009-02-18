@@ -24,7 +24,7 @@
 const BLIPFOX_DEBUG = false;
 
 /* Wersja. */
-const BLIPFOX_VERSION = '0.7.3';
+const BLIPFOX_VERSION = '0.7.5';
 
 /* URL do API. */
 const BLIPFOX_API_URL = 'http://api.blip.pl/';
@@ -1392,6 +1392,34 @@ BlipFox = (function()
 			catch (ex)
 			{
 			}
+		},
+		
+		/**
+		 * Metoda wstawia do okna wpisywania wiadomości link do cytatu.
+		 * @param Object Kliknięty element.
+		 */
+		quoteMessage: function(element) 
+		{
+			var link = '';
+			if (element.getAttribute('messageType') == 'Status') 
+			{
+				link = this.getStatusLink(element.getAttribute('messageId'));
+			}
+			else if (element.getAttribute('messageType') == 'DirectedMessage')
+			{
+				link = this.getDirectedMessageLink(element.getAttribute('messageId'));
+			}
+			else
+			{
+				link = this.getPrivateMessageLink(element.getAttribute('messageId'));
+			}
+			
+			var input = window.document.getElementById('blipfox-input-message');
+			var start = input.selectionStart;
+			var end = input.selectionEnd;
+			
+			input.value = input.value.substring(0, start) + link + ' ' + input.value.substring(end, input.value.length);
+			input.focus();
 		}
 
 		/**

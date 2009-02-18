@@ -61,6 +61,12 @@
 						<xul:label xbl:inherits="value=transport" />
 						<xul:spacer flex="1" />						
 						<xul:label
+							class="blipfox-message-toolbar-quote"
+							value="&quote;"
+							tooltiptext="&quote;"
+							onclick="BlipFox.quoteMessage(this);"
+							xbl:inherits="messageType=messageType,messageId=messageId" />
+						<xul:label
 							class="blipfox-message-toolbar-reply"
 							value="&reply;"
 							tooltiptext="&reply;"

@@ -7,11 +7,11 @@
 				<RDF:li resource="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}" />
 			</RDF:Seq>
 		</em:updates>
-		<em:version>0.7.3</em:version>
+		<em:version>0.7.5</em:version>
 		<em:updateLink>http://blipfox.com/files/BlipFox-current.xpi</em:updateLink>
 	</RDF:Description>
 	<RDF:Description about="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}">
-		<em:version>0.7.3</em:version>
+		<em:version>0.7.5</em:version>
 		<em:targetApplication>
 			<RDF:Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
