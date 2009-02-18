@@ -1,0 +1,401 @@
+/**
+ * Copyright (c) 2008 Filip Tepper
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+#blipfox-error[visible="true"]
+{
+	background: url('chrome://blipfox/content/bg-message-wrapper.png');
+	color: red;
+	font-weight: bold;
+	margin-bottom: 2px;
+	width: 100%;
+}
+
+#blipfox-input-container
+{
+	background: #111111;
+	border: 1px solid #C2C2C2;
+	margin: 5px;
+	padding: 5px;
+	width: 340px;
+}
+
+#blipfox-input-dashboard
+{
+	cursor: pointer;
+}
+
+#blipfox-input-friends
+{
+	max-width: 280px;
+}
+
+#blipfox-input-message
+{
+	background-color: #fff !important;
+	background-image: none !important;
+	border: 1px solid #000 !important;
+	color: #000 !important;
+    font-family: trebuchet, arial, helvetica, sans-serif !important;
+    font-size: 13px !important;
+    width: 328px !important;
+    height: 48px !important;
+    overflow: visible !important;
+}
+
+#blipfox-input-turnoff
+{
+	cursor: pointer;
+}
+
+#blipfox-popup-header
+{
+	background-color: #111111;
+	/* cursor: move; */
+	margin: 5px;
+	max-width: 340px;
+	opacity: 0.5;
+	padding: 3px 0px;
+	width: 340px;
+}
+
+#blipfox-popup-header-close
+{
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 2px;
+}
+
+#blipfox-popup-header-status
+{
+	color: #FFFFFF;
+	padding: 2px;
+	width: 308px;
+}
+
+#blipfox-popup-scrollbox
+{
+	-moz-border-radius: 12px;
+	overflow-x: hidden !important;
+}
+
+#blipfox-statusbar-context-turnon[visible="true"]
+{
+	display: block;
+}
+
+#blipfox-statusbar-context-turnon[visible="false"]
+{
+	display: none;
+}
+
+#blipfox-statusbar-context-turnoff[visible="true"]
+{
+	display: block;
+}
+
+#blipfox-statusbar-context-turnoff[visible="false"]
+{
+	display: none;
+}
+
+#blipfox-statusbar-icon
+{
+	margin-right: 10px;
+}
+
+.blipfox-embed
+{
+	margin-top: 5px;
+}
+
+.blipfox-input-submit
+{
+    cursor: pointer;
+	position: absolute;
+	top: 20px;
+}
+
+.blipfox-input-toolbar
+{
+	color: #AAA;
+}
+
+.blipfox-loading
+{
+	background: #111111;
+	border: 1px solid #C2C2C2;
+	/* cursor: move; */
+    -moz-binding: url('chrome://blipfox/content/BlipFox.xml#blipfox-loading');
+}
+
+.blipfox-loading[firefox_version="2"]
+{
+	display: none;
+	position: fixed;
+}
+
+.blipfox-loading-container
+{
+	color: #C2C2C2;
+	font-family: trebuchet, arial, helvetica, sans-serif;
+	font-size: 12px;
+	padding: 20px;
+}
+
+.blipfox-message
+{
+    -moz-binding: url('chrome://blipfox/content/BlipFox.xml#blipfox-message');
+}
+
+.blipfox-message-avatar
+{
+	border: 1px solid #ccc;
+	cursor: pointer;
+	height: 32px;
+	width: 32px;
+}
+
+.blipfox-message-avatar-to[messageType="DirectedMessage"], .blipfox-message-avatar-to[messageType="PrivateMessage"]
+{
+	margin-left: 5px;
+}
+
+.blipfox-message-avatar-to[messageType="Status"]
+{
+	display: none;
+}
+
+.blipfox-message-avatar:hover
+{
+	border: 1px solid #111;
+}
+
+.blipfox-message-body
+{
+	color: black !important;
+	cursor: text;
+	font-size: 11px;
+	margin-left: 5px;
+	-moz-user-select: text;
+}
+
+.blipfox-message-body[messageType="DirectedMessage"], .blipfox-message-body[messageType="PrivateMessage"]
+{
+	max-width: 226px;
+	width: 226px;
+}
+
+.blipfox-message-body[messageType="Status"]
+{
+	max-width: 263px;
+	width: 263px;
+}
+
+.blipfox-message-container
+{
+	background: #FFFFFF url('chrome://blipfox/content/images/blipfox-message-container.gif') repeat-x;
+	padding: 3px 3px 0px 3px;
+	max-width: 312px;
+	width: 312px;
+}
+
+.blipfox-message-link
+{
+	color: #666666;
+	cursor: pointer;
+}
+
+.blipfox-message-picture
+{
+	cursor: pointer;
+	height: 90px;
+	width: 90px;
+}
+
+.blipfox-message-picture[messageType="DirectedMessage"], .blipfox-message-picture[messageType="PrivateMessage"]
+{
+	margin: 5px 68px 0px 68px;
+}
+
+.blipfox-message-picture[messageType="Status"]
+{
+	margin: 5px 87px 0px 86px;
+}
+
+.blipfox-message-toolbar
+{
+	color: #AAAAAA;
+	width: 316px;
+}
+
+.blipfox-message-toolbar-bliplog
+{
+	cursor: pointer;
+}
+
+.blipfox-message-toolbar-bliplog:hover
+{
+	color: #111111;
+}
+
+.blipfox-message-toolbar-delete
+{
+	cursor: pointer;
+}
+
+.blipfox-message-toolbar-delete:hover
+{
+	color: #111111;
+}
+
+.blipfox-message-toolbar-delete[allow_delete="false"]
+{
+	display: none;
+}
+
+.blipfox-message-toolbar-lock[messageType="DirectedMessage"], .blipfox-message-toolbar-lock[messageType="Status"]
+{
+	display: none;
+}
+
+.blipfox-message-toolbar-permalink-private_message[messageType="PrivateMessage"]
+{
+	cursor: pointer;
+}
+
+.blipfox-message-toolbar-permalink-private_message[messageType="Status"], .blipfox-message-toolbar-permalink-private_message[messageType="DirectedMessage"]
+{
+	display: none;
+}
+
+.blipfox-message-toolbar-permalink-directed_message[messageType="DirectedMessage"]
+{
+	cursor: pointer;
+}
+
+.blipfox-message-toolbar-permalink-directed_message[messageType="Status"], .blipfox-message-toolbar-permalink-directed_message[messageType="PrivateMessage"]
+{
+	display: none;
+}
+
+.blipfox-message-toolbar-permalink-status[messageType="DirectedMessage"], .blipfox-message-toolbar-permalink-status[messageType="PrivateMessage"]
+{
+	display: none;
+}
+
+.blipfox-message-toolbar-permalink-status[messageType="Status"]
+{
+	cursor: pointer;
+}
+
+.blipfox-message-toolbar-reply
+{
+	cursor: pointer;
+}
+
+.blipfox-message-toolbar-reply:hover
+{
+	color: #111111;
+}
+
+.blipfox-message-toolbar-reply[user_message="true"]
+{
+	display: none;
+}
+
+.blipfox-message-username
+{
+	color: #FF5B00;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.blipfox-message-username[messageType="PrivateMessage"]
+{
+	background-color: #222;
+	color: #EEE;
+	padding: 0 5px;
+	-moz-border-radius: 3px;
+}
+
+.blipfox-message-wrapper
+{
+	border: 1px solid #C2C2C2;
+	margin: 3px 5px 3px 0px;
+	padding: 3px;
+	width: 318px;
+	-moz-border-radius: 1px;
+}
+
+.blipfox-message-wrapper, .blipfox-message-wrapper[new_message="false"]
+{
+	background: url('chrome://blipfox/content/images/blipfox-message-wrapper.png');
+}
+
+.blipfox-message-wrapper[new_message="true"]
+{
+	background-color: red;
+}
+
+.blipfox-notification
+{
+    -moz-binding: url('chrome://blipfox/content/BlipFox.xml#blipfox-notification');
+}
+
+.blipfox-notification-container
+{
+	background: #FFFFFF url('chrome://blipfox/content/images/blipfox-message-container.gif') repeat-x;
+	padding: 3px 3px 0px 4px;
+	max-width: 312px;
+	width: 312px;
+}
+
+.blipfox-notification-wrapper
+{
+	border: 1px solid #C2C2C2;
+	margin: 3px 5px 3px 0px;
+	padding: 3px;
+	width: 318px;
+	-moz-border-radius: 1px;
+}
+
+.blipfox-notification-wrapper, .blipfox-message-wrapper[new_message="false"]
+{
+	background: url('chrome://blipfox/content/images/blipfox-message-wrapper.png');
+}
+
+.blipfox-notification-wrapper[new_message="true"]
+{
+	background-color: red;
+}
+
+.blipfox-popup
+{
+	border: 2px solid #C2C2C2;
+    -moz-binding: url('chrome://blipfox/content/BlipFox.xml#blipfox-popup');
+}
+
+.blipfox-popup[firefox_version="2"]
+{
+	display: none;
+	position: fixed;
+}

@@ -1,0 +1,11 @@
+enterUsernameAndPassword=Please enter you username and password!
+enterValidUsernameAndPassword=Please correct your username and/or password!
+statusTooLong=Status too long!
+messageSendFailed=Message send failed!
+deleteFailed=Message delete failed!
+noConnection=No network connection!
+invalidShortcut=Invalid shortcut!\nPlease use only letters or numbers.
+turnOffConfirmation=Exit BlipFox?
+deleteConfirmation=Delete this message?
+selectFile=Select a file
+noFile=<none>

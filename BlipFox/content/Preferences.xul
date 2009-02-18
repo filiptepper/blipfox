@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE Preferences SYSTEM "chrome://blipfox/locale/Preferences.dtd">
+<window
+	id="blipfox-preferences"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="&preferences.title;">
+	<stringbundleset id="stringbundleset">
+		<stringbundle
+			id="blipfox-preferences"
+			src="chrome://blipfox/locale/Preferences.dtd" />
+		<stringbundle
+			id="blipfox-strings"
+			src="chrome://blipfox/locale/Labels.dtd" />
+		<stringbundle
+			id="blipfox-error-strings"
+			src="chrome://blipfox/locale/Errors.dtd" />
+	</stringbundleset>
+	<script src="js/functions.js" />
+	<script src="js/BlipFoxLocaleManager.js" />
+	<script src="js/BlipFoxPreferencesManager.js" />
+	<script src="js/Preferences.js" />
+	<groupbox>
+		<caption label="&blip.caption;" />
+		<vbox>
+			<hbox>
+				<label
+					for="blipfox-preferences-username"
+					value="&username.label;"
+					accesskey="&username.accesskey;" />
+				<spacer flex="1" />
+				<textbox id="blipfox-preferences-username" />
+			</hbox>
+			<hbox>
+				<label
+					for="blipfox-preferences-password"
+					value="&password.label;"
+					accesskey="&password.accesskey;" />
+				<spacer flex="1" />
+				<textbox
+					id="blipfox-preferences-password"
+					type="password" />
+			</hbox>
+		</vbox>
+	</groupbox>
+	<groupbox>
+		<caption label="&shortcuts.caption;" />
+		<label
+			for="blipfox-preferences-shorcut"
+			value="&showhide.label;" />
+		<textbox
+			id="blipfox-preferences-shortcut"
+			onkeydown="Preferences.setShortcut(this, event); return false;" />
+	</groupbox>
+	<groupbox>
+		<caption label="&multimedia.caption;" />
+		<grid>
+			<columns>
+				<column />
+				<column />
+			</columns>
+			<rows>
+				<row>
+					<checkbox
+						id="blipfox-preferences-noDashboardBackground"
+						label="&noDashboardBackground.label;" />
+					<checkbox
+						id="blipfox-preferences-markNewMessages"
+						label="&markNewMessages.label;" />
+				</row>
+				<row>
+					<checkbox
+						id="blipfox-preferences-hideOnClick"
+						label="&hideOnClick.label;" />
+					<checkbox
+						id="blipfox-preferences-showEmbeds"
+						label="&showEmbeds.label;" />
+				</row>
+				<row id="blipfox-preferences-notify">
+					<checkbox
+						id="blipfox-preferences-notifyStatuses"
+						label="&notifyStatuses.label;" />
+					<checkbox
+						id="blipfox-preferences-notifyMessages"
+						label="&notifyMessages.label;" />
+				</row>
+				<row id="blipfox-preferences-notifications">
+					<checkbox
+						id="blipfox-preferences-showNotifications"
+						label="&showNotifications.label;" />
+					<checkbox
+						id="blipfox-preferences-notifyNotifications"
+						label="&notifyNotifications.label;" />
+				</row>				
+			</rows>
+		</grid>
+		<checkbox
+			id="blipfox-preferences-soundNewMessages"
+			label="&soundNewMessages.label;"
+			oncommand="Preferences.toggleSoundSelect(this);" />
+		<label
+			id="blipfox-preferences-soundFile"
+			style="display:none;" />
+		<button
+			id="blipfox-preferences-soundSelect"
+			label="&soundSelect.label;"
+			style="display:none;"
+			onclick="Preferences.selectSound();" />
+	</groupbox>
+	<groupbox>
+		<caption label="&other.label;" />
+		<checkbox
+			id="blipfox-preferences-useSpellchecker"
+			label="&useSpellchecker.label;" />
+		<radiogroup>
+			<label value="&tags.label;" />
+			<hbox>
+				<radio
+					id="blipfox-preferences-tags-blipcast"
+					label="&tag.blipcast.label;"
+					value="blipcast" />
+				<radio
+					id="blipfox-preferences-tags-blip"
+					label="&tag.blip.label;"
+					value="blip" />
+			</hbox>
+		</radiogroup>
+	</groupbox>
+	<hbox
+		align="right"
+		style="margin-right: 5px">
+		<button
+			label="&preferences.save;"
+			onclick="Preferences.save()" />
+		<button
+			label="&preferences.cancel;"
+			onclick="Preferences.cancel();" />
+	</hbox>
+</window>

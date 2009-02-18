@@ -1,0 +1,27 @@
+<!ENTITY preferences.title "BlipFox preferences">
+<!ENTITY preferences.save "Save">
+<!ENTITY preferences.cancel "Cancel">
+<!ENTITY blip.caption "Blip">
+<!ENTITY shortcuts.caption "Keyboard shortcuts">
+<!ENTITY multimedia.caption "Multimedia">
+<!ENTITY username.label "Username:">
+<!ENTITY username.accesskey "U">
+<!ENTITY password.label "Password:">
+<!ENTITY password.accesskey "P">
+<!ENTITY noDashboardBackground.label "Do not load dashboard's background">
+<!ENTITY other.label "Other">
+<!ENTITY tag.blipcast.label "Blipcast">
+<!ENTITY tag.blip.label "Blip">
+<!ENTITY tags.label "Open tags in:">
+<!ENTITY markNewMessages.label "Mark new messages when invisible">
+<!ENTITY soundNewMessages.label "Play a sound on new messages when invisible">
+<!ENTITY soundSelect.label "Select a file">
+<!ENTITY hideOnClick.label "Hide on click">
+<!ENTITY useSpellchecker.label "Use spell checker">
+<!ENTITY soundFile.none "<none>">
+<!ENTITY showhide.label "Show / hide">
+<!ENTITY showEmbeds.label "Show YouTube / Google Video">
+<!ENTITY notifyMessages.label "Growl: messages">
+<!ENTITY notifyStatuses.label "Growl: statuses">
+<!ENTITY showNotifications.label "Show notifications">
+<!ENTITY notifyNotifications.label "Growl: notifications">

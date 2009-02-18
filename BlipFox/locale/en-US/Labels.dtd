@@ -1,0 +1,16 @@
+<!ENTITY message.reply "Reply">
+<!ENTITY message.to "TO:">
+<!ENTITY message.charsLeft "Characters left: ">
+<!ENTITY message.send "Send message">
+<!ENTITY permalink "See this message on blip!">
+<!ENTITY pleaseWait "Please wait...">
+<!ENTITY dashboard "dashboard">
+<!ENTITY reply "reply">
+<!ENTITY plugin.turnoff "turn off">
+<!ENTITY statusbar.contextmenu.preferences "Preferences">
+<!ENTITY statusbar.contextmenu.turnon "Turn on">
+<!ENTITY statusbar.contextmenu.turnoff "Turn off">
+<!ENTITY permalink.copyToClipboard "Copy Link Location">
+<!ENTITY link.copyToClipboard "Copy Link Location">
+<!ENTITY text.copyToClipboard "Copy">
+<!ENTITY close "Close">

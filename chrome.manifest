@@ -1,0 +1,4 @@
+content	blipfox	jar:chrome/blipfox.jar!/content/
+locale	blipfox	en-US	jar:chrome/blipfox.jar!/locale/en-US/
+locale	blipfox pl-PL	jar:chrome/blipfox.jar!/locale/pl-PL/
+overlay	chrome://browser/content/browser.xul	chrome://blipfox/content/BlipFox.xul

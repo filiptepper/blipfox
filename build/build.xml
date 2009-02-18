@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="XUL Builder">
+
+	<target name="release">
+		<antcall target="compile" />
+		<input message="SCP password: " addproperty="password" />
+		<scp file="blipfox.xpi" password="${password}" remoteToFile="smartweb@smartweb.com.pl:/home/smartweb/blipfox.com/files/BlipFox-current.xpi" />
+		<scp file="../update.rdf" password="${password}" remoteToFile="smartweb@smartweb.com.pl:/home/smartweb/blipfox.com/files/update.rdf" />
+	</target>
+
+	<target name="build">
+		<antcall target="compile" />
+	</target>
+
+	<target name="compile">
+		<delete file="blipfox.xpi" quiet="true" />
+		<zip destfile="blipfox.jar" basedir="../BlipFox/" excludes=".svn,install.rdf,chrome.manifest" level="0" />
+		<mkdir dir="chrome" />
+		<move file="blipfox.jar" todir="chrome" />
+		<copy file="../chrome.manifest" todir="./" />
+		<copy file="../BlipFox/install.rdf" todir="./" />
+		<zip destfile="blipfox.xpi" basedir="./" includes="chrome/*,chrome.manifest,install.rdf" />
+		<delete file="chrome.manifest" quiet="true" />
+		<delete file="install.rdf" quiet="true" />
+		<delete dir="chrome" quiet="true" />
+	</target>
+</project>

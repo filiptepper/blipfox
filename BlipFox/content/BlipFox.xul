@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://blipfox/content/BlipFox.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://blipfox/locale/Labels.dtd">
+<overlay
+	id="blipfox-overlay"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<stringbundleset id="stringbundleset">
+		<stringbundle
+			id="blipfox-preferences"
+			src="chrome://blipfox/locale/Preferences.dtd" />
+		<stringbundle
+			id="blipfox-strings"
+			src="chrome://blipfox/locale/Labels.dtd" />
+		<stringbundle
+			id="blipfox-error-strings"
+			src="chrome://blipfox/locale/Errors.dtd" />
+	</stringbundleset>
+	<script src="js/functions.js" />
+	<script src="js/BlipFoxLocaleManager.js" />
+	<script src="js/BlipFoxEventUtilities.js" />
+	<script src="js/BlipFoxPreferencesManager.js" />
+	<script src="js/BlipFoxRequestManager.js" />
+	<script src="js/BlipFoxLayoutManager.js" />
+	<script src="js/BlipFox.js" />
+	<statusbar id="status-bar">
+		<statusbarpanel
+			class="statusbarpanel-iconic"
+			id="blipfox-statusbar-panel"
+			tooltiptext="Blip me baby one more time!"
+			contextmenu="blipfox-statusbar-context">
+			<label
+				value=""
+				id="blipfox-statusbar-count" />
+			<image
+				id="blipfox-statusbar-icon"
+				src="chrome://blipfox/content/images/blipfox-statusbar-icon-off.gif" />
+		</statusbarpanel>
+		<popupset id="blipfox-popupset">
+			<menupopup id="blipfox-statusbar-context">
+				<menuitem
+					label="&statusbar.contextmenu.preferences;"
+					onclick="BlipFox.showPreferences();" />
+				<menuitem
+					label="&statusbar.contextmenu.turnon;"
+					id="blipfox-statusbar-context-turnon"
+					onclick="BlipFox.turnon();" />
+				<menuitem
+					label="&statusbar.contextmenu.turnoff;"
+					id="blipfox-statusbar-context-turnoff"
+					onclick="BlipFox.turnoff();"
+					visible="false" />
+			</menupopup>
+			<menupopup
+				id="blipfox-permalink-context"
+				onpopupshowing="BlipFox.preparePermalinkForClipboard();">
+				<menuitem
+					label="&permalink.copyToClipboard;"
+					id="blipfox-permalink-context-copyToClipboard"
+					onclick="BlipFox.copyLinkToClipboard();" />
+			</menupopup>
+			<menupopup
+				id="blipfox-link-context"
+				onpopupshowing="BlipFox.prepareLinkForClipboard();">
+				<menuitem
+					label="&link.copyToClipboard;"
+					id="blipfox-link-context-copyToClipboard"
+					onclick="BlipFox.copyLinkToClipboard();" />
+			</menupopup>
+			<menupopup
+				id="blipfox-text-context">
+				<menuitem
+					label="&text.copyToClipboard;"
+					id="blipfox-text-context-copyToClipboard"
+					onclick="BlipFox.copyMessageToClipboard();" />
+			</menupopup>
+		</popupset>
+	</statusbar>
+</overlay>

@@ -1,0 +1,11 @@
+enterUsernameAndPassword=Proszę podać nazwę użytkownika i hasło!
+enterValidUsernameAndPassword=Proszę poprawić nazwę użytkownika i/lub hasło!
+statusTooLong=Za długi status!
+messageSendFailed=Nie udało się wysłać wiadomości!
+deleteFailed=Nie udało się usunąć wiadomości!
+noConnection=Brak połączenia z siecią!
+invalidShortcut=Niewłaściwy skrót!\nProszę używać tylko znaków lub liczb.
+turnOffConfirmation=Wyłączyć BlipFoxa?
+deleteConfirmation=Usunąć tę wiadomość?
+selectFile=Wybierz plik
+noFile=<brak>
