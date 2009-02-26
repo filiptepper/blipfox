@@ -199,6 +199,7 @@ function BlipFoxRequestManager()
 		request.setRequestHeader('Authorization', 'Basic ' + window.btoa(_username + ':' + _password));
 		request.setRequestHeader('Accept', 'application/json');
 		request.setRequestHeader('User-Agent', 'BlipFox ' + BLIPFOX_VERSION);
+		request.setRequestHeader('Content-Type', 'application/json');
 		request.setRequestHeader('X-blip-api', '0.02')
 
 		if (method == 'POST')
@@ -221,6 +222,10 @@ function BlipFoxRequestManager()
 				else if (request.readyState == 4 && request.status == 204)
 				{
 					/* Nic się nie dzieje. Pusta odpowiedź. */
+					if (typeof callback.error === 'function')
+					{
+						callback.error(request);
+					}					
 				}
 				else if (request.readyState == 4 && request.status == 401)
 				{

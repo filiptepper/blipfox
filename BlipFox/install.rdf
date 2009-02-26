@@ -1,23 +1,20 @@
 <?xml version="1.0"?>
-<RDF:RDF
-	xmlns:em="http://www.mozilla.org/2004/em-rdf#"
-	xmlns:NC="http://home.netscape.com/NC-rdf#"
-	xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-	<RDF:Description
-		RDF:about="urn:mozilla:install-manifest"
-		em:id="{07498471-8DFE-45D1-B1E4-0839E613180F}"
-		em:name="BlipFox"
-		em:version="0.7.5"
-		em:creator="Filip Tepper"
-		em:author="Filip Tepper"
-		em:homepageURL="http://blipfox.com/"
-		em:updateURL="http://blipfox.com/files/update.rdf"
-		em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCkwoCOPhARLXaE4HC4rqb0bpWYCVptSLDJz1MNJnMSR6a38wv+kfRQhnqzE9UVdLHgEeF8qHibtQoJmMTWnBf36JCG7e7cFVy2D2L6Q2h5o15O7xAQIjRiMcwEJ2fPt7qULoAkkm86MXx8Rleu2Y1OD1P6efjxe7/lugOAP/y69wIDAQAB">		
-		<em:targetApplication RDF:resource="rdf:#$Z8rup2" />
-	</RDF:Description>
-	<RDF:Description
-		RDF:about="rdf:#$Z8rup2"
-		em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-		em:minVersion="2.0"
-		em:maxVersion="3.1.*" />
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="rdf:#$Z8rup2"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="2.0"
+                   em:maxVersion="3.1.*" />
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="{07498471-8DFE-45D1-B1E4-0839E613180F}"
+                   em:name="BlipFox"
+                   em:version="0.8"
+                   em:creator="Filip Tepper"
+                   em:author="Filip Tepper"
+                   em:homepageURL="http://blipfox.com/"
+                   em:updateURL="http://blipfox.com/files/update.rdf"
+                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHJnWgmyosbhmWsisAIa2LMT4nV7H2dzece0jE+b+mtmr8og3Axjsk8Tocaa2MEl1DGoxwofaPUNH9RuUUC9+DwVVsxfsyFToN+cM9FuiYOaDBv860hqN7oM6cszhqWZdLd0x3FshIp9ArMObFImcQ3iHvJaZpa8CpfbPMxjtKuwIDAQAB">
+    <em:targetApplication RDF:resource="rdf:#$Z8rup2"/>
+  </RDF:Description>
 </RDF:RDF>
