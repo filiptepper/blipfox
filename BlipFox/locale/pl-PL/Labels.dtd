@@ -17,3 +17,6 @@
 <!ENTITY settings "Ustawienia">
 <!ENTITY dashboard "Kokpit">
 <!ENTITY plugin.turnoff "Wyłącz">
+<!ENTITY refresh "Odśwież">
+<!ENTITY favourites "Ulubione">
+<!ENTITY addToFavourites "Dodaj do Ulubionych">

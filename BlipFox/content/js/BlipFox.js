@@ -41,6 +41,9 @@ const BLIPFOX_BLIPCAST_URL = 'http://blipcast.pl/';
 /* URL sekretarka (Tomasza Topy) */
 const BLIPFOX_SECRETARY_URL = 'http://szmerybajery.pl/sekretarka/index.php';
 
+/* URL do API Favourites. */
+const FAVOURITES_API_URL = 'http://favourites.appspot.com/';
+
 /**
  * Wyjątek do obsługi błędów logowania.
  * @param string message Opis błędu.
@@ -1216,11 +1219,14 @@ BlipFox = (function()
 			 */
 			this.lastMessagePoll = 0;
 			
-			/* Pobranie listy wiadomości - za każdym razem pełen request. */
+			/* Pobranie listy obserwowanych - za każdym razem pełen request. */
 			_getFriends();
 			
 			/* Odświeżenie informacji o użytkowniku. */
 			_getUser(BlipFoxPreferencesManager.get('username'));
+			
+			/* Pobranie wiadomości. */
+			_getMessages();
 		},
 		
 		/**
@@ -1507,6 +1513,40 @@ BlipFox = (function()
 			var tab = gBrowser.addTab(url, null, null);
 			gBrowser.selectedTab = tab;
 			gBrowser.webNavigation.loadURI(BLIPFOX_SECRETARY_URL, gBrowser.LOAD_FLAGS_NONE, null, postData, null);
+		},
+		
+		addToFavourites: function(element)
+		{
+			var messageId = element.getAttribute('messageId');
+			
+			_requestManager.checkFavourite(messageId, 
+			{
+				success: function(request)	
+				{
+					eval('var response = ' + request.responseText);
+					if (response.response.id[messageId])
+					{
+						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('alreadyInFavourites'));
+					}
+					else
+					{
+						_requestManager.addToFavourites(messageId, {
+							success: function(request)
+							{
+								BlipFox.alert(BlipFoxLocaleManager.getLocaleString('addedToFavourites'));
+							},
+							error: function(request, exception)
+							{
+								
+							}
+						});
+					}
+		
+				},
+				error: function(request, exception)
+				{
+				}
+			});	
 		}
 	}
 })();

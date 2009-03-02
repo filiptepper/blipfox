@@ -45,6 +45,12 @@
 	padding: 1px;
 }
 
+blipfox-input-favourites
+{
+	cursor: pointer;
+	padding: 1px;
+}
+
 #blipfox-input-friends
 {
 	max-width: 280px;
@@ -289,6 +295,17 @@
 {
 	display: none;
 }
+
+#blipfox-message-toolbar-favourite
+{
+	margin-right: -3px;
+}
+
+#blipfox-message-toolbar-favourite[messageType="PrivateMessage"]
+{
+	display: none;
+}
+
 
 .blipfox-message-toolbar-lock[messageType="DirectedMessage"], .blipfox-message-toolbar-lock[messageType="Status"]
 {

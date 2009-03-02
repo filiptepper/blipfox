@@ -44,6 +44,12 @@
 					</xul:hbox>
 					<xul:hbox class="blipfox-message-toolbar">
 						<xul:image
+							id="blipfox-message-toolbar-favourite"
+							src="chrome://blipfox/content/images/blipfox-message-toolbar-favourite.png"
+							tooltiptext="&addToFavourites;"
+							onclick="BlipFox.addToFavourites(this); return false;"
+							xbl:inherits="messageId=messageId,messageType=messageType" />
+						<xul:image
 							src="chrome://blipfox/content/images/blipfox-lock.gif"
 							class="blipfox-message-toolbar-lock"
 							xbl:inherits="messageType=messageType" />
@@ -189,11 +195,23 @@
 								onclick="BlipFox.showUserDashboard(this); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-dashboard.gif" />
 							<xul:image
+								id="blipfox-input-favourites"
+								tooltiptext="&favourites;"
+								align="start"
+								onclick="BlipFox.openUrl('http://favs.pl/'); return false;"
+								src="chrome://blipfox/content/images/blipfox-input-favourites.gif" />
+							<xul:image
 								id="blipfox-input-secretary"
 								tooltiptext="&secretary;"
 								align="start"
 								onclick="BlipFox.showUserSecretary(this); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-secretary.gif" />
+							<xul:image
+								id="blipfox-input-refresh"
+								tooltiptext="&refresh;"
+								xbl:inherits="username=username"
+								onclick="BlipFox.refresh(); return false;"
+								src="chrome://blipfox/content/images/blipfox-input-refresh.gif" />
 							<xul:image
 								id="blipfox-input-settings"
 								tooltiptext="&settings;"

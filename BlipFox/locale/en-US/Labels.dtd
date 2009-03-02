@@ -17,3 +17,6 @@
 <!ENTITY settings "Settings">
 <!ENTITY dashboard "Dashboard">
 <!ENTITY plugin.turnoff "Turn off">
+<!ENTITY refresh "Refresh">
+<!ENTITY favourites "Favourites">
+<!ENTITY addToFavourites "Add to Favourites">

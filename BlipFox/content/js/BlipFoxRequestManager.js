@@ -195,7 +195,7 @@ function BlipFoxRequestManager()
 
 		var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 
-		request.open(method, BLIPFOX_API_URL + url, true, _username, _password);
+		request.open(method, url, true, _username, _password);
 		request.setRequestHeader('Authorization', 'Basic ' + window.btoa(_username + ':' + _password));
 		request.setRequestHeader('Accept', 'application/json');
 		request.setRequestHeader('User-Agent', 'BlipFox ' + BLIPFOX_VERSION);
@@ -288,7 +288,7 @@ function BlipFoxRequestManager()
 	 */
 	this.getFriends = function(callback)
 	{
-		_sendRequest('friends', callback);
+		_sendRequest(BLIPFOX_API_URL + 'friends', callback);
 	}
 
 	/**
@@ -299,7 +299,7 @@ function BlipFoxRequestManager()
 	 */
 	this.getUser = function(username, callback)
 	{
-		_sendRequest('users/' + username + '?include=background,current_status', callback);
+		_sendRequest(BLIPFOX_API_URL + 'users/' + username + '?include=background,current_status', callback);
 	}
 	
 	/**
@@ -310,7 +310,7 @@ function BlipFoxRequestManager()
 	 */
 	this.sendMessage = function(message, callback)
 	{
-		_sendRequest('updates', callback, 'body=' + encodeURIComponent(message), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
+		_sendRequest(BLIPFOX_API_URL + 'updates', callback, 'body=' + encodeURIComponent(message), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
 	}
 
 	/**
@@ -325,10 +325,10 @@ function BlipFoxRequestManager()
 		switch (messageType)
 		{
 			case 'PrivateMessage':
-				_sendRequest('pm#/' + messageId, callback, '', 'DELETE');
+				_sendRequest(BLIPFOX_API_URL + 'pm/' + messageId, callback, '', 'DELETE');
 				break;
 			default:
-				_sendRequest('updates/' + messageId, callback, '', 'DELETE');
+				_sendRequest(BLIPFOX_API_URL + 'updates/' + messageId, callback, '', 'DELETE');
 				break;
 		}
 	}
@@ -350,7 +350,7 @@ function BlipFoxRequestManager()
 		
 		url += '?include=pictures,user,recipient,user[avatar],recipient[avatar]';
 
-		_sendRequest(url, callback);
+		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
 	
 	/**
@@ -362,6 +362,16 @@ function BlipFoxRequestManager()
 	this.getUrl = function(link, callback)
 	{
 		var url = 'shortlinks/' + link;
-		_sendRequest(url, callback);
+		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
+	
+	this.checkFavourite = function(message, callback)
+	{
+		_sendRequest(FAVOURITES_API_URL + 'check?msg_id=' + message + '&auth2=' + window.btoa( _username + ':' + _password), callback);
+	}
+	
+	this.addToFavourites = function(message, callback)
+	{
+		_sendRequest(FAVOURITES_API_URL + 'set?msg_id=' + message + '&cmd=1&auth2=' + window.btoa( _username + ':' + _password), callback);
+	}	
 }
