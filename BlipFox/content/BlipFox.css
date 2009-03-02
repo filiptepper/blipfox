@@ -31,16 +31,18 @@
 
 #blipfox-input-container
 {
-	background: #111111;
-	border: 1px solid #C2C2C2;
+	background: #111;
+	border: 1px solid #333;
 	margin: 5px;
 	padding: 5px;
 	width: 340px;
+	-moz-border-radius: 5px;
 }
 
 #blipfox-input-dashboard
 {
 	cursor: pointer;
+	padding: 1px;
 }
 
 #blipfox-input-friends
@@ -59,11 +61,26 @@
     width: 328px !important;
     height: 48px !important;
     overflow: visible !important;
+	-moz-border-radius: 5px;
+}
+
+#blipfox-input-secretary
+{
+	cursor: pointer;
+	margin-right: 10px;
+	padding: 1px;
+}
+
+#blipfox-input-settings
+{
+	cursor: pointer;
+	padding: 1px;
 }
 
 #blipfox-input-turnoff
 {
 	cursor: pointer;
+	padding: 1px;	
 }
 
 #blipfox-popup-header
@@ -75,6 +92,7 @@
 	opacity: 0.5;
 	padding: 3px 0px;
 	width: 340px;
+	-moz-border-radius: 5px;
 }
 
 #blipfox-popup-header-close
@@ -307,12 +325,12 @@
 	cursor: pointer;
 }
 
-.blipfox-message-toolbar-reply
+.blipfox-message-toolbar-reply, .blipfox-message-toolbar-quote
 {
 	cursor: pointer;
 }
 
-.blipfox-message-toolbar-reply:hover
+.blipfox-message-toolbar-reply:hover, .blipfox-message-toolbar-quote:hover
 {
 	color: #111111;
 }

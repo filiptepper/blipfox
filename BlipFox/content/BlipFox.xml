@@ -123,7 +123,7 @@
 						id="blipfox-popup-header-close"
 						tooltiptext="&close;"
 						onclick="BlipFox.togglePopup();"
-						value="X" />
+						value="_" />
 				</xul:hbox>
 				<xul:hbox align="center">
 					<xul:scrollbox
@@ -139,6 +139,7 @@
 				</xul:hbox>
 				<xul:hbox>
 					<xul:vbox id="blipfox-input-container">
+						<!--
 						<xul:hbox
 							class="blipfox-input-toolbar"
 							align="center"
@@ -158,6 +159,7 @@
 								onclick="BlipFox.turnoff();"
 								id="blipfox-input-turnoff" />
 						</xul:hbox>
+						-->
 						<xul:textbox
 							id="blipfox-input-message"
 							rows="3"
@@ -180,11 +182,29 @@
 						<xul:hbox
 							align="center"
 							class="blipfox-input-toolbar">
-							<xul:label
-								value="&dashboard;"
-								onclick="BlipFox.showUserDashboard(this);"
+							<xul:image
+								id="blipfox-input-dashboard"
+								tooltiptext="&dashboard;"
 								xbl:inherits="username=username"
-								id="blipfox-input-dashboard" />
+								onclick="BlipFox.showUserDashboard(this); return false;"
+								src="chrome://blipfox/content/images/blipfox-input-dashboard.gif" />
+							<xul:image
+								id="blipfox-input-secretary"
+								tooltiptext="&secretary;"
+								align="start"
+								onclick="BlipFox.showUserSecretary(this); return false;"
+								src="chrome://blipfox/content/images/blipfox-input-secretary.gif" />
+							<xul:image
+								id="blipfox-input-settings"
+								tooltiptext="&settings;"
+								xbl:inherits="username=username"
+								onclick="BlipFox.showPreferences(); return false;"
+								src="chrome://blipfox/content/images/blipfox-input-settings.gif" />
+							<xul:image
+								tooltiptext="&plugin.turnoff;"
+								onclick="BlipFox.turnoff();"
+								src="chrome://blipfox/content/images/blipfox-input-turn_off.gif"
+								id="blipfox-input-turnoff" />
 							<xul:spacer flex="1" />
 							<xul:label value="&message.charsLeft;" />
 							<xul:label

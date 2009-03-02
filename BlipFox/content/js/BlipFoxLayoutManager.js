@@ -954,21 +954,21 @@ function BlipFoxLayoutManager()
 	 */
 	this.showFriends = function(friends)
 	{
-		var friendsList = _getInputFriends();
-
-		/* Usunięcie istniejących znajomych z listy */
-		var friendsLength = friends.length;
-		for (var i = friendsLength; i >= 0; i--)
-		{
-			friendsList.removeItemAt(i);
-		}
-		friendsList.insertItemAt(0, '---' , '');
-		
-		var friendsLength = friends.length;
-		for (i = 0; i < friendsLength; i++)
-		{
-			friendsList.insertItemAt(i + 1, friends[i], friends[i]);
-		}
+		// var friendsList = _getInputFriends();
+		// 
+		// /* Usunięcie istniejących znajomych z listy */
+		// var friendsLength = friends.length;
+		// for (var i = friendsLength; i >= 0; i--)
+		// {
+		// 	friendsList.removeItemAt(i);
+		// }
+		// friendsList.insertItemAt(0, '---' , '');
+		// 
+		// var friendsLength = friends.length;
+		// for (i = 0; i < friendsLength; i++)
+		// {
+		// 	friendsList.insertItemAt(i + 1, friends[i], friends[i]);
+		// }
 	}
 	
 	/**

@@ -24,7 +24,7 @@
 const BLIPFOX_DEBUG = false;
 
 /* Wersja. */
-const BLIPFOX_VERSION = '0.8';
+const BLIPFOX_VERSION = '0.8.1';
 
 /* URL do API. */
 const BLIPFOX_API_URL = 'http://api.blip.pl/';
@@ -37,6 +37,9 @@ const BLIPFOX_BLIPLOG_URL = '.blip.pl/';
 
 /* URL Blipcast. */
 const BLIPFOX_BLIPCAST_URL = 'http://blipcast.pl/';
+
+/* URL sekretarka (Tomasza Topy) */
+const BLIPFOX_SECRETARY_URL = 'http://szmerybajery.pl/sekretarka/index.php';
 
 /**
  * Wyjątek do obsługi błędów logowania.
@@ -515,6 +518,18 @@ BlipFox = (function()
 	}
 	catch (ex)
 	{
+	}
+		
+	/**
+	 * Metoda zwraca parametry POST potrzebne do zalogowania się do sekretarki.
+	 * @param string username Nazwa użytkownika.
+	 * @param string password Hasło użytkownika.
+	 * @return string parametry POST.
+	 * @public
+	 */
+	var _getUserSecretaryParameters = function(username, password)
+	{
+		return 'bliplogin=' +username + '&bliphaslo=' + password + '&submit=Zaloguj+si%C4%99&lggedin=yeap';
 	}
 	
 	/* Metody publiczne. */
@@ -1073,14 +1088,16 @@ BlipFox = (function()
 					_insertNick(friendName, privateMessageAutocomplete);
 				}
 			}
-	
+
+			window.document.getElementById('blipfox-input-charactersleft').value = 160 - inputMessage.value.length;	
 			if (inputMessage.value.length > 160)
 			{
-				window.document.getElementById('blipfox-input-charactersleft').value = BlipFoxLocaleManager.getLocaleString('statusTooLong');
+				// window.document.getElementById('blipfox-input-charactersleft').value = BlipFoxLocaleManager.getLocaleString('statusTooLong');
+				window.document.getElementById('blipfox-input-charactersleft').style.color = 'red';
 			}
 			else
 			{
-				window.document.getElementById('blipfox-input-charactersleft').value = 160 - inputMessage.value.length;
+				window.document.getElementById('blipfox-input-charactersleft').style.color = '';
 			}
 			
 			return true;
@@ -1420,7 +1437,7 @@ BlipFox = (function()
 			
 			input.value = input.value.substring(0, start) + link + ' ' + input.value.substring(end, input.value.length);
 			input.focus();
-		}
+		},
 
 		/**
 		 * Metoda otwiera okienko wyboru zdjęcia.
@@ -1445,6 +1462,52 @@ BlipFox = (function()
 			}
 		}
 		*/
+		
+		/**
+		 * Metoda przenosi do strony sekretarki użytkownika.
+		 * @public
+		 */
+		showUserSecretary: function()
+		{
+			var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.get('username'), BlipFoxPreferencesManager.get('password'));
+			try {
+				this.postUrl(BLIPFOX_SECRETARY_URL, dataString);
+			} catch (ex) {
+				BlipFox.alert(ex);
+			}
+		},
+		
+		/**
+		 * Metoda otwiera odnośnik metodą POST (z parametrami) 
+		 * @param String url Odnośnik
+		 * @param String dataString Parametry POST
+		 * @public
+		 */
+		postUrl: function(url, dataString)
+		{
+			const Cc = Components.classes;
+			const Ci = Components.interfaces;
+			var stringStream = Cc["@mozilla.org/io/string-input-stream;1"].
+			createInstance(Ci.nsIStringInputStream);
+			if ("data" in stringStream)
+			{
+				stringStream.data = dataString;
+			}
+			else
+			{
+				stringStream.setData(dataString, dataString.length);
+			}
+		
+			var postData = Cc["@mozilla.org/network/mime-input-stream;1"].
+			createInstance(Ci.nsIMIMEInputStream);
+			postData.addHeader("Content-Type", "application/x-www-form-urlencoded");
+			postData.addContentLength = true;
+			postData.setData(stringStream);
+		
+			var tab = gBrowser.addTab(url, null, null);
+			gBrowser.selectedTab = tab;
+			gBrowser.webNavigation.loadURI(BLIPFOX_SECRETARY_URL, gBrowser.LOAD_FLAGS_NONE, null, postData, null);
+		}
 	}
 })();
 

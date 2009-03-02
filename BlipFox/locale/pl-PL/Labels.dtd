@@ -4,10 +4,8 @@
 <!ENTITY message.send "Wyślij wiadomość">
 <!ENTITY permalink "Zobacz wiadomość na blipie!">
 <!ENTITY pleaseWait "Proszę czekać...">
-<!ENTITY dashboard "kokpit">
 <!ENTITY reply "odpowiedz">
 <!ENTITY quote "cytuj">
-<!ENTITY plugin.turnoff "wyłącz">
 <!ENTITY statusbar.contextmenu.preferences "Ustawienia">
 <!ENTITY statusbar.contextmenu.turnon "Włącz">
 <!ENTITY statusbar.contextmenu.turnoff "Wyłącz">
@@ -15,3 +13,7 @@
 <!ENTITY link.copyToClipboard "Skopiuj odnośnik">
 <!ENTITY text.copyToClipboard "Kopiuj">
 <!ENTITY close "Zamknij">
+<!ENTITY secretary "Sekretarka">
+<!ENTITY settings "Ustawienia">
+<!ENTITY dashboard "Kokpit">
+<!ENTITY plugin.turnoff "Wyłącz">

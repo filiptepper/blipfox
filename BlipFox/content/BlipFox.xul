@@ -26,7 +26,7 @@
 		<statusbarpanel
 			class="statusbarpanel-iconic"
 			id="blipfox-statusbar-panel"
-			tooltiptext="Blip me baby one more time!"
+			tooltiptext="BlipFox? I'm in it for the chicks!"
 			contextmenu="blipfox-statusbar-context">
 			<label
 				value=""
