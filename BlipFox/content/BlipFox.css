@@ -29,25 +29,32 @@
 	width: 100%;
 }
 
+.blipfox-input-charactersleft
+{
+	margin: 3px 0 0 0;
+}
+
 #blipfox-input-container
 {
 	background: #111;
-	border: 1px solid #333;
+	border: 1px solid #222;
 	margin: 5px;
 	padding: 5px;
 	width: 340px;
-	-moz-border-radius: 5px;
+	-moz-border-radius: 2px;
 }
 
 #blipfox-input-dashboard
 {
 	cursor: pointer;
+	margin: 3px 0 0 0;
 	padding: 1px;
 }
 
-blipfox-input-favourites
+#blipfox-input-favourites
 {
 	cursor: pointer;
+	margin: 3px 0 0 0;
 	padding: 1px;
 }
 
@@ -67,25 +74,34 @@ blipfox-input-favourites
     width: 328px !important;
     height: 48px !important;
     overflow: visible !important;
-	-moz-border-radius: 5px;
+	-moz-border-radius: 2px;
+}
+
+#blipfox-input-refresh
+{
+	cursor: pointer;
+	margin: 3px 0 0 0;	
+	padding: 1px;
 }
 
 #blipfox-input-secretary
 {
 	cursor: pointer;
-	margin-right: 10px;
+	margin: 3px 10px 0 0;
 	padding: 1px;
 }
 
 #blipfox-input-settings
 {
 	cursor: pointer;
+	margin: 3px 0 0 0;	
 	padding: 1px;
 }
 
 #blipfox-input-turnoff
 {
 	cursor: pointer;
+	margin: 3px 0 0 0;
 	padding: 1px;	
 }
 
@@ -98,7 +114,7 @@ blipfox-input-favourites
 	opacity: 0.5;
 	padding: 3px 0px;
 	width: 340px;
-	-moz-border-radius: 5px;
+	-moz-border-radius: 2px;
 }
 
 #blipfox-popup-header-close
@@ -240,6 +256,7 @@ blipfox-input-favourites
 	padding: 3px 3px 0px 3px;
 	max-width: 312px;
 	width: 312px;
+	-moz-border-radius: 2px;
 }
 
 .blipfox-message-link
@@ -369,7 +386,7 @@ blipfox-input-favourites
 	background-color: #222;
 	color: #EEE;
 	padding: 0 5px;
-	-moz-border-radius: 3px;
+	-moz-border-radius: 2px;
 }
 
 .blipfox-message-wrapper
@@ -378,7 +395,7 @@ blipfox-input-favourites
 	margin: 3px 5px 3px 0px;
 	padding: 3px;
 	width: 318px;
-	-moz-border-radius: 1px;
+	-moz-border-radius: 2px;
 }
 
 .blipfox-message-wrapper, .blipfox-message-wrapper[new_message="false"]
@@ -410,7 +427,7 @@ blipfox-input-favourites
 	margin: 3px 5px 3px 0px;
 	padding: 3px;
 	width: 318px;
-	-moz-border-radius: 1px;
+	-moz-border-radius: 2px;
 }
 
 .blipfox-notification-wrapper, .blipfox-message-wrapper[new_message="false"]

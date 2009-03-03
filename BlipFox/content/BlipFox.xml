@@ -224,8 +224,11 @@
 								src="chrome://blipfox/content/images/blipfox-input-turn_off.gif"
 								id="blipfox-input-turnoff" />
 							<xul:spacer flex="1" />
-							<xul:label value="&message.charsLeft;" />
+							<xul:label 
+								value="&message.charsLeft;" 
+								class="blipfox-input-charactersleft" />
 							<xul:label
+								class="blipfox-input-charactersleft"
 								id="blipfox-input-charactersleft"
 								width="20"
 								value="160" />
