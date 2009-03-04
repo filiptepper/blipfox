@@ -218,14 +218,14 @@ BlipFox = (function()
 	/**
 	 * Metoda wstawia nicka użytkownika do pola wiadomości.
 	 * Po wstawieniu nicka ustawiany jest focus na polu wiadomości.
-	 * @param string value Nick do wstawienia.
+	 * @param string nick Nick do wstawienia.
 	 * @param boolean privateMessage Czy wiadomość jest prywatna.
 	 * @private
 	 */
-	var _insertNick = function(value, privateMessage)
+	var _insertNick = function(nick, privateMessage)
 	{
 		var inputMessage = _layoutManager.getInputMessage();
-		inputMessage.value = (privateMessage ? '>>' : '>') + value + ': ';
+		inputMessage.value = (privateMessage ? '>>' : '>') + nick + ': ';
 		inputMessage.focus();
 	};
 
@@ -727,6 +727,18 @@ BlipFox = (function()
 		},
 		
 		/**
+		 * Metoda wywoływana otrzymaniu fokusa przez pole na wiadomość.<b> 
+		 * @param Event e Obiekt Event JavaScript.
+		 * @param Object inputMessage Obiekt zawierający okienko wpisywania wiadomości.
+		 * @public
+		 */
+		onInputMessageFocus: function(e, inputMessage)
+		{
+			this.clearInputMessage(e, inputMessage);
+			this.updateInputColor();
+		},
+				
+		/**
 		 * Metoda czyści okienko wpisywania wiadomości ze zbędnych znaków.
 		 * Dodatkowa metoda wymusza poprawne działanie okienka wpisywania wiadomości z 
 		 * theme iSafari.
@@ -1024,6 +1036,52 @@ BlipFox = (function()
 		},
 		
 		/**
+		 * Koloruje pole na wiadomość zależnie od typu wiadomości (normalna, skierowana, prywatna).
+		 * @public 
+		 */
+		updateInputColor: function()
+		{
+			var input = _layoutManager.getInputMessage();
+			
+			if (this.isDirectMessage(input.value))
+			{
+				input.style.backgroundColor = '#FEFF9A';
+			}
+			else if (this.isPrivateMessage(input.value)) 
+			{
+				input.style.backgroundColor = '#FDFF44';
+			}
+			else 
+			{
+				input.style.backgroundColor = 'white';
+			}			 
+		},
+		
+		/**
+		 * Metoda sprawdza czy wiadomość jest skierowaną (dm)
+		 * @param String Wiadomość
+		 * @return boolean Czy wiadomość jest skierowana
+		 * @public
+		 */
+		isDirectMessage: function(message)
+		{
+			var regEx = /^>[\w\d]/;
+			return regEx.exec(message);
+		},
+		
+		/**
+		 * Metoda sprawdza czy wiadomość jest prywatną (pm)
+		 * @param String Wiadomość
+		 * @return boolean Czy wiadomość jest prywatna
+		 * @public
+		 */
+		isPrivateMessage: function(message)
+		{
+			var regEx = /^>>[\w\d]/;
+			return regEx.exec(message);
+		},		
+		
+		/**
 		 * Metoda sprawdza, czy zawartość okienka do wpisywania wiadomości posiada poprawną treść.
 		 * @param Event e Obiekt Event JavaScript.
 		 * @param Object inputMessage Obiekt zawierający odnośnik do okienka wpisywania wiadomości.
@@ -1031,7 +1089,7 @@ BlipFox = (function()
 		 * @public
 		 */
 		validateInputMessage: function(e, inputMessage)
-		{
+		{		
 			if (inputMessage.value.length > 0 && e.keyCode === 13)
 			{
 				this.clearInputMessage(e, inputMessage);
@@ -1055,6 +1113,8 @@ BlipFox = (function()
 		 */
 		autocompleteInputMessage: function(e, inputMessage)
 		{
+			this.updateInputColor();
+		
 			/**
 			 * Obsługa skrótów klawiszowych ALT + (1 - 5)
 			 * Drugi warunek dla Maka.
@@ -1146,6 +1206,7 @@ BlipFox = (function()
 					success: function()
 					{
 						_layoutManager.getInputMessage().value = '';
+						this.updateInputColor();
 						_emptyInputFile();
 						inputMessage.readOnly = false;
 
@@ -1541,7 +1602,7 @@ BlipFox = (function()
 		
 			var tab = gBrowser.addTab(url, null, null);
 			gBrowser.selectedTab = tab;
-			gBrowser.webNavigation.loadURI(BLIPFOX_SECRETARY_URL, gBrowser.LOAD_FLAGS_NONE, null, postData, null);
+			gBrowser.webNavigation.loadURI(url, gBrowser.LOAD_FLAGS_NONE, null, postData, null);
 		},
 		
 		addToFavourites: function(element)

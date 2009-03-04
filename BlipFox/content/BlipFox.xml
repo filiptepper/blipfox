@@ -148,7 +148,7 @@
 							tabscrolling="true"
 							accesskey="m"
 							onkeydown="BlipFox.validateInputMessage(event, this);"
-							onfocus="BlipFox.clearInputMessage(event, this);"
+							onfocus="BlipFox.onInputMessageFocus(event, this);"
 							onkeyup="return BlipFox.autocompleteInputMessage(event, this);" />
 						<xul:hbox
 							align="center"
