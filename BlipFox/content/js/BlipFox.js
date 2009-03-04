@@ -21,7 +21,7 @@
  */
 
 /* Konsola do debuggowania. */
-const BLIPFOX_DEBUG = false;
+const BLIPFOX_DEBUG = true;
 
 /* Wersja. */
 const BLIPFOX_VERSION = '0.8.1';
@@ -535,6 +535,13 @@ BlipFox = (function()
 		return 'bliplogin=' +username + '&bliphaslo=' + password + '&submit=Zaloguj+si%C4%99&lggedin=yeap';
 	}
 	
+	var _emptyInputFile = function()
+	{
+		_layoutManager.getInputFile().setAttribute('path', '');
+		_layoutManager.getInputFile().setAttribute('leftName', '');
+		_layoutManager.setInputFileOff();		
+	}
+	
 	/* Metody publiczne. */
 	return {
 		
@@ -577,7 +584,6 @@ BlipFox = (function()
 					window.document.getElementById('blipfox-popup-header').click = 
 					
 					window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.get('username'));
-					// window.document.getElementById('blipfox-input-file').setAttribute('file', '');
 					_layoutManager.getInputMessage().focus();
 				}, 1);
 			}
@@ -1095,7 +1101,6 @@ BlipFox = (function()
 			window.document.getElementById('blipfox-input-charactersleft').value = 160 - inputMessage.value.length;	
 			if (inputMessage.value.length > 160)
 			{
-				// window.document.getElementById('blipfox-input-charactersleft').value = BlipFoxLocaleManager.getLocaleString('statusTooLong');
 				window.document.getElementById('blipfox-input-charactersleft').style.color = 'red';
 			}
 			else
@@ -1113,7 +1118,8 @@ BlipFox = (function()
 		 */
 		sendMessage: function()
 		{
-			var inputMessage = _layoutManager.getInputMessage();			
+			var inputMessage = _layoutManager.getInputMessage();
+			var inputFile = _layoutManager.getInputFile();
 			
 			/**
 			 * Zabezpieczenie przed ponownym wysłaniem wiadomości.
@@ -1130,34 +1136,49 @@ BlipFox = (function()
 				return false;
 			}
 	
-			if (inputMessage.value !== '')
+			if (inputMessage.value !== '' || inputFile.getAttribute('path') !== '')
 			{
 				/* Wysyłka tylko niepustej wiadomości */
 				inputMessage.readOnly = true;
 				
+				var callback = {
+					success: function()
+					{
+						_layoutManager.getInputMessage().value = '';
+						_emptyInputFile();
+						inputMessage.readOnly = false;
+
+						var date = new Date();
+						_lastMessagePollDate = date.getTime() - 6000;
+
+						window.document.getElementById('blipfox-input-charactersleft').value = 160;
+					},
+					error: function()
+					{
+						_emptyInputFile();
+						inputMessage.readOnly = false;
+						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
+					}					
+				}
+				
 				try
 				{
-					_requestManager.sendMessage(inputMessage.value /*, window.document.getElementById('blipfox-input-file').getAttribute('file') */,
+					if (inputFile.getAttribute('path') === '')
 					{
-						success: function()
-						{
-							_layoutManager.getInputMessage().value = '';
-							inputMessage.readOnly = false;
-		
-							var date = new Date();
-							_lastMessagePollDate = date.getTime() - 6000;
-		
-							window.document.getElementById('blipfox-input-charactersleft').value = 160;
-						},
-						error: function()
-						{
-							inputMessage.readOnly = false;
-							BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
-						}
-					});
+						_requestManager.sendMessage(inputMessage.value, callback);
+					}
+					else
+					{
+						var file = { 
+							filename: inputFile.getAttribute('leafName'), 
+							path: inputFile.getAttribute('path') 
+						};
+						_requestManager.sendImage(inputMessage.value, file, callback);
+					}
 				}
 				catch (ex)
 				{
+					_emptyInputFile();
 					inputMessage.readOnly = false;
 					BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
 				} 
@@ -1445,11 +1466,13 @@ BlipFox = (function()
 			input.focus();
 		},
 
+
+		// selectedFile: null,
+		
 		/**
 		 * Metoda otwiera okienko wyboru zdjęcia.
 		 * @public
 		 */		
-		/*
 		selectFile: function()
 		{
 			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
@@ -1460,14 +1483,17 @@ BlipFox = (function()
 			var res = fp.show();
 			if (res == nsIFilePicker.returnOK)
 			{
-				window.document.getElementById('blipfox-input-file').setAttribute('file', fp.file);
+				_layoutManager.getInputFile().setAttribute('path', fp.file.path);
+				_layoutManager.getInputFile().setAttribute('leafName', fp.file.leafName);
+				_layoutManager.setInputFileOn();
 			}
 			else
 			{
-				window.document.getElementById('blipfox-input-file').setAttribute('file', '');
+				_layoutManager.getInputFile().setAttribute('path', '');
+				_layoutManager.getInputFile().setAttribute('leftName', '');
+				_layoutManager.setInputFileOff();				
 			}
-		}
-		*/
+		},
 		
 		/**
 		 * Metoda przenosi do strony sekretarki użytkownika.

@@ -56,14 +56,6 @@
 						<xul:label
 							class="blipfox-message-toolbar-time"
 							xbl:inherits="value=time" />
-						<!--
-						<xul:label
-							class="blipfox-message-toolbar-bliplog"
-							value="bliplog"
-							tooltiptext="bliplog"
-							onclick="BlipFox.showUserBliplog(this)"
-							xbl:inherits="username=username" />
-						-->
 						<xul:label xbl:inherits="value=transport" />
 						<xul:spacer flex="1" />						
 						<xul:label
@@ -145,27 +137,7 @@
 				</xul:hbox>
 				<xul:hbox>
 					<xul:vbox id="blipfox-input-container">
-						<!--
-						<xul:hbox
-							class="blipfox-input-toolbar"
-							align="center"
-							style="margin-bottom: 5px;">
-							<xul:label
-								value="&message.to;"
-								align="right" />
-							<xul:menulist
-								label="..."
-								id="blipfox-input-friends">
-								<xul:menupopup
-									onpopuphidden="BlipFox.selectFriend(this.value); return false;" />
-							</xul:menulist>
-							<xul:spacer flex="1" />
-							<xul:label
-								value="&plugin.turnoff;"
-								onclick="BlipFox.turnoff();"
-								id="blipfox-input-turnoff" />
-						</xul:hbox>
-						-->
+
 						<xul:textbox
 							id="blipfox-input-message"
 							rows="3"
@@ -179,12 +151,6 @@
 							onkeydown="BlipFox.validateInputMessage(event, this);"
 							onfocus="BlipFox.clearInputMessage(event, this);"
 							onkeyup="return BlipFox.autocompleteInputMessage(event, this);" />
-						<!--
-							<xul:button
-							id="blipfox-input-file"
-							label="Załącz"
-							onclick="BlipFox.selectFile();" />
-						-->
 						<xul:hbox
 							align="center"
 							class="blipfox-input-toolbar">
@@ -233,6 +199,10 @@
 								width="20"
 								value="160" />
 							<xul:spacer flex="1" />
+							<xul:image
+								id="blipfox-input-file"
+								src="chrome://blipfox/content/images/blipfox-input-file-off.gif"
+								onclick="BlipFox.selectFile();" />
 							<xul:image
 								class="blipfox-input-submit"
 								tooltiptext="&message.send;"

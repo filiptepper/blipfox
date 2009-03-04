@@ -51,121 +51,143 @@ function BlipFoxRequestManager()
 		}
 	};
 	
-	/*
-	function _sendMultipartRequest()
+	function _sendMultipartRequest(body, file, callback)
 	{
-		var boundary = '------deadbeef---deadbeef---' + Math.random();
-		var mstream = Components.classes['@mozilla.org/io/multiplex-input-stream;1'].createInstance(Ci.nsIMultiplexInputStream);
-		var sstream;
-		
-		esc_params = []; 
-		esc_params['body'] = '>filiptepper: tset';
-		esc_params['picture'] = window.document.getElementById('blipfox-input-file').getAttribute('file');
-		
-		for (var p in esc_params)
-		{
-			sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-			sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="' + p + '"', -1);
-			mstream.appendStream(sstream);
-			if ('object' == typeof esc_params[p] && null != esc_params[p])
-			{
-				sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-				sstream.setData('; filename="' + esc_params[p].filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n', -1);
-				mstream.appendStream(sstream);
-				var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
-     			file.initWithPath(esc_params[p].path);
-     			var fstream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
-				fstream.init(file, 1, 1, Ci.nsIFileInputStream.CLOSE_ON_EOF);
-				var bstream = Components.classes['@mozilla.org/network/buffered-input-stream;1'].createInstance(Ci.nsIBufferedInputStream);
-				bstream.init(fstream, 4096);
-				mstream.appendStream(bstream);
-				sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-				sstream.setData('\r\n', -1);
-				mstream.appendStream(sstream);
-			} 
-			else 
-			{
-				sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-				sstream.setData('\r\n\r\n' + esc_params[p] + '\r\n', -1);
-				mstream.appendStream(sstream);
-			}
-		}
-
-		sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-		sstream.setData('--' + boundary + '--\r\n', -1);
-		mstream.appendStream(sstream);
-
-		sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-		sstream.setData('POST /updates HTTP/1.1\r\n' +
-			'Host: api.blip.pl\r\n' +
-			'Authorization: Basic ' + window.btoa(_username + ':' + _password) + '\r\n' +
-			'Accept: application/json\r\n' +
-			'X-blip-api: 0.02\r\n' +
-			'User-Agent: BlipFox ' + BLIPFOX_VERSION + '\r\n' +
-			'Content-Length: ' + mstream.available() + '\r\n' +
-			'Content-Type: multipart/form-data; boundary=' + boundary +
-			'\r\n\r\n', -1);
-		
-		mstream.insertStream(sstream, 0);
-
 		try
 		{
-			var service = Components.classes['@mozilla.org/network/socket-transport-service;1'].getService(Ci.nsISocketTransportService);
-			var transport = service.createTransport(null, 0, 'api.blip.pl', 80, null);
-			var ostream = transport.openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
-			while (mstream.available())
+			const Ci = Components.interfaces;
+		
+			var boundary = '------blipfox---blipfox---' + Math.random();
+			var mstream = Components.classes['@mozilla.org/io/multiplex-input-stream;1'].createInstance(Ci.nsIMultiplexInputStream);
+			var sstream;
+		
+			esc_params = {};
+			esc_params['picture'] = file;
+			esc_params['body'] = body;
+		
+			for (var p in esc_params)
 			{
-				var a = mstream.available();
-				ostream.writeFrom(mstream, Math.min(a, 8192));
+				sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+			
+				if ('object' == typeof esc_params[p] && null != esc_params[p])
+				{
+					sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="update[' + p + ']"', -1);
+					mstream.appendStream(sstream);
+		
+					sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+					sstream.setData('; filename="' + esc_params[p].filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n', -1);
+					mstream.appendStream(sstream);
+					var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+				     			file.initWithPath(esc_params[p].path);
+				     			var fstream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
+					fstream.init(file, 1, 1, Ci.nsIFileInputStream.CLOSE_ON_EOF);
+					var bstream = Components.classes['@mozilla.org/network/buffered-input-stream;1'].createInstance(Ci.nsIBufferedInputStream);
+					bstream.init(fstream, 4096);
+					mstream.appendStream(bstream);
+					sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+					sstream.setData('\r\n', -1);
+					mstream.appendStream(sstream);
+				} 
+				else 
+				{
+					sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="update[' + p + ']"', -1);
+					mstream.appendStream(sstream);
+
+					sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+					sstream.setData('\r\n\r\n' + esc_params[p] + '\r\n', -1);
+					mstream.appendStream(sstream);
+				}
 			}
-			var _istream = transport.openInputStream(0,0,0);
-			var istream = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Ci.nsIScriptableInputStream);
-			istream.init(_istream);
-			var pump = Components.classes['@mozilla.org/network/input-stream-pump;1'].createInstance(Ci.nsIInputStreamPump);
-			pump.init(_istream, -1, -1, 0, 0, false);
-			pump.asyncRead({id: this.id, content_length: null, raw: '',
-				onStartRequest: function(request, context) {},
-				onStopRequest: function(request, context, status) {
-					istream.close();
-					ostream.close();
-				},
-
-				// Docs are slim so I'm not sure if this gets called only
-				// once per request or perhaps multiple times
-				//   The code can handle whatever
-				onDataAvailable: function(request, context,
-					stream, offset, count) {
-					this.raw += istream.read(count);
-
-					// If we've received all of the headers, grab the
-					// content length and drop the headers
-					if (!this.content_length
-						&& this.raw.match(/\r?\n\r?\n/)) {
-						var match = this.raw.match(
-							/^Content-Length:\s*([0-9]+)$/mi);
-						if (match) {
-							this.content_length = match[1];
-							this.raw = this.raw.split(/\r?\n\r?\n/)[1];
+		
+			sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+			sstream.setData('--' + boundary + '--\r\n', -1);
+			mstream.appendStream(sstream);
+		
+			sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+			sstream.setData('POST /updates HTTP/1.1\r\n' +
+				'Host: api.blip.pl\r\n' +
+				'Authorization: Basic ' + window.btoa(_username + ':' + _password) + '\r\n' +
+				'Accept: application/json\r\n' +
+				'X-blip-api: 0.02\r\n' +
+				'User-Agent: BlipFox ' + BLIPFOX_VERSION + '\r\n' +
+				'Content-Length: ' + mstream.available() + '\r\n' +
+				'Content-Type: multipart/form-data; boundary=' + boundary +
+				'\r\n\r\n', -1);
+		
+			mstream.insertStream(sstream, 0);
+		
+			try
+			{
+				var service = Components.classes['@mozilla.org/network/socket-transport-service;1'].getService(Ci.nsISocketTransportService);
+				var transport = service.createTransport(null, 0, 'api.blip.pl', 80, null);
+				var ostream = transport.openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+				while (mstream.available())
+				{
+					var a = mstream.available();
+					ostream.writeFrom(mstream, Math.min(a, 8192));
+				}
+				var _istream = transport.openInputStream(0,0,0);
+				var istream = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Ci.nsIScriptableInputStream);
+				istream.init(_istream);
+				var pump = Components.classes['@mozilla.org/network/input-stream-pump;1'].createInstance(Ci.nsIInputStreamPump);
+				pump.init(_istream, -1, -1, 0, 0, false);
+				pump.asyncRead({id: this.id, content_length: null, raw: '',
+					onStartRequest: function(request, context) {},
+					onStopRequest: function(request, context, status) {
+						istream.close();
+						ostream.close();
+					},
+		
+					// Docs are slim so I'm not sure if this gets called only
+					// once per request or perhaps multiple times
+					//   The code can handle whatever
+					onDataAvailable: function(request, context,
+						stream, offset, count) {
+						this.raw += istream.read(count);
+		
+						// If we've received all of the headers, grab the
+						// content length and drop the headers
+						if (!this.content_length
+							&& this.raw.match(/\r?\n\r?\n/)) {
+							var match = this.raw.match(
+								/^Content-Length:\s*([0-9]+)$/mi);
+							if (match) {
+								this.content_length = match[1];
+								this.raw = this.raw.split(/\r?\n\r?\n/)[1];
+							}
 						}
-					}
-
-					// Nothing left to do if we don't know the length
-					if (!this.content_length) { return; }
-
-					// Also nothing more to do if there's still data coming
-					if (this.raw.length != this.content_length) { return; }
-
-					// Dispatch to the UI as soon as we have the entire
-					// payload
-					//threads.main.dispatch(new UploadDoneCallback(this.raw, this.id), threads.main.DISPATCH_NORMAL);
-
-				},
-			}, null);
-		} catch (err) {
-			alert(err);
+		
+						// Nothing left to do if we don't know the length
+						if (!this.content_length) { return; }
+		
+						// Also nothing more to do if there's still data coming
+						if (this.raw.length != this.content_length) { return; }
+		
+						// Dispatch to the UI as soon as we have the entire
+						// payload
+						if (typeof callback.success === 'function')
+						{
+							callback.success();
+						}
+					},
+				}, null);
+			} 
+			catch (err)
+			{
+				if (typeof callback.error === 'function')
+				{
+					callback.error(request);
+				}
+			}
+		}
+		catch(e)
+		{
+			if (typeof callback.error === 'function')
+			{
+				callback.error();
+			}
 		}
 	}
-	*/
 	
 	this.sendGetRequest = function(url, callback)
 	{
@@ -373,5 +395,10 @@ function BlipFoxRequestManager()
 	this.addToFavourites = function(message, callback)
 	{
 		_sendRequest(FAVOURITES_API_URL + 'set?msg_id=' + message + '&cmd=1&auth2=' + window.btoa( _username + ':' + _password), callback);
-	}	
+	}
+	
+	this.sendImage = function(body, file, callback)
+	{
+		_sendMultipartRequest(body, file, callback);
+	}
 }

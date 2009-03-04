@@ -92,6 +92,16 @@ function BlipFoxLayoutManager()
 		return _getInputMessage();
 	}
 	
+	var _getInputFile = function()
+	{
+		return window.document.getElementById('blipfox-input-file');
+	}
+	
+	this.getInputFile = function()
+	{
+		return _getInputFile();
+	}
+	
 	/**
 	 * Metoda ukrywająca obiekt XUL wyświetlający rozszerzenie.
 	 * @private
@@ -383,6 +393,16 @@ function BlipFoxLayoutManager()
 	this.setStatusbarIconOff = function()
 	{
 		return _getStatusbarIcon().src = 'chrome://blipfox/content/images/blipfox-statusbar-icon-off.gif';
+	}
+	
+	this.setInputFileOn = function()
+	{
+		return _getInputFile().src = 'chrome://blipfox/content/images/blipfox-input-file-on.gif';
+	}
+	
+	this.setInputFileOff = function()
+	{
+		return _getInputFile().src = 'chrome://blipfox/content/images/blipfox-input-file-off.gif';
 	}
 
 	/**

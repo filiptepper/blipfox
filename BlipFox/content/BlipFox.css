@@ -58,6 +58,13 @@
 	padding: 1px;
 }
 
+#blipfox-input-file
+{
+	cursor: pointer;
+	margin: 3px 10px 0 0;
+	padding: 1px;
+}
+
 #blipfox-input-friends
 {
 	max-width: 280px;
