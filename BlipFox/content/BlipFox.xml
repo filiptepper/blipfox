@@ -137,7 +137,6 @@
 				</xul:hbox>
 				<xul:hbox>
 					<xul:vbox id="blipfox-input-container">
-
 						<xul:textbox
 							id="blipfox-input-message"
 							rows="3"
@@ -200,6 +199,10 @@
 								value="160" />
 							<xul:spacer flex="1" />
 							<xul:image
+								id="blipfox-input-throbber"
+								src="" />
+							<xul:image
+								tooltiptext="&plugin.turnoff;"
 								id="blipfox-input-file"
 								src="chrome://blipfox/content/images/blipfox-input-file-off.gif"
 								onclick="BlipFox.selectFile();" />

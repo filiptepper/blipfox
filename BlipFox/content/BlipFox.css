@@ -105,6 +105,14 @@
 	padding: 1px;
 }
 
+#blipfox-input-throbber
+{
+	height: 16px;
+	margin: 3px 10px 0 0;	
+	padding: 1px;
+	width: 16px;
+}
+
 #blipfox-input-turnoff
 {
 	cursor: pointer;

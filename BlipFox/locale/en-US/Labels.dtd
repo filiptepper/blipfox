@@ -1,6 +1,6 @@
 <!ENTITY message.reply "Reply">
 <!ENTITY message.to "TO:">
-<!ENTITY message.charsLeft "Characters left: ">
+<!ENTITY message.charsLeft "Characters: ">
 <!ENTITY message.send "Send message">
 <!ENTITY permalink "See this message on blip!">
 <!ENTITY pleaseWait "Please wait...">
@@ -20,3 +20,4 @@
 <!ENTITY refresh "Refresh">
 <!ENTITY favourites "Favourites">
 <!ENTITY addToFavourites "Add to Favourites">
+<!ENTITY selectFile "Upload a file">

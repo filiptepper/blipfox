@@ -10,7 +10,7 @@
     <RDF:li RDF:resource="rdf:#$2JslM"/>
   </RDF:Seq>
   <RDF:Description RDF:about="rdf:#$2JslM"
-                   em:version="0.8.1">
+                   em:version="0.9.9">
     <em:targetApplication RDF:resource="rdf:#$5JslM"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$5JslM"

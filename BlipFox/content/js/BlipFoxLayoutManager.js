@@ -404,6 +404,21 @@ function BlipFoxLayoutManager()
 	{
 		return _getInputFile().src = 'chrome://blipfox/content/images/blipfox-input-file-off.gif';
 	}
+	
+	var _getInputThrobber = function()
+	{
+		return window.document.getElementById('blipfox-input-throbber');
+	}
+	
+	this.enableInputThrobber = function()
+	{
+		_getInputThrobber().src = 'chrome://blipfox/content/images/blipfox-input-throbber.gif';
+	}
+	
+	this.disableInputThrobber = function()
+	{
+		_getInputThrobber().src = '';
+	}
 
 	/**
 	 * Metoda ustawia tooltip na ikonce Blipa w pasku statusu.

@@ -24,7 +24,7 @@
 const BLIPFOX_DEBUG = true;
 
 /* Wersja. */
-const BLIPFOX_VERSION = '0.8.1';
+const BLIPFOX_VERSION = '0.9.9';
 
 /* URL do API. */
 const BLIPFOX_API_URL = 'http://api.blip.pl/';
@@ -1140,6 +1140,7 @@ BlipFox = (function()
 			{
 				/* Wysyłka tylko niepustej wiadomości */
 				inputMessage.readOnly = true;
+				_layoutManager.enableInputThrobber();
 				
 				var callback = {
 					success: function()
@@ -1152,11 +1153,13 @@ BlipFox = (function()
 						_lastMessagePollDate = date.getTime() - 6000;
 
 						window.document.getElementById('blipfox-input-charactersleft').value = 160;
+						_layoutManager.disableInputThrobber();
 					},
 					error: function()
 					{
 						_emptyInputFile();
 						inputMessage.readOnly = false;
+						_layoutManager.disableInputThrobber();						
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
 					}					
 				}
