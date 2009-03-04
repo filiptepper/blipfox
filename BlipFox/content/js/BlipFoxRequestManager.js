@@ -90,11 +90,16 @@ function BlipFoxRequestManager()
 				} 
 				else 
 				{
+					var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
+					unicodeConverter.charset = "UTF-8";
+		            convertedParam = unicodeConverter.ConvertFromUnicode(esc_params[p]);
+		            convertedParam += unicodeConverter.Finish();
+
 					sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="update[' + p + ']"', -1);
 					mstream.appendStream(sstream);
 
 					sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-					sstream.setData('\r\n\r\n' + esc_params[p] + '\r\n', -1);
+					sstream.setData('\r\n\r\n' + convertedParam + '\r\n', -1);
 					mstream.appendStream(sstream);
 				}
 			}
