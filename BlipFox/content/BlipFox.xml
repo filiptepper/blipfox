@@ -202,7 +202,7 @@
 								id="blipfox-input-throbber"
 								src="" />
 							<xul:image
-								tooltiptext="&plugin.turnoff;"
+								tooltiptext="&selectFile;"
 								id="blipfox-input-file"
 								src="chrome://blipfox/content/images/blipfox-input-file-off.gif"
 								onclick="BlipFox.selectFile();" />
