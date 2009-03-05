@@ -419,7 +419,7 @@
 
 .blipfox-message-wrapper[new_message="true"]
 {
-	background-color: red;
+	background-color: #FF5B00;
 }
 
 .blipfox-notification
@@ -451,7 +451,7 @@
 
 .blipfox-notification-wrapper[new_message="true"]
 {
-	background-color: red;
+	background-color: #FF5B00;
 }
 
 .blipfox-popup
