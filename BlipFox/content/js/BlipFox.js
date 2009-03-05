@@ -217,6 +217,7 @@ BlipFox = (function()
 	
 	/**
 	 * Metoda wstawia nicka użytkownika do pola wiadomości.
+	 * Jeśli poprzedni nick był taki sam, to typ wiadomości jest zamieniany (dm<=>pm)
 	 * Po wstawieniu nicka ustawiany jest focus na polu wiadomości.
 	 * @param string nick Nick do wstawienia.
 	 * @param boolean privateMessage Czy wiadomość jest prywatna.
@@ -225,7 +226,12 @@ BlipFox = (function()
 	var _insertNick = function(nick, privateMessage)
 	{
 		var inputMessage = _layoutManager.getInputMessage();
-		inputMessage.value = (privateMessage ? '>>' : '>') + nick + ': ';
+		var newMessage = (privateMessage ? '>>' : '>') + nick + ': ';
+		if (inputMessage.value == newMessage)
+		{
+			newMessage = (!privateMessage ? '>>' : '>') + nick + ': ';
+		}
+		inputMessage.value = newMessage;
 		inputMessage.focus();
 	};
 
