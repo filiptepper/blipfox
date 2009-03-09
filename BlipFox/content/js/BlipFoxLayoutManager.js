@@ -874,7 +874,7 @@ function BlipFoxLayoutManager()
 						}
 					});
 				}
-				if (RegExp.lastMatch.substring(0, 15) == 'http://blip.pl/')
+				if (RegExp.lastMatch.substring(0, 15) == 'http://blip.pl/' || RegExp.lastMatch.substring(0, 19) == 'http://www.blip.pl/')
 				{
 					/* Prawdopodobnie działająca obsługa podglądu wiadomości blipowych. */
 					var linkUrl = RegExp.lastMatch.substring(15);
