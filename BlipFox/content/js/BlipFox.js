@@ -1051,15 +1051,15 @@ BlipFox = (function()
 			
 			if (this.isDirectMessage(input.value))
 			{
-				input.style.backgroundColor = '#FEFF9A';
+				input.style.backgroundColor = '#CCC';
 			}
 			else if (this.isPrivateMessage(input.value)) 
 			{
-				input.style.backgroundColor = '#FDFF44';
+				input.style.backgroundColor = '#999';
 			}
 			else 
 			{
-				input.style.backgroundColor = 'white';
+				input.style.backgroundColor = '#FFF';
 			}			 
 		},
 		
@@ -1212,7 +1212,7 @@ BlipFox = (function()
 					success: function()
 					{
 						_layoutManager.getInputMessage().value = '';
-						this.updateInputColor();
+						BlipFox.updateInputColor();
 						_emptyInputFile();
 						inputMessage.readOnly = false;
 
