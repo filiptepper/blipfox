@@ -21,10 +21,10 @@
  */
 
 /* Konsola do debuggowania. */
-const BLIPFOX_DEBUG = true;
+const BLIPFOX_DEBUG = false;
 
 /* Wersja. */
-const BLIPFOX_VERSION = '0.9.9';
+const BLIPFOX_VERSION = '1.0';
 
 /* URL do API. */
 const BLIPFOX_API_URL = 'http://api.blip.pl/';

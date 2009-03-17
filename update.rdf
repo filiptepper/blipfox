@@ -2,21 +2,22 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAEexxbuyFjW5+Atv7BxQotX3mGTXlt/q/oYppyD4qc8MgjoCV36kCFa0q5rhskreFFkZZq2WVoaooD2bGzGeJhZzYTolmjsGqbF7dYaSmTa7ZpV3CyoaGkPRRm34YtoEWlyAmc0wstH50plOhQ4ssORG3FUxHaIFn53ggvjMSTf1">
-    <em:updates RDF:resource="rdf:#$1JslM"/>
-  </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$1JslM">
-    <RDF:li RDF:resource="rdf:#$2JslM"/>
-  </RDF:Seq>
-  <RDF:Description RDF:about="rdf:#$2JslM"
-                   em:version="0.9.9">
-    <em:targetApplication RDF:resource="rdf:#$5JslM"/>
-  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$5JslM"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="2.0.0.0"
                    em:maxVersion="3.1.*"
                    em:updateLink="http://blipfox.com/files/BlipFox-current.xpi"
-                   em:updateInfoURL="http://blipfox.com/" />
+                   em:updateInfoURL="http://blipfox.com/"
+                   em:updateHash="sha1:2b4330e3ec58f9d50b5d17e622ebc6907fbfae67" />
+  <RDF:Description RDF:about="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAClc0lPoZtO5MOOrJxx6PG7Nthyqxu47QYaYkMRSq2RpQIMu2CD3QGCR6jp1VW3CHwng7NWerTM0dLC1vXW19jK7FmS8hB/istVQpIlAjIEGGBdVxaes4q1Tb4JKO2uoZBmdJpK5obb2gcRYM+89aMfu/+TIcvW8frIWdia9S8yh">
+    <em:updates RDF:resource="rdf:#$1JslM"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$2JslM"
+                   em:version="1.0">
+    <em:targetApplication RDF:resource="rdf:#$5JslM"/>
+  </RDF:Description>
+  <RDF:Seq RDF:about="rdf:#$1JslM">
+    <RDF:li RDF:resource="rdf:#$2JslM"/>
+  </RDF:Seq>
 </RDF:RDF>
