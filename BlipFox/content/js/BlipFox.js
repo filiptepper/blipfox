@@ -1206,7 +1206,7 @@ BlipFox = (function()
 			{
 				/* Wysyłka tylko niepustej wiadomości */
 				inputMessage.readOnly = true;
-				_layoutManager.enableInputThrobber();
+				_layoutManager.enableProcessingThrobber();
 				
 				var callback = {
 					success: function()
@@ -1220,13 +1220,13 @@ BlipFox = (function()
 						_lastMessagePollDate = date.getTime() - 6000;
 
 						window.document.getElementById('blipfox-input-charactersleft').value = 160;
-						_layoutManager.disableInputThrobber();
+						_layoutManager.disableProcessingThrobber();
 					},
 					error: function()
 					{
 						_emptyInputFile();
 						inputMessage.readOnly = false;
-						_layoutManager.disableInputThrobber();						
+						_layoutManager.disableProcessingThrobber();						
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
 					}					
 				}
@@ -1340,10 +1340,12 @@ BlipFox = (function()
 			messageId = element.getAttribute('messageId');
 			if (confirm(BlipFoxLocaleManager.getLocaleString('deleteConfirmation')))
 			{
+				_layoutManager.enableProcessingThrobber();
 				_requestManager.deleteMessage(messageId, element.getAttribute('messageType'),
 				{
 					success: function(e)
 					{
+						_layoutManager.disableProcessingThrobber();
 						messageNode = window.document.getElementById(messageId);
 						setTimeout(function()
 						{
@@ -1356,6 +1358,7 @@ BlipFox = (function()
 					},
 					error: function(e)
 					{
+						_layoutManager.disableProcessingThrobber();
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('deleteFailed'));						
 					}
 				});
@@ -1611,9 +1614,16 @@ BlipFox = (function()
 			gBrowser.webNavigation.loadURI(url, gBrowser.LOAD_FLAGS_NONE, null, postData, null);
 		},
 		
+		/**
+		 * Metoda dodaje blipa do ulubionych
+		 * @param Object Kliknięty element.
+		 * @public
+		 */		
 		addToFavourites: function(element)
 		{
 			var messageId = element.getAttribute('messageId');
+			
+			_layoutManager.enableProcessingThrobber();
 			
 			_requestManager.checkFavourite(messageId, 
 			{
@@ -1622,6 +1632,9 @@ BlipFox = (function()
 					eval('var response = ' + request.responseText);
 					if (response.response.id[messageId])
 					{
+						BlipFox.favouriteAdded(element);
+						_layoutManager.disableProcessingThrobber();
+						
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('alreadyInFavourites'));
 					}
 					else
@@ -1629,11 +1642,12 @@ BlipFox = (function()
 						_requestManager.addToFavourites(messageId, {
 							success: function(request)
 							{
-								BlipFox.alert(BlipFoxLocaleManager.getLocaleString('addedToFavourites'));
+								BlipFox.favouriteAdded(element);
+								_layoutManager.disableProcessingThrobber();
 							},
 							error: function(request, exception)
 							{
-								
+								_layoutManager.disableProcessingThrobber();
 							}
 						});
 					}
@@ -1641,8 +1655,20 @@ BlipFox = (function()
 				},
 				error: function(request, exception)
 				{
+					_layoutManager.disableProcessingThrobber();
 				}
 			});	
+		},
+		
+		/**
+		 * Metoda wywołana po dodaniu blipa do ulubionych
+		 * @param Object Kliknięty element.
+		 * @public
+		 */			
+		favouriteAdded: function(element)
+		{
+			element.src = "chrome://blipfox/content/images/blipfox-message-toolbar-favourite-added.png";
+			element.onclick = false;
 		}
 	}
 })();

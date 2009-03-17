@@ -199,7 +199,7 @@
 								value="160" />
 							<xul:spacer flex="1" />
 							<xul:image
-								id="blipfox-input-throbber"
+								id="blipfox-processing-throbber"
 								src="" />
 							<xul:image
 								tooltiptext="&selectFile;"

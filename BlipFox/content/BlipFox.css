@@ -104,7 +104,7 @@
 	padding: 1px;
 }
 
-#blipfox-input-throbber
+#blipfox-procesing-throbber
 {
 	height: 16px;
 	margin: 3px 10px 0 0;	
@@ -329,6 +329,7 @@
 
 #blipfox-message-toolbar-favourite
 {
+	cursor: pointer;
 	margin-right: -3px;
 }
 
