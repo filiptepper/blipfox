@@ -1668,7 +1668,7 @@ BlipFox = (function()
 		favouriteAdded: function(element)
 		{
 			element.src = "chrome://blipfox/content/images/blipfox-message-toolbar-favourite-added.png";
-			element.onclick = false;
+			element.removeEventListener('click');
 		}
 	}
 })();
