@@ -524,7 +524,7 @@ function BlipFoxLayoutManager()
 
 		for (var i = messagesCount - 1; i >= 0; i--)
 		{
-			if (messages[i].user.login === BlipFoxPreferencesManager.get('username') && messages[i].type === 'Status')
+			if (messages[i].user.login === BlipFoxPreferencesManager.getUsername() && messages[i].type === 'Status')
 			{
 				lastUserStatus = messages[i].body;
 				lastUserStatusId = messages[i].id;
@@ -584,7 +584,7 @@ function BlipFoxLayoutManager()
 	{
 		var messageContainer = document.createElement('vbox');
 		
-		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.getUsername()) 
 		{
 			var notificationImage = null;
 			if (typeof message.user.avatar != 'undefined')
@@ -613,7 +613,7 @@ function BlipFoxLayoutManager()
 			messageContainer.className = 'blipfox-notification';
 
 			/* Oznaczanie nowych wiadomości. */
-			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.getUsername()) 
 			{
 				messageContainer.setAttribute('new_message', 'true');
 			}
@@ -633,7 +633,7 @@ function BlipFoxLayoutManager()
 			messageContainer.setAttribute('transport', message.transport.name.toLowerCase());
 			
 			/* Oznaczanie nowych wiadomości. */
-			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.getUsername()) 
 			{
 				messageContainer.setAttribute('new_message', 'true');
 			}
@@ -641,7 +641,7 @@ function BlipFoxLayoutManager()
 			messageContainer.setAttribute('allow_delete', 'false');
 			
 			/* Ukrycie ikonki odpowiedzi, gdy użytkownik jest autorem wiadomości. */
-			if (message.user.login == BlipFoxPreferencesManager.get('username')) 
+			if (message.user.login == BlipFoxPreferencesManager.getUsername()) 
 			{
 				messageContainer.setAttribute('user_message', 'true');
 				messageContainer.setAttribute('allow_delete', 'true');
@@ -663,7 +663,7 @@ function BlipFoxLayoutManager()
 			/* Avatar adresata wiadomości. */
 			if (typeof message.recipient !== 'undefined') 
 			{
-				if (message.recipient.login == BlipFoxPreferencesManager.get('username')) 
+				if (message.recipient.login == BlipFoxPreferencesManager.getUsername()) 
 				{
 					messageContainer.setAttribute('allow_delete', 'true');
 				}

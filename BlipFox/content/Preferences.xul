@@ -41,6 +41,10 @@
 					id="blipfox-preferences-password"
 					type="password" />
 			</hbox>
+			<checkbox
+				id="blipfox-preferences-passwordFromPM"
+				label="&passwordFromPM.label;"
+				oncommand="Preferences.updatePasswordField(this);" />
 		</vbox>
 	</groupbox>
 	<groupbox>

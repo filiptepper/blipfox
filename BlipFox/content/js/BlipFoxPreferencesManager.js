@@ -41,6 +41,7 @@ BlipFoxPreferencesManager = (function()
 	{
 		username: '',
 		password: '',
+		passwordFromPM: 'true',
 		shortcutKey: '66',
 		shortcutMeta: 'false',
 		shortcutAlt: 'false',
@@ -86,6 +87,29 @@ BlipFoxPreferencesManager = (function()
 		set: function(preference, value)
 		{
 			return preferencesService.setCharPref(preference, value);
-		}
+		},
+		
+		/**
+		 * Metoda zwraca zapisana nazwe uzytkownika (dla zgodnosci z getPassword())
+		 */
+		getUsername: function()
+		{
+			return this.get('username');
+		},
+		
+		/**
+		 * Metoda zwraca zapisane haslo uzytkownika
+		 */
+		 getPassword: function()
+		 {
+		 	if (this.get('passwordFromPM'))
+		 	{
+		 		return getPasswordFromManager('blip.pl', this.getUsername());
+		 	}
+		 	else
+		 	{
+		 		return this.get('password');
+		 	}
+		 }
 	}
 })();

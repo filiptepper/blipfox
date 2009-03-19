@@ -73,3 +73,42 @@ function getShortcutPreferences()
 
 	return fakeEvent;			
 }
+
+/**
+  * Funkcja zwraca haslo z menadzera hasel dla danej domeny oraz nazwy uzytkownika
+  * @return String Haslo uzytkownika
+  */
+function getPasswordFromManager(host, username) {
+	if (Components.classes["@mozilla.org/passwordmanager;1"]) // Firefox starszy niz 3
+	{
+		var passwordManager = Components.classes["@mozilla.org/passwordmanager;1"]
+			.getService(Components.interfaces.nsIPasswordManager);
+		
+		var e = passwordManager.enumerator;
+		while (e.hasMoreElements()) 
+		{
+			var login = e.getNext().QueryInterface(Components.interfaces.nsIPassword);
+			if (login.host.indexOf(host) != -1 && login.user == username) 
+			{
+				return login.password;
+				break;
+			}
+		}
+	} 
+	else if (Components.classes["@mozilla.org/login-manager;1"]) // Firefox 3 i wyzszy
+	{
+		var loginManager = Components.classes["@mozilla.org/login-manager;1"]
+			.getService(Components.interfaces.nsILoginManager);
+			
+		var logins = loginManager.getAllLogins({});
+		for (var i = 0; i < logins.length; i++)
+		{
+			login = logins[i];
+			if (login.hostname.indexOf(host) != -1 && login.username == username) 
+			{
+				return login.password;
+				break;
+			}
+		}
+	}
+}

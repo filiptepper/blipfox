@@ -190,13 +190,13 @@ BlipFox = (function()
 	 */
 	var _initialize = function()
 	{
-		if (BlipFoxPreferencesManager.get('username') !== '' && BlipFoxPreferencesManager.get('password') !== '')
+		if (BlipFoxPreferencesManager.getUsername() !== '' && BlipFoxPreferencesManager.getPassword() !== '')
 		{
 			BlipFox.setStatus(BlipFoxStatus.ON);
 			BlipFox.setStatus(BlipFoxStatus.LOADING);
 			
 			/* Pobranie informacji o aktualnym użytkowniku. */
-			_getUser(BlipFoxPreferencesManager.get('username'));
+			_getUser(BlipFoxPreferencesManager.getUsername());
 			
 			/* Wypełnienie listy znajomych. */
 			_getFriends();
@@ -320,7 +320,7 @@ BlipFox = (function()
 						for (var i = 0; i < messagesLength; i++)
 						{
 							/* Nie doliczam wiadomości wysłanych przez użytkownika. */
-							if (_data._messages[i].user.login !== BlipFoxPreferencesManager.get('username'))
+							if (_data._messages[i].user.login !== BlipFoxPreferencesManager.getUsername())
 							{
 								if (_unreadCount <= 100) 
 								{
@@ -538,7 +538,7 @@ BlipFox = (function()
 	 */
 	var _getUserSecretaryParameters = function(username, password)
 	{
-		return 'bliplogin=' +username + '&bliphaslo=' + password + '&submit=Zaloguj+si%C4%99&lggedin=yeap';
+		return 'bliplogin=' + username + '&bliphaslo=' + password + '&submit=Zaloguj+si%C4%99&lggedin=yeap';
 	}
 	
 	var _emptyInputFile = function()
@@ -589,7 +589,7 @@ BlipFox = (function()
 					_layoutManager.setUserStatus(_data._status.body, _data._status.id);
 					window.document.getElementById('blipfox-popup-header').click = 
 					
-					window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.get('username'));
+					window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.getUsername());
 					_layoutManager.getInputMessage().focus();
 				}, 1);
 			}
@@ -1314,7 +1314,7 @@ BlipFox = (function()
 			_getFriends();
 			
 			/* Odświeżenie informacji o użytkowniku. */
-			_getUser(BlipFoxPreferencesManager.get('username'));
+			_getUser(BlipFoxPreferencesManager.getUsername());
 			
 			/* Pobranie wiadomości. */
 			_getMessages();
@@ -1574,7 +1574,7 @@ BlipFox = (function()
 		 */
 		showUserSecretary: function()
 		{
-			var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.get('username'), BlipFoxPreferencesManager.get('password'));
+			var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.getUsername(), BlipFoxPreferencesManager.getPassword());
 			try {
 				this.postUrl(BLIPFOX_SECRETARY_URL, dataString);
 			} catch (ex) {
