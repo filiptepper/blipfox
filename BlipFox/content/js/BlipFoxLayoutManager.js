@@ -877,7 +877,7 @@ function BlipFoxLayoutManager()
 				if (RegExp.lastMatch.substring(0, 15) == 'http://blip.pl/' || RegExp.lastMatch.substring(0, 19) == 'http://www.blip.pl/')
 				{
 					/* Prawdopodobnie działająca obsługa podglądu wiadomości blipowych. */
-					var linkUrl = RegExp.lastMatch.substring(15);
+					var linkUrl = RegExp.lastMatch.split('/').slice(3).join('/');
 					link.setAttribute('blipMessage', linkUrl.split('/')[1]);
 					BlipFox.getRequestManager().sendGetRequest(BLIPFOX_API_URL + linkUrl,
 					{
