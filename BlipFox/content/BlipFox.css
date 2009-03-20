@@ -104,7 +104,7 @@
 	padding: 1px;
 }
 
-#blipfox-input-throbber
+#blipfox-processing-throbber
 {
 	height: 16px;
 	margin: 3px 10px 0 0;	
@@ -279,6 +279,12 @@
 	cursor: pointer;
 }
 
+.blipfox-status-link
+{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
 .blipfox-message-picture
 {
 	cursor: pointer;
@@ -329,6 +335,7 @@
 
 #blipfox-message-toolbar-favourite
 {
+	cursor: pointer;
 	margin-right: -3px;
 }
 

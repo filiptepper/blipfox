@@ -8,6 +8,7 @@
 <!ENTITY username.accesskey "U">
 <!ENTITY password.label "Password:">
 <!ENTITY password.accesskey "P">
+<!ENTITY passwordFromPM.label "Retrieve password from Firefox's Password Manager (for blip.pl)">
 <!ENTITY noDashboardBackground.label "Do not load dashboard's background">
 <!ENTITY other.label "Other">
 <!ENTITY tag.blipcast.label "Blipcast">

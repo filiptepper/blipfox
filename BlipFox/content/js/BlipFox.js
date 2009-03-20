@@ -190,13 +190,13 @@ BlipFox = (function()
 	 */
 	var _initialize = function()
 	{
-		if (BlipFoxPreferencesManager.get('username') !== '' && BlipFoxPreferencesManager.get('password') !== '')
+		if (BlipFoxPreferencesManager.getUsername() !== '' && BlipFoxPreferencesManager.getPassword() !== '')
 		{
 			BlipFox.setStatus(BlipFoxStatus.ON);
 			BlipFox.setStatus(BlipFoxStatus.LOADING);
 			
 			/* Pobranie informacji o aktualnym użytkowniku. */
-			_getUser(BlipFoxPreferencesManager.get('username'));
+			_getUser(BlipFoxPreferencesManager.getUsername());
 			
 			/* Wypełnienie listy znajomych. */
 			_getFriends();
@@ -320,7 +320,7 @@ BlipFox = (function()
 						for (var i = 0; i < messagesLength; i++)
 						{
 							/* Nie doliczam wiadomości wysłanych przez użytkownika. */
-							if (_data._messages[i].user.login !== BlipFoxPreferencesManager.get('username'))
+							if (_data._messages[i].user.login !== BlipFoxPreferencesManager.getUsername())
 							{
 								if (_unreadCount <= 100) 
 								{
@@ -538,7 +538,7 @@ BlipFox = (function()
 	 */
 	var _getUserSecretaryParameters = function(username, password)
 	{
-		return 'bliplogin=' +username + '&bliphaslo=' + password + '&submit=Zaloguj+si%C4%99&lggedin=yeap';
+		return 'bliplogin=' + username + '&bliphaslo=' + password + '&submit=Zaloguj+si%C4%99&lggedin=yeap';
 	}
 	
 	var _emptyInputFile = function()
@@ -589,7 +589,7 @@ BlipFox = (function()
 					_layoutManager.setUserStatus(_data._status.body, _data._status.id);
 					window.document.getElementById('blipfox-popup-header').click = 
 					
-					window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.get('username'));
+					window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.getUsername());
 					_layoutManager.getInputMessage().focus();
 				}, 1);
 			}
@@ -1206,7 +1206,7 @@ BlipFox = (function()
 			{
 				/* Wysyłka tylko niepustej wiadomości */
 				inputMessage.readOnly = true;
-				_layoutManager.enableInputThrobber();
+				_layoutManager.enableProcessingThrobber();
 				
 				var callback = {
 					success: function()
@@ -1220,13 +1220,13 @@ BlipFox = (function()
 						_lastMessagePollDate = date.getTime() - 6000;
 
 						window.document.getElementById('blipfox-input-charactersleft').value = 160;
-						_layoutManager.disableInputThrobber();
+						_layoutManager.disableProcessingThrobber();
 					},
 					error: function()
 					{
 						_emptyInputFile();
 						inputMessage.readOnly = false;
-						_layoutManager.disableInputThrobber();						
+						_layoutManager.disableProcessingThrobber();						
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
 					}					
 				}
@@ -1314,7 +1314,7 @@ BlipFox = (function()
 			_getFriends();
 			
 			/* Odświeżenie informacji o użytkowniku. */
-			_getUser(BlipFoxPreferencesManager.get('username'));
+			_getUser(BlipFoxPreferencesManager.getUsername());
 			
 			/* Pobranie wiadomości. */
 			_getMessages();
@@ -1340,10 +1340,12 @@ BlipFox = (function()
 			messageId = element.getAttribute('messageId');
 			if (confirm(BlipFoxLocaleManager.getLocaleString('deleteConfirmation')))
 			{
+				_layoutManager.enableProcessingThrobber();
 				_requestManager.deleteMessage(messageId, element.getAttribute('messageType'),
 				{
 					success: function(e)
 					{
+						_layoutManager.disableProcessingThrobber();
 						messageNode = window.document.getElementById(messageId);
 						setTimeout(function()
 						{
@@ -1356,6 +1358,7 @@ BlipFox = (function()
 					},
 					error: function(e)
 					{
+						_layoutManager.disableProcessingThrobber();
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('deleteFailed'));						
 					}
 				});
@@ -1571,7 +1574,7 @@ BlipFox = (function()
 		 */
 		showUserSecretary: function()
 		{
-			var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.get('username'), BlipFoxPreferencesManager.get('password'));
+			var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.getUsername(), BlipFoxPreferencesManager.getPassword());
 			try {
 				this.postUrl(BLIPFOX_SECRETARY_URL, dataString);
 			} catch (ex) {
@@ -1611,9 +1614,16 @@ BlipFox = (function()
 			gBrowser.webNavigation.loadURI(url, gBrowser.LOAD_FLAGS_NONE, null, postData, null);
 		},
 		
+		/**
+		 * Metoda dodaje blipa do ulubionych
+		 * @param Object Kliknięty element.
+		 * @public
+		 */		
 		addToFavourites: function(element)
 		{
 			var messageId = element.getAttribute('messageId');
+			
+			_layoutManager.enableProcessingThrobber();
 			
 			_requestManager.checkFavourite(messageId, 
 			{
@@ -1622,6 +1632,9 @@ BlipFox = (function()
 					eval('var response = ' + request.responseText);
 					if (response.response.id[messageId])
 					{
+						BlipFox.favouriteAdded(element);
+						_layoutManager.disableProcessingThrobber();
+						
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('alreadyInFavourites'));
 					}
 					else
@@ -1629,11 +1642,12 @@ BlipFox = (function()
 						_requestManager.addToFavourites(messageId, {
 							success: function(request)
 							{
-								BlipFox.alert(BlipFoxLocaleManager.getLocaleString('addedToFavourites'));
+								BlipFox.favouriteAdded(element);
+								_layoutManager.disableProcessingThrobber();
 							},
 							error: function(request, exception)
 							{
-								
+								_layoutManager.disableProcessingThrobber();
 							}
 						});
 					}
@@ -1641,8 +1655,20 @@ BlipFox = (function()
 				},
 				error: function(request, exception)
 				{
+					_layoutManager.disableProcessingThrobber();
 				}
 			});	
+		},
+		
+		/**
+		 * Metoda wywołana po dodaniu blipa do ulubionych
+		 * @param Object Kliknięty element.
+		 * @public
+		 */			
+		favouriteAdded: function(element)
+		{
+			element.src = "chrome://blipfox/content/images/blipfox-message-toolbar-favourite-added.png";
+			element.removeEventListener('click');
 		}
 	}
 })();

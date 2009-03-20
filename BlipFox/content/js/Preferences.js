@@ -77,6 +77,7 @@ var Preferences = (function()
 		{
 			'username': window.document.getElementById('blipfox-preferences-username').value,
 			'password': window.document.getElementById('blipfox-preferences-password').value,
+			'passwordFromPM': _getCheckboxPreference('blipfox-preferences-passwordFromPM'),
 			'shortcutKey': window.document.getElementById('blipfox-preferences-shortcut').getAttribute('shortcut'),
 			'shortcutMeta': window.document.getElementById('blipfox-preferences-shortcut').getAttribute('metaKey'),
 			'shortcutAlt': window.document.getElementById('blipfox-preferences-shortcut').getAttribute('altKey'),
@@ -95,6 +96,11 @@ var Preferences = (function()
 			'showTagsIn': (window.document.getElementById('blipfox-preferences-tags-blip').getAttribute('selected') === 'true' ? 'blip' : 'blipcast'),
 			'soundFile': (window.document.getElementById('blipfox-preferences-soundFile').value == BlipFoxLocaleManager.getLocaleString('noFile') ? '' : window.document.getElementById('blipfox-preferences-soundFile').value)
 		};
+	
+		if (preferences['passwordFromPM'] == 'true')
+		{
+			preferences['password'] = '';
+		}
 
 		for (var i in preferences)
 		{
@@ -136,6 +142,8 @@ var Preferences = (function()
 			
 			window.document.getElementById('blipfox-preferences-username').value = BlipFoxPreferencesManager.get('username');
 			window.document.getElementById('blipfox-preferences-password').value = BlipFoxPreferencesManager.get('password');
+			window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFoxPreferencesManager.get('passwordFromPM') === 'true' ? true : false;
+			this.updatePasswordField(window.document.getElementById('blipfox-preferences-passwordFromPM'));
 			this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), getShortcutPreferences());
 			window.document.getElementById('blipfox-preferences-noDashboardBackground').checked = BlipFoxPreferencesManager.get('noDashboardBackground') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFoxPreferencesManager.get('markNewMessages') === 'true' ? true : false;
@@ -218,6 +226,24 @@ var Preferences = (function()
 			else
 			{
 				window.document.getElementById('blipfox-preferences-soundFile').value = '';
+			}
+		},
+		
+		/**
+		 * Metoda blokuje pole na haslo uzytkownika jesli ustawione jest pobieranie
+		 * hasla z Menadzera Hasel.
+		 * @param Object element Pole formularza preferencji. 
+		 * @public
+		 */		
+		updatePasswordField: function(element)
+		{
+			if (element.checked)
+			{
+				window.document.getElementById('blipfox-preferences-password').disabled = true;
+			}
+			else
+			{
+				window.document.getElementById('blipfox-preferences-password').disabled = false;
 			}
 		}
 		
