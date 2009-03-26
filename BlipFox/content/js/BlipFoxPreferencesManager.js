@@ -23,6 +23,9 @@
 /* Obiekt obsługujący preferencje. */
 var BlipFoxPreferencesManager = {};
 
+/* Czas trzymania hasla z menadzera hasel w cache (w ms) */
+const PASSWORD_CACHE_TIME = 5 * 60 * 1000;
+
 BlipFoxPreferencesManager = (function()
 {
 	/**
@@ -41,7 +44,7 @@ BlipFoxPreferencesManager = (function()
 	{
 		username: '',
 		password: '',
-		passwordFromPM: 'true',
+		passwordFromPM: 'false',
 		shortcutKey: '66',
 		shortcutMeta: 'false',
 		shortcutAlt: 'false',
@@ -58,6 +61,17 @@ BlipFoxPreferencesManager = (function()
 		notifyStatuses: 'false'
 	};
 
+	/*
+	 * Obiekt zawiera informacje o keszowanym hasle (w przypadku pobierania
+	 * z menadzera hasel)
+	 * @var Object
+	 * @private
+	 */
+	var cachedPassword = 
+	{
+		time: '0',
+		value: ''
+	};
 	
 	return {
 		/**
@@ -102,9 +116,17 @@ BlipFoxPreferencesManager = (function()
 		 */
 		 getPassword: function()
 		 {
-		 	if (this.get('passwordFromPM'))
-		 	{
-		 		return getPasswordFromManager('blip.pl', this.getUsername());
+		 	if (this.get('passwordFromPM') === 'true')
+		 	{ 		
+		 		var time = new Date().getTime();
+		 		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
+		 		if (cacheExpired || cachedPassword['value'] == '')
+		 		{
+		 			cachedPassword['time'] = time;
+		 			cachedPassword['value'] = getPasswordFromManager('blip.pl', this.getUsername());
+		 		}
+		 			
+		 		return cachedPassword['value'];
 		 	}
 		 	else
 		 	{

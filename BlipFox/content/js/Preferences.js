@@ -97,7 +97,7 @@ var Preferences = (function()
 			'soundFile': (window.document.getElementById('blipfox-preferences-soundFile').value == BlipFoxLocaleManager.getLocaleString('noFile') ? '' : window.document.getElementById('blipfox-preferences-soundFile').value)
 		};
 	
-		if (preferences['passwordFromPM'] == 'true')
+		if (preferences['passwordFromPM'] === 'true')
 		{
 			preferences['password'] = '';
 		}

@@ -88,7 +88,7 @@ function getPasswordFromManager(host, username) {
 		while (e.hasMoreElements()) 
 		{
 			var login = e.getNext().QueryInterface(Components.interfaces.nsIPassword);
-			if (login.host.indexOf(host) != -1 && login.user == username) 
+			if (login.user == username && login.host.indexOf(host) != -1) 
 			{
 				return login.password;
 				break;
@@ -104,11 +104,13 @@ function getPasswordFromManager(host, username) {
 		for (var i = 0; i < logins.length; i++)
 		{
 			login = logins[i];
-			if (login.hostname.indexOf(host) != -1 && login.username == username) 
+			if (login.username == username && login.hostname.indexOf(host) != -1) 
 			{
 				return login.password;
 				break;
 			}
 		}
 	}
+	
+	return '';
 }

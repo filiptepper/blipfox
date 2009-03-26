@@ -8,7 +8,7 @@
 <!ENTITY username.accesskey "U">
 <!ENTITY password.label "Hasło:">
 <!ENTITY password.accesskey "H">
-<!ENTITY passwordFromPM.label "Pobieraj hasło z Menadżera Haseł (dla domeny blip.pl)">
+<!ENTITY passwordFromPM.label "Pobieraj hasło z Menadżera haseł (dla domeny blip.pl)">
 <!ENTITY noDashboardBackground.label "Nie ładuj tła kokpitu">
 <!ENTITY other.label "Inne">
 <!ENTITY tag.blipcast.label "Blipcast">

@@ -190,29 +190,29 @@ BlipFox = (function()
 	 */
 	var _initialize = function()
 	{
-		if (BlipFoxPreferencesManager.getUsername() !== '' && BlipFoxPreferencesManager.getPassword() !== '')
-		{
-			BlipFox.setStatus(BlipFoxStatus.ON);
-			BlipFox.setStatus(BlipFoxStatus.LOADING);
-			
-			/* Pobranie informacji o aktualnym użytkowniku. */
-			_getUser(BlipFoxPreferencesManager.getUsername());
-			
-			/* Wypełnienie listy znajomych. */
-			_getFriends();
-			
-			/* Pierwsze pobranie wiadomości. */
-			_getMessages();
-			
-			/* Ustawienie sprawdzenia, czy wszystkie elementy zostały już pobrane. */
-			setTimeout(BlipFox.isInitialized, 1);
-
-			return true;
-		}
-		
 		/* Brak nazwy użytkownika lub hasła. */
-		BlipFox.showPreferences();
-		return false; 
+		if (BlipFoxPreferencesManager.getUsername() === '' || BlipFoxPreferencesManager.getPassword() === '')
+		{
+			BlipFox.showPreferences();
+			return false;
+		}
+			
+		BlipFox.setStatus(BlipFoxStatus.ON);
+		BlipFox.setStatus(BlipFoxStatus.LOADING);
+		
+		/* Pobranie informacji o aktualnym użytkowniku. */
+		_getUser(BlipFoxPreferencesManager.getUsername());
+		
+		/* Wypełnienie listy znajomych. */
+		_getFriends();
+		
+		/* Pierwsze pobranie wiadomości. */
+		_getMessages();
+		
+		/* Ustawienie sprawdzenia, czy wszystkie elementy zostały już pobrane. */
+		setTimeout(BlipFox.isInitialized, 1);
+
+		return true;
 	}
 	
 	/**
@@ -1226,7 +1226,7 @@ BlipFox = (function()
 					{
 						_emptyInputFile();
 						inputMessage.readOnly = false;
-						_layoutManager.disableProcessingThrobber();						
+						_layoutManager.disableProcessingThrobber();
 						BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
 					}					
 				}
@@ -1250,6 +1250,7 @@ BlipFox = (function()
 				{
 					_emptyInputFile();
 					inputMessage.readOnly = false;
+					_layoutManager.disableProcessingThrobber();
 					BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
 				} 
 			}
