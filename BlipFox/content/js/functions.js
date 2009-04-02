@@ -79,6 +79,8 @@ function getShortcutPreferences()
   * @return String Haslo uzytkownika
   */
 function getPasswordFromManager(host, username) {
+	lowerCaseUsername = username.toLowerCase();
+
 	if (Components.classes["@mozilla.org/passwordmanager;1"]) // Firefox starszy niz 3
 	{
 		var passwordManager = Components.classes["@mozilla.org/passwordmanager;1"]
@@ -88,7 +90,7 @@ function getPasswordFromManager(host, username) {
 		while (e.hasMoreElements()) 
 		{
 			var login = e.getNext().QueryInterface(Components.interfaces.nsIPassword);
-			if (login.user == username && login.host.indexOf(host) != -1) 
+			if (login.user.toLowerCase() == lowerCaseUsername && login.host.indexOf(host) != -1) 
 			{
 				return login.password;
 				break;
@@ -104,7 +106,7 @@ function getPasswordFromManager(host, username) {
 		for (var i = 0; i < logins.length; i++)
 		{
 			login = logins[i];
-			if (login.username == username && login.hostname.indexOf(host) != -1) 
+			if (login.username.toLowerCase() == lowerCaseUsername && login.hostname.indexOf(host) != -1) 
 			{
 				return login.password;
 				break;

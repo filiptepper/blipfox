@@ -405,19 +405,19 @@ function BlipFoxLayoutManager()
 		return _getInputFile().src = 'chrome://blipfox/content/images/blipfox-input-file-off.gif';
 	}
 	
-	var _getInputThrobber = function()
+	var _getProcessingThrobber = function()
 	{
-		return window.document.getElementById('blipfox-input-throbber');
+		return window.document.getElementById('blipfox-processing-throbber');
 	}
 	
-	this.enableInputThrobber = function()
+	this.enableProcessingThrobber = function()
 	{
-		_getInputThrobber().src = 'chrome://blipfox/content/images/blipfox-input-throbber.gif';
+		_getProcessingThrobber().src = 'chrome://blipfox/content/images/blipfox-processing-throbber.gif';
 	}
 	
-	this.disableInputThrobber = function()
+	this.disableProcessingThrobber = function()
 	{
-		_getInputThrobber().src = '';
+		_getProcessingThrobber().src = '';
 	}
 
 	/**
@@ -905,7 +905,15 @@ function BlipFoxLayoutManager()
 					BlipFox.log(linkUrl);
 				}
 			}
-			link.className = 'blipfox-message-link';
+			
+			if (element.id == 'blipfox-popup-header-status')
+			{
+				link.className = 'blipfox-status-link';
+			}
+			else
+			{ 
+				link.className = 'blipfox-message-link';
+			}
 			
 			linkTitle = linkTitle.replace(/^http:\/\/|http:\/\/www./, '');
 			if (linkTitle.length > 25)

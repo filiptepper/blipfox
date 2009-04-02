@@ -20,6 +20,7 @@
 	<script src="js/BlipFoxEventUtilities.js" />
 	<script src="js/BlipFoxPreferencesManager.js" />
 	<script src="js/BlipFoxRequestManager.js" />
+	<script src="js/BlipFoxUrlCompresser.js" />
 	<script src="js/BlipFoxLayoutManager.js" />
 	<script src="js/BlipFox.js" />
 	<statusbar id="status-bar">

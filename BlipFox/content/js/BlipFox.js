@@ -44,6 +44,9 @@ const BLIPFOX_SECRETARY_URL = 'http://szmerybajery.pl/sekretarka/index.php';
 /* URL do API Favourites. */
 const FAVOURITES_API_URL = 'http://favourites.appspot.com/';
 
+/* Maksymalna dlugosc wiadomosci wysylanej na Blipa */
+const BLIP_MESSAGE_MAX_LENGTH = 160;
+
 /**
  * Wyjątek do obsługi błędów logowania.
  * @param string message Opis błędu.
@@ -159,6 +162,13 @@ BlipFox = (function()
 	 * @private
 	 */
 	var _requestManager;
+	
+	/**
+	 * Obiekt zarządzający skracaniem / wydłużaniem adresow url.
+	 * @var BlipFoxUrlCompreser
+	 * @private
+	 */	
+	var _urlCompresser;
 	
 	/**
 	 * Identyfikator ostatnio pobranej wiadomości.
@@ -623,6 +633,7 @@ BlipFox = (function()
 		{
 			_layoutManager = new BlipFoxLayoutManager();
 			_requestManager = new BlipFoxRequestManager();
+			_urlCompresser = new BlipFoxUrlCompresser();
 			
 			/* Inicjalizacja podstawowych zdarzeń. */
 			
@@ -1101,9 +1112,31 @@ BlipFox = (function()
 				this.clearInputMessage(e, inputMessage);
 				return this.sendMessage();
 			}
-			if (inputMessage.value.length > 160 && e.keyCode != 13)
+			if (inputMessage.value.length > BLIP_MESSAGE_MAX_LENGTH && e.keyCode != 13)
 			{
 				return false;
+			}
+			
+			return true;
+		},
+		
+		/**
+		 * Metoda uaktualnia licznik pozostalych znakow.
+		 * @param Object inputMessage Obiekt zawierający odnośnik do okienka wpisywania wiadomości.
+		 * @public
+		 */		
+		updateCharactersLeft: function(inputMessage)
+		{
+			var charactersLeftLabel = window.document.getElementById('blipfox-input-charactersleft');
+			 
+			charactersLeftLabel.value = BLIP_MESSAGE_MAX_LENGTH - inputMessage.value.length;	
+			if (inputMessage.value.length > BLIP_MESSAGE_MAX_LENGTH)
+			{
+				charactersLeftLabel.style.color = 'red';
+			}
+			else
+			{
+				charactersLeftLabel.style.color = '';
 			}
 			
 			return true;
@@ -1114,7 +1147,6 @@ BlipFox = (function()
 		 * Jeżeli jest znaleziony nick to jest on wstawiany do okienka wiadomości.
 		 * @param Event e Obiekt Event JavaScript.
 		 * @param Object messageInput Obiekt zawierający odnośnik do okienka wpisywania wiadomości.
-		 * @return boolean Czy treść okienka wpisywania wiadomości jest poprawna.
 		 * @public
 		 */
 		autocompleteInputMessage: function(e, inputMessage)
@@ -1164,15 +1196,7 @@ BlipFox = (function()
 				}
 			}
 
-			window.document.getElementById('blipfox-input-charactersleft').value = 160 - inputMessage.value.length;	
-			if (inputMessage.value.length > 160)
-			{
-				window.document.getElementById('blipfox-input-charactersleft').style.color = 'red';
-			}
-			else
-			{
-				window.document.getElementById('blipfox-input-charactersleft').style.color = '';
-			}
+			this.updateCharactersLeft(inputMessage);
 			
 			return true;
 		},
@@ -1196,7 +1220,7 @@ BlipFox = (function()
 				return false;
 			}
 			
-			if (inputMessage.value.length > 160)
+			if (inputMessage.value.length > BLIP_MESSAGE_MAX_LENGTH)
 			{
 				BlipFox.alert(BlipFoxLocaleManager.getLocaleString('statusTooLong'));
 				return false;
@@ -1212,6 +1236,7 @@ BlipFox = (function()
 					success: function()
 					{
 						_layoutManager.getInputMessage().value = '';
+						this.updateCharactersLeft(_layoutManager.getInputMessage());
 						BlipFox.updateInputColor();
 						_emptyInputFile();
 						inputMessage.readOnly = false;
@@ -1219,7 +1244,6 @@ BlipFox = (function()
 						var date = new Date();
 						_lastMessagePollDate = date.getTime() - 6000;
 
-						window.document.getElementById('blipfox-input-charactersleft').value = 160;
 						_layoutManager.disableProcessingThrobber();
 					},
 					error: function()
@@ -1330,6 +1354,16 @@ BlipFox = (function()
 		{
 			return _requestManager;
 		},
+		
+		/**
+		 * Metoda zwraca instancję obiektu BlipFoxUrlCompresser.
+		 * @return BlipFoxRequestManager
+		 * @public
+		 */
+		getUrlCompresser: function()
+		{
+			return _urlCompresser;
+		},		
 
 		/**
 		 * Metoda wywołuje usunięcie wiadomości.
@@ -1566,6 +1600,44 @@ BlipFox = (function()
 				_layoutManager.getInputFile().setAttribute('path', '');
 				_layoutManager.getInputFile().setAttribute('leftName', '');
 				_layoutManager.setInputFileOff();				
+			}
+		},
+		
+		/**
+		 * Metoda skraca wszystkie adresy w wiadomości.
+		 * @public
+		 */
+		compressUrls: function()
+		{
+			var inputMessage = _layoutManager.getInputMessage();
+			
+			if (inputMessage.readOnly === true)
+			{
+				return false;
+			}
+			
+			var linkPattern = /http:\/\/[\S]+(\b|$)|\^([A-Za-z0-9]+)|#([\s]{0,1}[A-Za-z0-9ÄÃÄÅÅÅ»Å¹ÄÅÄÃ³ÄÅÅÅ¼ÅºÄÅ_\-]{2,50}[:]{0,1})/gim;
+			var message = inputMessage.value;
+			
+			while (linkPattern.exec(message) !== null)
+			{
+				var url = RegExp.lastMatch;
+				BlipFox.getUrlCompresser().compressUrl(url, 
+					{
+						success: function(request, param)
+						{
+							var orginalUrl = param;
+							var compressedUrl = request.responseText;
+							var inputMessage = BlipFox.getLayoutManager().getInputMessage();
+							
+							inputMessage.value = inputMessage.value.replace(orginalUrl, compressedUrl);
+							BlipFox.updateCharactersLeft(inputMessage);
+						},
+						error: function(request, ex)
+						{
+							//alert('UrlCompresser Error.');
+						}
+					});
 			}
 		},
 		

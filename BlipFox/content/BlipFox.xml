@@ -202,6 +202,11 @@
 								id="blipfox-processing-throbber"
 								src="" />
 							<xul:image
+								tooltiptext="&compressUrls;"
+								id="blipfox-compress-urls"
+								src="chrome://blipfox/content/images/blipfox-input-compress-url.gif"
+								onclick="BlipFox.compressUrls();" />								
+							<xul:image
 								tooltiptext="&selectFile;"
 								id="blipfox-input-file"
 								src="chrome://blipfox/content/images/blipfox-input-file-off.gif"
