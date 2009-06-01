@@ -24,7 +24,7 @@
 const BLIPFOX_DEBUG = false;
 
 /* Wersja. */
-const BLIPFOX_VERSION = '1.1';
+const BLIPFOX_VERSION = '1.1.1';
 
 /* URL do API. */
 const BLIPFOX_API_URL = 'http://api.blip.pl/';
@@ -332,8 +332,9 @@ BlipFox = (function()
 							/* Nie doliczam wiadomości wysłanych przez użytkownika. */
 							if (_data._messages[i].user.login !== BlipFoxPreferencesManager.getUsername())
 							{
-								if (_unreadCount <= 100) 
+								if (_unreadCount <= 100)
 								{
+									if (_data._messages[i].type != 'Notice' || (_data._message[i].type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true'))
 									_unreadCount++;
 								}
 								playSound = true;
