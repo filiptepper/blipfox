@@ -530,7 +530,6 @@ function BlipFoxLayoutManager()
 				lastUserStatusId = messages[i].id;
 			}
 
-			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', messages[i].user.login + ' > ' + messages[i].body);
 			messagesList.insertBefore(_showMessage(messages[i]), messagesList.firstChild);
 		}
 
@@ -608,6 +607,7 @@ function BlipFoxLayoutManager()
 
 		if (message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') 
 		{
+			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
 			messageContainer.style.opacity = 1;
 			messageContainer.className = 'blipfox-notification';
@@ -624,8 +624,9 @@ function BlipFoxLayoutManager()
 			
 			_appendMessageToElement(messageBody, messageContainer);		
 		}
-		else 
+		else if (message.type != 'Notice' )
 		{
+			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
 			messageContainer.style.opacity = 1;
 			messageContainer.className = 'blipfox-message';
