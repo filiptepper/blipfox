@@ -1236,7 +1236,7 @@ BlipFox = (function()
 					success: function()
 					{
 						_layoutManager.getInputMessage().value = '';
-						this.updateCharactersLeft(_layoutManager.getInputMessage());
+						BlipFox.updateCharactersLeft(_layoutManager.getInputMessage());
 						BlipFox.updateInputColor();
 						_emptyInputFile();
 						inputMessage.readOnly = false;
