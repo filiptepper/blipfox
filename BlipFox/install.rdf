@@ -5,11 +5,11 @@
   <RDF:Description RDF:about="rdf:#$Z8rup2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="2.0"
-                   em:maxVersion="3.1.*" />
+                   em:maxVersion="3.5.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{07498471-8DFE-45D1-B1E4-0839E613180F}"
                    em:name="BlipFox"
-                   em:version="1.0"
+                   em:version="1.1"
                    em:creator="Filip Tepper"
                    em:author="Filip Tepper"
                    em:homepageURL="http://blipfox.com/"
