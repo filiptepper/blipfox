@@ -42,8 +42,8 @@ function BlipFoxRequestManager()
 	 */
 	function _init()
 	{
-		_username = BlipFoxPreferencesManager.get('username');
-		_password = BlipFoxPreferencesManager.get('password');
+		_username = BlipFoxPreferencesManager.getUsername();
+		_password = BlipFoxPreferencesManager.getPassword();
 		
 		if (_username === '' || _password === '')
 		{
@@ -211,8 +211,6 @@ function BlipFoxRequestManager()
 	 */
 	function _sendRequest(url, callback, params, method, headers)
 	{
-		BlipFox.log(url);
-		
 		_init();
 		
 		if (typeof method === 'undefined')
@@ -240,7 +238,6 @@ function BlipFoxRequestManager()
 			{
 				if (request.readyState == 4 && ((request.status == 200 && (method == 'GET' || method == 'DELETE')) || (request.status == 201 && method == 'POST')))
 				{
-					BlipFox.log(request.responseText);
 					if (typeof callback.success === 'function')
 					{
 						callback.success.call(BlipFox, request);
@@ -286,7 +283,6 @@ function BlipFoxRequestManager()
 					if (ex.name == 'NS_ERROR_NOT_AVAILABLE')
 					{
 						/* TODO: dodać obsługę błędów. */
-						BlipFox.log('HTTP: NS_ERROR_NOT_AVAILABLE');
 						// BlipFox.destroy();
 					}
 					else
