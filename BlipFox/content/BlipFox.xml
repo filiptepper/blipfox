@@ -50,7 +50,7 @@
 							onclick="BlipFox.addToFavourites(this); return false;"
 							xbl:inherits="messageId=messageId,messageType=messageType" />
 						<xul:image
-							src="chrome://blipfox/content/images/blipfox-lock.gif"
+							src="chrome://blipfox/content/images/blipfox-off.gif"
 							class="blipfox-message-toolbar-lock"
 							xbl:inherits="messageType=messageType" />
 						<xul:label
@@ -201,6 +201,11 @@
 							<xul:image
 								id="blipfox-processing-throbber"
 								src="" />
+							<xul:image
+								tooltiptext="&messagingLock;"
+								id="blipfox-messaging-lock"
+								src="chrome://blipfox/content/images/blipfox-input-messaging-lock.gif"
+								onclick="BlipFox.lockMessaging(this);" />								
 							<xul:image
 								tooltiptext="&compressUrls;"
 								id="blipfox-compress-urls"

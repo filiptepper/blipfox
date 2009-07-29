@@ -58,7 +58,8 @@ BlipFoxPreferencesManager = (function()
 		useSpellchecker: 'false',
 		showEmbeds: 'true',
 		notifyMessages: 'false',
-		notifyStatuses: 'false'
+		notifyStatuses: 'false',
+		autoLogin: 'false'
 	};
 
 	/*

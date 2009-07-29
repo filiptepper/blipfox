@@ -45,6 +45,9 @@
 				id="blipfox-preferences-passwordFromPM"
 				label="&passwordFromPM.label;"
 				oncommand="Preferences.updatePasswordField(this);" />
+			<checkbox
+				id="blipfox-preferences-autoLogin"
+				label="&autoLogin.label;" />
 		</vbox>
 	</groupbox>
 	<groupbox>

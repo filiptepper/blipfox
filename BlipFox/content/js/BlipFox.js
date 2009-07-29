@@ -185,6 +185,14 @@ BlipFox = (function()
 	var _lastMessagePollDate = null;
 	
 	/**
+	 * Użytkownik / tag dla którego będzie ustawiona blokada
+	 * wysyłania wiadomości.
+	 * @var string
+	 * @private
+	 */
+	var _lockMessaging = null;
+	
+	/**
 	 * Liczba nieprzeczytanych wiadomości.
 	 * Informacja widoczna jest w nawiasie w pasku statusu.
 	 * @var integer
@@ -641,6 +649,16 @@ BlipFox = (function()
 			/* Kliknięcie w ikonkę w pasku statusu. */
 			window.document.getElementById('blipfox-statusbar-panel').addEventListener('click', this.handleStatusbarClick, false);
 			_layoutManager.setEvents(_layoutManager.getContainer(), true);
+			
+			/* Automatyczne logowanie i sprawdzanie czy BlipFox został już uruchomiony w innym oknie */
+			var hWindow = Components.classes["@mozilla.org/appshell/appShellService;1"].getService(Components.interfaces.nsIAppShellService).hiddenDOMWindow;
+			if ( !hWindow.blipFoxInstance ) {
+				hWindow.blipFoxInstance = true;
+				var autoLogin = BlipFoxPreferencesManager.get('autoLogin');
+				if ( autoLogin == 'true' ) {
+					BlipFox.togglePopup();
+				}
+			}
 			
 			missingCredentialsError = new CredentialsException(BlipFoxLocaleManager.getLocaleString('enterUsernameAndPassword'));
 			invalidCredentialsError = new CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
@@ -1236,7 +1254,8 @@ BlipFox = (function()
 				var callback = {
 					success: function()
 					{
-						_layoutManager.getInputMessage().value = '';
+						var msg = _lockMessaging ? _lockMessaging : '';
+						_layoutManager.getInputMessage().value = msg;
 						BlipFox.updateCharactersLeft(_layoutManager.getInputMessage());
 						BlipFox.updateInputColor();
 						_emptyInputFile();
@@ -1743,6 +1762,35 @@ BlipFox = (function()
 		{
 			element.src = "chrome://blipfox/content/images/blipfox-message-toolbar-favourite-added.png";
 			element.removeEventListener('click');
+		},
+		
+		/**
+		 * Metoda umożliwiająca założenie blokady na wysyłanie
+		 * wiadomości do konkretnego użytkownika / taga.
+		 * @param Object Kliknięty element.
+		 * @public
+		 */			
+		lockMessaging: function(element)
+		{
+			var inputMessage = _layoutManager.getInputMessage();
+			
+			if (inputMessage.readOnly === true)
+			{
+				return false;
+			}
+			
+			if ( _lockMessaging ) {
+				_lockMessaging = null;
+				element.src = "chrome://blipfox/content/images/blipfox-input-messaging-off.gif";
+				return;
+			}
+			
+			var message = inputMessage.value;
+			var lock = message.match(/^(?:>|>>|#)\w+\:?/);
+			if ( lock ) {
+				_lockMessaging = lock + " ";
+				element.src = "chrome://blipfox/content/images/blipfox-input-messaging-on.gif";
+			}
 		}
 	}
 })();

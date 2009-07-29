@@ -78,6 +78,7 @@ var Preferences = (function()
 			'username': window.document.getElementById('blipfox-preferences-username').value,
 			'password': window.document.getElementById('blipfox-preferences-password').value,
 			'passwordFromPM': _getCheckboxPreference('blipfox-preferences-passwordFromPM'),
+			'autoLogin': _getCheckboxPreference('blipfox-preferences-autoLogin'),
 			'shortcutKey': window.document.getElementById('blipfox-preferences-shortcut').getAttribute('shortcut'),
 			'shortcutMeta': window.document.getElementById('blipfox-preferences-shortcut').getAttribute('metaKey'),
 			'shortcutAlt': window.document.getElementById('blipfox-preferences-shortcut').getAttribute('altKey'),
@@ -143,6 +144,7 @@ var Preferences = (function()
 			window.document.getElementById('blipfox-preferences-username').value = BlipFoxPreferencesManager.get('username');
 			window.document.getElementById('blipfox-preferences-password').value = BlipFoxPreferencesManager.get('password');
 			window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFoxPreferencesManager.get('passwordFromPM') === 'true' ? true : false;
+			window.document.getElementById('blipfox-preferences-autoLogin').checked = BlipFoxPreferencesManager.get('autoLogin') === 'true' ? true : false;
 			this.updatePasswordField(window.document.getElementById('blipfox-preferences-passwordFromPM'));
 			this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), getShortcutPreferences());
 			window.document.getElementById('blipfox-preferences-noDashboardBackground').checked = BlipFoxPreferencesManager.get('noDashboardBackground') === 'true' ? true : false;
