@@ -521,6 +521,7 @@ BlipFox = (function()
 	 */
 	var _togglePopup = function()
 	{
+		_blurElement();
 		_layoutManager.togglePopup();
 		_unreadCount = 0;
 	}
@@ -565,6 +566,14 @@ BlipFox = (function()
 		_layoutManager.getInputFile().setAttribute('path', '');
 		_layoutManager.getInputFile().setAttribute('leftName', '');
 		_layoutManager.setInputFileOff();		
+	}
+	
+	var _blurElement = function()
+	{
+		var focused = document.commandDispatcher.focusedElement;
+		if ( focused ) {
+			focused.blur();
+		}
 	}
 	
 	/* Metody publiczne. */
