@@ -334,8 +334,9 @@ BlipFox = (function()
 							{
 								if (_unreadCount <= 100)
 								{
-									if (_data._messages[i].type != 'Notice' || (_data._message[i].type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true'))
-									_unreadCount++;
+									if (_data._messages[i].type != 'Notice' || (_data._message[i].type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true')) {
+										_unreadCount++;
+									}
 								}
 								playSound = true;
 							}
