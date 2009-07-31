@@ -58,6 +58,13 @@
 	padding: 1px;
 }
 
+#blipfox-messaging-lock
+{
+	cursor: pointer;
+	margin: 3px 0px 0 0;
+	padding: 1px;
+}
+
 #blipfox-compress-urls
 {
 	cursor: pointer;

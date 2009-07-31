@@ -202,6 +202,11 @@
 								id="blipfox-processing-throbber"
 								src="" />
 							<xul:image
+								tooltiptext="&messagingLock;"
+								id="blipfox-messaging-lock"
+								src="chrome://blipfox/content/images/blipfox-input-messaging-off.gif"
+								onclick="BlipFox.lockMessaging(this);" />								
+							<xul:image
 								tooltiptext="&compressUrls;"
 								id="blipfox-compress-urls"
 								src="chrome://blipfox/content/images/blipfox-input-compress-url.gif"
