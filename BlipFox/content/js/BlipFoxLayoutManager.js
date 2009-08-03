@@ -554,11 +554,12 @@ function BlipFoxLayoutManager()
 	this.setUserStatus = function(userStatus, id)
 	{
 		var currentUserStatus = window.document.getElementById('blipfox-popup-header-status');
+		var userStatusWrapped = wordwrap(userStatus, 33, ' ', true);
 		while (currentUserStatus.firstChild)
 		{
 			currentUserStatus.removeChild(currentUserStatus.firstChild);
 		}
-		_appendMessageToElement(userStatus, currentUserStatus);
+		_appendMessageToElement(userStatusWrapped, currentUserStatus);
 		currentUserStatus.setAttribute('message_id', id);
 	}
 	
@@ -605,7 +606,7 @@ function BlipFoxLayoutManager()
 			}
 		}
 
-		if (message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') 
+		if ((message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') || message.type == 'UpdateTip') 
 		{
 			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
@@ -706,7 +707,7 @@ function BlipFoxLayoutManager()
 			/* Dwukropek przed treścią wiadomości. */
 			messageContainer.appendChild(document.createTextNode(': '));
 			
-			var messageBody = message.body;
+			var messageBody = wordwrap(message.body, 29, ' ', true);
 			
 			_appendMessageToElement(messageBody, messageContainer);
 			
