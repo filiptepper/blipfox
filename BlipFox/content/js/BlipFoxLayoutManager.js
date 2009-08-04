@@ -600,7 +600,7 @@ function BlipFoxLayoutManager()
 			{
 				BlipFox.notify(message.user.login + ' > ' + message.recipient.login + ': ' + message.body, notificationImage);
 			}
-			if (BlipFoxPreferencesManager.get('notifyNotifications') === 'true' && message.type == 'Notice')
+			if (BlipFoxPreferencesManager.get('notifyNotifications') === 'true' && (message.type == 'Notice' || message.type == 'UpdateTip'))
 			{
 				BlipFox.notify(message.body, notificationImage);
 			}
