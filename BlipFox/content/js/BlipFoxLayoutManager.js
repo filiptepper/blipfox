@@ -734,6 +734,7 @@ function BlipFoxLayoutManager()
 			{
 				messageContainer = _embedYouTube(messageContainer, message.body, message.type);
 				messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type);
+				messageContainer = _embedVimeo(messageContainer, message.body, message.type);
 			}
 		}
 
@@ -750,31 +751,12 @@ function BlipFoxLayoutManager()
 	 */
 	function _embedYouTube(messageContainer, messageBody, messageType)
 	{
-		var pattern = /http:\/\/(([A-Za-z]+[\.])*)youtube.com\/watch\?v=([A-Za-z0-9\-_]*)/;
-		while (pattern.exec(messageBody) !== null)
-		{
-			var embed = document.createElement('iframe');
-			embed.className = 'blipfox-embed';
-			if (messageType == 'Status') 
-			{
-				embed.style.width = '240px';
-				embed.style.height = '192px';
-			}
-			else
-			{
-				embed.style.width = '220px';
-				embed.style.height = '176px';
-			}
-			embed.src = 'http://www.youtube.com/v/' + RegExp.$3;
-			embed.setAttribute('src', 'http://www.youtube.com/v/' + RegExp.$3);
-			
-			messageContainer.appendChild(embed);
-			messageBody = RegExp.rightContext;			
-		}
+		var pattern = /http:\/\/(([A-Za-z]+[\.])*)youtube.com\/watch\?v=([A-Za-z0-9\-_]+)/;
+		var url = "'http://www.youtube.com/v/' + RegExp.$3";
 		
-		return messageContainer;
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
 	}
-
+	
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
 	 * z filmami z Google Video. 
@@ -785,7 +767,38 @@ function BlipFoxLayoutManager()
 	 */
 	function _embedGoogleVideo(messageContainer, messageBody, messageType)
 	{
-		var pattern = /http:\/\/video.google.com\/videoplay\?docid=([0-9\-]*)/;
+		var pattern = /http:\/\/video.google.com\/videoplay\?docid=([0-9\-]+)/;
+		var url = "'http://video.google.com/googleplayer.swf?docId=' + RegExp.$1 + '&hl=en'";
+		
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+	}
+	
+	/**
+	 * Metoda wyświetla na końcu wiadomości flash playera
+	 * z filmami z Vimeo. 
+	 * @param Object messageContainer Kontener na wiadomość.
+	 * @param string messageBody Treść wiadomości.
+	 * @param string messageType Rodzaj wiadomości.
+	 * @private
+	 */
+	function _embedVimeo(messageContainer, messageBody, messageType)
+	{
+		var pattern = /http:\/\/vimeo.com\/([0-9]+)/;
+		var url = "'http://www.vimeo.com/moogaloop.swf?clip_id=' + RegExp.$1 + '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ff5b00&amp;fullscreen=1'";
+		
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+	}
+
+	/**
+	 * Metoda wyświetla na końcu wiadomości flash playera
+	 * z filmami na podstawie zmiennych pattern i url.
+	 * @param Object messageContainer Kontener na wiadomość.
+	 * @param string messageBody Treść wiadomości.
+	 * @param string messageType Rodzaj wiadomości.
+	 * @private
+	 */
+	function _embedElement(messageContainer, messageBody, messageType, pattern, url)
+	{
 		while (pattern.exec(messageBody) !== null)
 		{
 			var embed = document.createElement('iframe');
@@ -800,8 +813,9 @@ function BlipFoxLayoutManager()
 				embed.style.width = '220px';
 				embed.style.height = '176px';
 			}
-			embed.src = 'http://video.google.com/googleplayer.swf?docId=' + RegExp.$1 + '&hl=en';
-			embed.setAttribute('src', 'http://video.google.com/googleplayer.swf?docId=' + RegExp.$1 + '&hl=en');
+			var eurl  = eval(url);
+			embed.src = eurl;
+			embed.setAttribute('src', eurl);
 			
 			messageContainer.appendChild(embed);
 			messageBody = RegExp.rightContext;			
