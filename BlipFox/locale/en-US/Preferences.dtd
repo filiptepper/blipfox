@@ -26,4 +26,4 @@
 <!ENTITY notifyStatuses.label "Growl: statuses">
 <!ENTITY showNotifications.label "Show notifications">
 <!ENTITY notifyNotifications.label "Growl: notifications">
-<!ENTITY autoLogin.label "Login automatically:">
+<!ENTITY autoLogin.label "Login automatically">

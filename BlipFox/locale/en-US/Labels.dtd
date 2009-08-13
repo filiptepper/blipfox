@@ -1,6 +1,6 @@
 <!ENTITY message.reply "Reply">
 <!ENTITY message.to "TO:">
-<!ENTITY message.charsLeft "Characters: ">
+<!ENTITY message.charsLeft "Chars: ">
 <!ENTITY message.send "Send message">
 <!ENTITY permalink "See this message on blip!">
 <!ENTITY pleaseWait "Please wait...">
