@@ -707,7 +707,7 @@ function BlipFoxLayoutManager()
 			/* Dwukropek przed treścią wiadomości. */
 			messageContainer.appendChild(document.createTextNode(': '));
 			
-			var messageBody = wordwrap(message.body, 29, ' ', true);
+			var messageBody = message.body;
 			
 			_appendMessageToElement(messageBody, messageContainer);
 			
@@ -956,6 +956,7 @@ function BlipFoxLayoutManager()
 		
 	    if (message)
 		{
+	    	message = wordwrap(message, 25, ' ', true);
 			element.appendChild(document.createTextNode(message));
 	    }
 	}
