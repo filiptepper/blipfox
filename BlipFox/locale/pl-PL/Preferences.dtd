@@ -21,7 +21,7 @@
 <!ENTITY useSpellchecker.label "Sprawdzaj pisownię">
 <!ENTITY soundFile.none "<brak>">
 <!ENTITY showhide.label "Pokaż / ukryj">
-<!ENTITY showEmbeds.label "Pokazuj YouTube / Google Video">
+<!ENTITY showEmbeds.label "Pokazuj wklejki wideo">
 <!ENTITY notifyMessages.label "Growl: wiadomości">
 <!ENTITY notifyStatuses.label "Growl: statusy">
 <!ENTITY showNotifications.label "Pokazuj powiadomienia">

@@ -21,7 +21,7 @@
 <!ENTITY useSpellchecker.label "Use spell checker">
 <!ENTITY soundFile.none "<none>">
 <!ENTITY showhide.label "Show / hide">
-<!ENTITY showEmbeds.label "Show YouTube / Google Video">
+<!ENTITY showEmbeds.label "Show video embeds">
 <!ENTITY notifyMessages.label "Growl: messages">
 <!ENTITY notifyStatuses.label "Growl: statuses">
 <!ENTITY showNotifications.label "Show notifications">
