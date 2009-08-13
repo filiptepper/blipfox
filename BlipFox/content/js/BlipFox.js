@@ -322,7 +322,8 @@ BlipFox = (function()
 				
 				eval('_data._messages = ' + request.responseText);
 								
-				if (_data._messages.length > 0)
+				var messagesLength = _data._messages.length;
+				if (messagesLength > 0)
 				{
 					/* Zapisanie identyfikatora ostatnio odebranej wiadomości. */
 					_lastMessageId = _data._messages[0].id;
@@ -334,7 +335,6 @@ BlipFox = (function()
 					if (BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false)
 					{
 						var playSound = false;
-						var messagesLength = _data._messages.length;
 						for (var i = 0; i < messagesLength; i++)
 						{
 							/* Nie doliczam wiadomości wysłanych przez użytkownika. */
