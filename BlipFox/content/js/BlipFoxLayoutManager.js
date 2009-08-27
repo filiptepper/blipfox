@@ -598,7 +598,7 @@ function BlipFoxLayoutManager()
 			}
 			if (BlipFoxPreferencesManager.get('notifyMessages') === 'true' && (message.type == 'PrivateMessage' || message.type == 'DirectedMessage'))
 			{
-				BlipFox.notify(message.user.login + ' > ' + message.recipient.login + ': ' + message.body, notificationImage);
+				BlipFox.notify(message.user.login + ( message.type == 'PrivateMessage' ? ' >> ' : ' > ' ) + message.recipient.login + ': ' + message.body, notificationImage);
 			}
 			if (BlipFoxPreferencesManager.get('notifyNotifications') === 'true' && (message.type == 'Notice' || message.type == 'UpdateTip'))
 			{
