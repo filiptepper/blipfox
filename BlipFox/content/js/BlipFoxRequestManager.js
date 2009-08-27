@@ -406,4 +406,10 @@ function BlipFoxRequestManager()
 	{
 		_sendMultipartRequest(body, file, callback);
 	}
+	
+	this.getMovie = function(message, callback)
+	{
+		var url = 'updates/' + message + '/movie/';
+		_sendRequest(BLIPFOX_API_URL + url, callback);
+	}
 }

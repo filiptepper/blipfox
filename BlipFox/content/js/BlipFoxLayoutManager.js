@@ -702,6 +702,10 @@ function BlipFoxLayoutManager()
 					messageContainer.appendChild(document.createTextNode(' >> '));
 				}
 				messageContainer.appendChild(showMessageUser(message.recipient.login, message.type));
+		
+				var size = {width : 220, height : 176};
+			} else {
+				var size = {width : 240, height : 192};
 			}
 			
 			/* Dwukropek przed treścią wiadomości. */
@@ -730,11 +734,23 @@ function BlipFoxLayoutManager()
 				}
 			}
 			
+			/* Obsługa video. */
+			if (typeof message.movie_path !== 'undefined') 
+			{
+				BlipFox.getRequestManager().getMovie(message.id, 
+				{
+					success: function(request)
+					{
+						messageContainer = _embedMMSVideo(messageContainer, request.responseText, message.type, size);
+					}
+				});
+			}
+			
 			if (BlipFoxPreferencesManager.get('showEmbeds') === 'true') 
 			{
-				messageContainer = _embedYouTube(messageContainer, message.body, message.type);
-				messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type);
-				messageContainer = _embedVimeo(messageContainer, message.body, message.type);
+				messageContainer = _embedYouTube(messageContainer, message.body, message.type, size);
+				messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type, size);
+				messageContainer = _embedVimeo(messageContainer, message.body, message.type, size);
 			}
 		}
 
@@ -747,14 +763,15 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedYouTube(messageContainer, messageBody, messageType)
+	function _embedYouTube(messageContainer, messageBody, messageType, size)
 	{
 		var pattern = /http:\/\/(([A-Za-z]+[\.])*)youtube.com\/watch\?v=([A-Za-z0-9\-_]+)/;
 		var url = "'http://www.youtube.com/v/' + RegExp.$3";
 		
-		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
 	}
 	
 	/**
@@ -763,14 +780,15 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedGoogleVideo(messageContainer, messageBody, messageType)
+	function _embedGoogleVideo(messageContainer, messageBody, messageType, size)
 	{
 		var pattern = /http:\/\/video.google.com\/videoplay\?docid=([0-9\-]+)/;
 		var url = "'http://video.google.com/googleplayer.swf?docId=' + RegExp.$1 + '&hl=en'";
 		
-		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
 	}
 	
 	/**
@@ -779,14 +797,34 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedVimeo(messageContainer, messageBody, messageType)
+	function _embedVimeo(messageContainer, messageBody, messageType, size)
 	{
 		var pattern = /http:\/\/vimeo.com\/([0-9]+)/;
 		var url = "'http://www.vimeo.com/moogaloop.swf?clip_id=' + RegExp.$1 + '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ff5b00&amp;fullscreen=1'";
 		
-		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
+	}
+	
+	/**
+	 * Metoda wyświetla na końcu wiadomości flash playera
+	 * z filmami z Vimeo. 
+	 * @param Object messageContainer Kontener na wiadomość.
+	 * @param string messageBody Treść wiadomości.
+	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
+	 * @private
+	 */
+	function _embedMMSVideo(messageContainer, messageBody, messageType, size)
+	{
+		var pattern = /([0-9]+)/;
+		var url = "'http://blip.pl/play-movie.swf?videoUrl=/user_generated/movies/' + RegExp.$1 + '.flv'";
+		eval('var movie = ' + messageBody);
+		size = {width : size.width, height : size.height - 10};
+		
+		return _embedElement(messageContainer, movie.id, messageType, pattern, url, size);
 	}
 
 	/**
@@ -795,25 +833,18 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedElement(messageContainer, messageBody, messageType, pattern, url)
+	function _embedElement(messageContainer, messageBody, messageType, pattern, url, size)
 	{
 		while (pattern.exec(messageBody) !== null)
 		{
 			var embed = document.createElement('iframe');
 			embed.className = 'blipfox-embed';
-			if (messageType == 'Status') 
-			{
-				embed.style.width = '240px';
-				embed.style.height = '192px';
-			}
-			else
-			{
-				embed.style.width = '220px';
-				embed.style.height = '176px';
-			}
-			var eurl  = eval(url);
+			embed.style.width = size.width + 'px';
+			embed.style.height = size.height + 'px';
+			var eurl = eval(url);
 			embed.src = eurl;
 			embed.setAttribute('src', eurl);
 			
