@@ -23,5 +23,6 @@
 		<delete file="chrome.manifest" quiet="true" />
 		<delete file="install.rdf" quiet="true" />
 		<delete dir="chrome" quiet="true" />
+    <checksum file="blipfox.xpi" algorithm="SHA" fileext="sha" />
 	</target>
 </project>

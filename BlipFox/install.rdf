@@ -9,7 +9,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{07498471-8DFE-45D1-B1E4-0839E613180F}"
                    em:name="BlipFox"
-                   em:version="1.1.1"
+                   em:version="1.1.2"
                    em:creator="Filip Tepper"
                    em:author="Filip Tepper"
                    em:homepageURL="http://blipfox.com/"
