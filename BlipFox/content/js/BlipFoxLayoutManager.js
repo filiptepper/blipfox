@@ -738,10 +738,22 @@ function BlipFoxLayoutManager()
 			if (typeof message.movie_path !== 'undefined') 
 			{
 				BlipFox.getRequestManager().getMovie(message.id, 
+						{
+					success: function(request)
+					{
+					messageContainer = _embedMMSVideo(messageContainer, request.responseText, message.type, size);
+					}
+						});
+			}
+			
+			/* Obsługa wiadomości głosowych. */
+			if (typeof message.recording_path !== 'undefined') 
+			{
+				BlipFox.getRequestManager().getRecording(message.id, 
 				{
 					success: function(request)
 					{
-						messageContainer = _embedMMSVideo(messageContainer, request.responseText, message.type, size);
+						messageContainer = _embedVoiceMessage(messageContainer, request.responseText, message.type);
 					}
 				});
 			}
@@ -826,6 +838,24 @@ function BlipFoxLayoutManager()
 		
 		return _embedElement(messageContainer, movie.id, messageType, pattern, url, size);
 	}
+	
+	/**
+	 * Metoda wyświetla na końcu wiadomości flash playera
+	 * z filmami z Vimeo. 
+	 * @param Object messageContainer Kontener na wiadomość.
+	 * @param string messageBody Treść wiadomości.
+	 * @param string messageType Rodzaj wiadomości.
+	 * @private
+	 */
+	function _embedVoiceMessage(messageContainer, messageBody, messageType)
+	{
+		var pattern = /([0-9]+)/;
+		var url = "'http://blip.pl/play-recording.swf?filename=/user_generated/recordings/1964' + RegExp.$1 + '.mp3'";
+		eval('var voice = ' + messageBody);
+		size = {width : 72, height : 24};
+		
+		return _embedElement(messageContainer, voice.id, messageType, pattern, url, size);
+	}
 
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
@@ -844,6 +874,8 @@ function BlipFoxLayoutManager()
 			embed.className = 'blipfox-embed';
 			embed.style.width = size.width + 'px';
 			embed.style.height = size.height + 'px';
+			embed.style.display = 'block';
+			embed.style.margin = '5px auto';
 			var eurl = eval(url);
 			embed.src = eurl;
 			embed.setAttribute('src', eurl);

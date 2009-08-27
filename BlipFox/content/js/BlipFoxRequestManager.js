@@ -412,4 +412,10 @@ function BlipFoxRequestManager()
 		var url = 'updates/' + message + '/movie/';
 		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
+	
+	this.getRecording = function(message, callback)
+	{
+		var url = 'updates/' + message + '/recording/';
+		_sendRequest(BLIPFOX_API_URL + url, callback);
+	}
 }
