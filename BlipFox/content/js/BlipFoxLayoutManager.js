@@ -582,169 +582,191 @@ function BlipFoxLayoutManager()
 	 */
 	function _showMessage(message)
 	{
-		try {
-			BlipFox.log(message);
-			var messageContainer = document.createElement('vbox');
+		var messageContainer = document.createElement('vbox');
 		
-			if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+		{
+			var notificationImage = null;
+			if (typeof message.user.avatar != 'undefined')
 			{
-				var notificationImage = null;
-				if (typeof message.user.avatar != 'undefined')
-				{
-					notificationImage = message.user.avatar.url.replace('.jpg', '_nano.jpg');
-				}
-			
-				if (BlipFoxPreferencesManager.get('notifyStatuses') === 'true' && message.type == 'Status') 
-				{
-					BlipFox.notify(message.user.login + ': ' + message.body, notificationImage);
-				}
-				if (BlipFoxPreferencesManager.get('notifyMessages') === 'true' && (message.type == 'PrivateMessage' || message.type == 'DirectedMessage'))
-				{
-					BlipFox.notify(message.user.login + ' > ' + message.recipient.login + ': ' + message.body, notificationImage);
-				}
-				if (BlipFoxPreferencesManager.get('notifyNotifications') === 'true' && (message.type == 'Notice' || message.type == 'UpdateTip'))
-				{
-					BlipFox.notify(message.body, notificationImage);
-				}
+				notificationImage = message.user.avatar.url.replace('.jpg', '_nano.jpg');
 			}
-
-			if ((message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') || message.type == 'UpdateTip') 
+			
+			if (BlipFoxPreferencesManager.get('notifyStatuses') === 'true' && message.type == 'Status') 
 			{
-				window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
-				messageContainer.id = message.id;
-				messageContainer.style.opacity = 1;
-				messageContainer.className = 'blipfox-notification';
-
-				/* Oznaczanie nowych wiadomości. */
-				if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
-				{
-					messageContainer.setAttribute('new_message', 'true');
-				}
-		
-				messageContainer.appendChild(document.createTextNode(' '));
-		
-				var messageBody = message.body;
-		
-				_appendMessageToElement(messageBody, messageContainer);		
+				BlipFox.notify(message.user.login + ': ' + message.body, notificationImage);
 			}
-			else if (message.type != 'Notice' )
+			if (BlipFoxPreferencesManager.get('notifyMessages') === 'true' && (message.type == 'PrivateMessage' || message.type == 'DirectedMessage'))
 			{
-				window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
-				messageContainer.id = message.id;
-				messageContainer.style.opacity = 1;
-				messageContainer.className = 'blipfox-message';
-				messageContainer.setAttribute('username', message.user.login);
-				messageContainer.setAttribute('transport', message.transport.name.toLowerCase());
+				BlipFox.notify(message.user.login + ( message.type == 'PrivateMessage' ? ' >> ' : ' > ' ) + message.recipient.login + ': ' + message.body, notificationImage);
+			}
+			if (BlipFoxPreferencesManager.get('notifyNotifications') === 'true' && (message.type == 'Notice' || message.type == 'UpdateTip'))
+			{
+				BlipFox.notify(message.body, notificationImage);
+			}
+		}
+
+		if ((message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') || message.type == 'UpdateTip') 
+		{
+			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
+			messageContainer.id = message.id;
+			messageContainer.style.opacity = 1;
+			messageContainer.className = 'blipfox-notification';
+
+			/* Oznaczanie nowych wiadomości. */
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			{
+				messageContainer.setAttribute('new_message', 'true');
+			}
 			
-				/* Oznaczanie nowych wiadomości. */
-				if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			messageContainer.appendChild(document.createTextNode(' '));
+			
+			var messageBody = message.body;
+			
+			_appendMessageToElement(messageBody, messageContainer);		
+		}
+		else if (message.type != 'Notice' )
+		{
+			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
+			messageContainer.id = message.id;
+			messageContainer.style.opacity = 1;
+			messageContainer.className = 'blipfox-message';
+			messageContainer.setAttribute('username', message.user.login);
+			messageContainer.setAttribute('transport', message.transport.name.toLowerCase());
+			
+			/* Oznaczanie nowych wiadomości. */
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			{
+				messageContainer.setAttribute('new_message', 'true');
+			}
+			
+			messageContainer.setAttribute('allow_delete', 'false');
+			
+			/* Ukrycie ikonki odpowiedzi, gdy użytkownik jest autorem wiadomości. */
+			if (message.user.login == BlipFoxPreferencesManager.get('username')) 
+			{
+				messageContainer.setAttribute('user_message', 'true');
+				messageContainer.setAttribute('allow_delete', 'true');
+			}
+			else 
+			{
+				messageContainer.setAttribute('user_message', 'false');
+			}
+			messageContainer.setAttribute('messageId', message.id);
+			
+			/* Avatar autora wiadomości. */
+			var avatarFromUrl = 'http://static4.blip.pl/images/nn_nano.png';
+			if (typeof message.user.avatar !== 'undefined') 
+			{
+				avatarFromUrl = message.user.avatar.url.replace('.jpg', '_nano.jpg');
+			}
+			messageContainer.setAttribute('avatarFromUrl', avatarFromUrl);
+			
+			/* Avatar adresata wiadomości. */
+			if (typeof message.recipient !== 'undefined') 
+			{
+				if (message.recipient.login == BlipFoxPreferencesManager.get('username')) 
 				{
-					messageContainer.setAttribute('new_message', 'true');
-				}
-			
-				messageContainer.setAttribute('allow_delete', 'false');
-			
-				/* Ukrycie ikonki odpowiedzi, gdy użytkownik jest autorem wiadomości. */
-				if (message.user.login == BlipFoxPreferencesManager.get('username')) 
-				{
-					messageContainer.setAttribute('user_message', 'true');
 					messageContainer.setAttribute('allow_delete', 'true');
 				}
-				else 
-				{
-					messageContainer.setAttribute('user_message', 'false');
-				}
-				messageContainer.setAttribute('messageId', message.id);
-			
-				/* Avatar autora wiadomości. */
-				var avatarFromUrl = 'http://static4.blip.pl/images/nn_nano.png';
-				if (typeof message.user.avatar !== 'undefined') 
-				{
-					avatarFromUrl = message.user.avatar.url.replace('.jpg', '_nano.jpg');
-				}
-				messageContainer.setAttribute('avatarFromUrl', avatarFromUrl);
-			
-				/* Avatar adresata wiadomości. */
-				if (typeof message.recipient !== 'undefined') 
-				{
-					if (message.recipient.login == BlipFoxPreferencesManager.get('username')) 
-					{
-						messageContainer.setAttribute('allow_delete', 'true');
-					}
 				
-					var avatarToUrl = 'http://static4.blip.pl/images/nn_nano.png';
-					if (typeof message.recipient.avatar !== 'undefined') 
-					{
-						avatarToUrl = message.recipient.avatar.url.replace('.jpg', '_nano.jpg');
-					}
-					messageContainer.setAttribute('avatarToUrl', avatarToUrl);
-					messageContainer.setAttribute('usernameTo', message.recipient.login);
-				}
-			
-				messageContainer.setAttribute('messageType', message.type);
-				messageContainer.setAttribute('time', message.created_at.substr(11));
-			
-				if (typeof message.recipient !== 'undefined') 
+				var avatarToUrl = 'http://static4.blip.pl/images/nn_nano.png';
+				if (typeof message.recipient.avatar !== 'undefined') 
 				{
-					messageContainer.setAttribute('username_destination', message.recipient.login);
+					avatarToUrl = message.recipient.avatar.url.replace('.jpg', '_nano.jpg');
 				}
+				messageContainer.setAttribute('avatarToUrl', avatarToUrl);
+				messageContainer.setAttribute('usernameTo', message.recipient.login);
+			}
 			
-				/* Dołączenie nazwy nadawcy do treści wiadomości. */
-				messageContainer.appendChild(showMessageUser(message.user.login, message.type));
+			messageContainer.setAttribute('messageType', message.type);
+			messageContainer.setAttribute('time', message.created_at.substr(11));
 			
-				/* Dołączenie nazwy adresata do treści wiadomości. */
-				if (message.type != 'Status') 
+			if (typeof message.recipient !== 'undefined') 
+			{
+				messageContainer.setAttribute('username_destination', message.recipient.login);
+			}
+			
+			/* Dołączenie nazwy nadawcy do treści wiadomości. */
+			messageContainer.appendChild(showMessageUser(message.user.login, message.type));
+			
+			/* Dołączenie nazwy adresata do treści wiadomości. */
+			if (message.type != 'Status') 
+			{
+				if (message.type == 'DirectedMessage') 
 				{
-					if (message.type == 'DirectedMessage') 
-					{
-						messageContainer.appendChild(document.createTextNode(' > '));
-					}
-					else if (message.type == 'PrivateMessage') 
-					{
-						messageContainer.appendChild(document.createTextNode(' >> '));
-					}
-					messageContainer.appendChild(showMessageUser(message.recipient.login, message.type));
+					messageContainer.appendChild(document.createTextNode(' > '));
 				}
-			
-				/* Dwukropek przed treścią wiadomości. */
-				messageContainer.appendChild(document.createTextNode(': '));
-			
-				var messageBody = message.body;
-			
-				_appendMessageToElement(messageBody, messageContainer);
-			
-				/* Obsługa obrazka. */
-				if (typeof message.pictures !== 'undefined') 
+				else if (message.type == 'PrivateMessage') 
 				{
-					var messagePicturesCount = message.pictures.length;
-					for (var i = 0; i < messagePicturesCount; i++) 
-					{
-						var messagePicture = document.createElement('image');
-						messagePicture.setAttribute('src', message.pictures[i].url.replace('.jpg', '_standard.jpg'));
-						messagePicture.id = 'picture_' + message.pictures[i].id;
-						messagePicture.className = 'blipfox-message-picture';
-						messagePicture.setAttribute('messageType', message.type);
-						messagePicture.onclick = function(e)
-						{
-							BlipFox.openUrl(e.target.src.replace('_standard.jpg', '.jpg'));
-						}
-						messageContainer.appendChild(messagePicture);
-					}
+					messageContainer.appendChild(document.createTextNode(' >> '));
 				}
+				messageContainer.appendChild(showMessageUser(message.recipient.login, message.type));
+		
+				var size = {width : 220, height : 176};
+			} else {
+				var size = {width : 240, height : 192};
+			}
 			
-				if (BlipFoxPreferencesManager.get('showEmbeds') === 'true') 
+			/* Dwukropek przed treścią wiadomości. */
+			messageContainer.appendChild(document.createTextNode(': '));
+			
+			var messageBody = message.body;
+			
+			_appendMessageToElement(messageBody, messageContainer);
+			
+			/* Obsługa obrazka. */
+			if (typeof message.pictures !== 'undefined') 
+			{
+				var messagePicturesCount = message.pictures.length;
+				for (var i = 0; i < messagePicturesCount; i++) 
 				{
-					messageContainer = _embedYouTube(messageContainer, message.body, message.type);
-					messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type);
-					messageContainer = _embedVimeo(messageContainer, message.body, message.type);
+					var messagePicture = document.createElement('image');
+					messagePicture.setAttribute('src', message.pictures[i].url.replace('.jpg', '_standard.jpg'));
+					messagePicture.id = 'picture_' + message.pictures[i].id;
+					messagePicture.className = 'blipfox-message-picture';
+					messagePicture.setAttribute('messageType', message.type);
+					messagePicture.onclick = function(e)
+					{
+						BlipFox.openUrl(e.target.src.replace('_standard.jpg', '.jpg'));
+					}
+					messageContainer.appendChild(messagePicture);
 				}
 			}
-		}
-		catch (e) {
-			alert(e);
+			
+			/* Obsługa video. */
+			if (typeof message.movie_path !== 'undefined') 
+			{
+				BlipFox.getRequestManager().getMovie(message.id, 
+						{
+					success: function(request)
+					{
+					messageContainer = _embedMMSVideo(messageContainer, request.responseText, message.type, size);
+					}
+						});
+			}
+			
+			/* Obsługa wiadomości głosowych. */
+			if (typeof message.recording_path !== 'undefined') 
+			{
+				BlipFox.getRequestManager().getRecording(message.id, 
+				{
+					success: function(request)
+					{
+						messageContainer = _embedVoiceMessage(messageContainer, request.responseText, message.type);
+					}
+				});
+			}
+			
+			if (BlipFoxPreferencesManager.get('showEmbeds') === 'true') 
+			{
+				messageContainer = _embedYouTube(messageContainer, message.body, message.type, size);
+				messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type, size);
+				messageContainer = _embedVimeo(messageContainer, message.body, message.type, size);
+			}
 		}
 
-	  return messageContainer;
+	    return messageContainer;
 	};
 	
 	/**
@@ -753,14 +775,15 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedYouTube(messageContainer, messageBody, messageType)
+	function _embedYouTube(messageContainer, messageBody, messageType, size)
 	{
 		var pattern = /http:\/\/(([A-Za-z]+[\.])*)youtube.com\/watch\?v=([A-Za-z0-9\-_]+)/;
 		var url = "'http://www.youtube.com/v/' + RegExp.$3";
 		
-		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
 	}
 	
 	/**
@@ -769,14 +792,51 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedGoogleVideo(messageContainer, messageBody, messageType)
+	function _embedGoogleVideo(messageContainer, messageBody, messageType, size)
 	{
 		var pattern = /http:\/\/video.google.com\/videoplay\?docid=([0-9\-]+)/;
 		var url = "'http://video.google.com/googleplayer.swf?docId=' + RegExp.$1 + '&hl=en'";
 		
-		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
+	}
+	
+	/**
+	 * Metoda wyświetla na końcu wiadomości flash playera
+	 * z filmami z Vimeo. 
+	 * @param Object messageContainer Kontener na wiadomość.
+	 * @param string messageBody Treść wiadomości.
+	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
+	 * @private
+	 */
+	function _embedVimeo(messageContainer, messageBody, messageType, size)
+	{
+		var pattern = /http:\/\/vimeo.com\/([0-9]+)/;
+		var url = "'http://www.vimeo.com/moogaloop.swf?clip_id=' + RegExp.$1 + '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ff5b00&amp;fullscreen=1'";
+		
+		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
+	}
+	
+	/**
+	 * Metoda wyświetla na końcu wiadomości flash playera
+	 * z filmami z Vimeo. 
+	 * @param Object messageContainer Kontener na wiadomość.
+	 * @param string messageBody Treść wiadomości.
+	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
+	 * @private
+	 */
+	function _embedMMSVideo(messageContainer, messageBody, messageType, size)
+	{
+		var pattern = /([0-9]+)/;
+		var url = "'http://blip.pl/play-movie.swf?videoUrl=/user_generated/movies/' + RegExp.$1 + '.flv'";
+		eval('var movie = ' + messageBody);
+		size = {width : size.width, height : size.height - 10};
+		
+		return _embedElement(messageContainer, movie.id, messageType, pattern, url, size);
 	}
 	
 	/**
@@ -787,12 +847,14 @@ function BlipFoxLayoutManager()
 	 * @param string messageType Rodzaj wiadomości.
 	 * @private
 	 */
-	function _embedVimeo(messageContainer, messageBody, messageType)
+	function _embedVoiceMessage(messageContainer, messageBody, messageType)
 	{
-		var pattern = /http:\/\/vimeo.com\/([0-9]+)/;
-		var url = "'http://www.vimeo.com/moogaloop.swf?clip_id=' + RegExp.$1 + '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ff5b00&amp;fullscreen=1'";
+		var pattern = /([0-9]+)/;
+		var url = "'http://blip.pl/play-recording.swf?filename=/user_generated/recordings/1964' + RegExp.$1 + '.mp3'";
+		eval('var voice = ' + messageBody);
+		size = {width : 72, height : 24};
 		
-		return _embedElement(messageContainer, messageBody, messageType, pattern, url);
+		return _embedElement(messageContainer, voice.id, messageType, pattern, url, size);
 	}
 
 	/**
@@ -801,25 +863,20 @@ function BlipFoxLayoutManager()
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
+	 * @param Object size Rozmiar ramki.
 	 * @private
 	 */
-	function _embedElement(messageContainer, messageBody, messageType, pattern, url)
+	function _embedElement(messageContainer, messageBody, messageType, pattern, url, size)
 	{
 		while (pattern.exec(messageBody) !== null)
 		{
 			var embed = document.createElement('iframe');
 			embed.className = 'blipfox-embed';
-			if (messageType == 'Status') 
-			{
-				embed.style.width = '240px';
-				embed.style.height = '192px';
-			}
-			else
-			{
-				embed.style.width = '220px';
-				embed.style.height = '176px';
-			}
-			var eurl  = eval(url);
+			embed.style.width = size.width + 'px';
+			embed.style.height = size.height + 'px';
+			embed.style.display = 'block';
+			embed.style.margin = '5px auto';
+			var eurl = eval(url);
 			embed.src = eurl;
 			embed.setAttribute('src', eurl);
 			
@@ -923,6 +980,8 @@ function BlipFoxLayoutManager()
 							}
 						}
 					});
+					
+					BlipFox.log(linkUrl);
 				}
 			}
 			

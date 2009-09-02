@@ -21,7 +21,7 @@
  */
 
 /* Konsola do debuggowania. */
-const BLIPFOX_DEBUG = false;
+const BLIPFOX_DEBUG = true;
 
 /* Wersja. */
 const BLIPFOX_VERSION = '1.1.2';
@@ -354,7 +354,7 @@ BlipFox = (function()
 						{
 							_layoutManager.setStatusbarCount(_unreadCount);
 						}
-						if (BlipFoxPreferencesManager.get('soundNewMessage') == 'true' && playSound === true)
+						if (BlipFoxPreferencesManager.get('soundNewMessages') == 'true' && playSound === true)
 						{
 							BlipFox.playMessageSound();
 						}
@@ -1525,11 +1525,11 @@ BlipFox = (function()
 					var ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
 					var soundFile = ioService.newURI('file://' + BlipFoxPreferencesManager.get('soundFile'), null, null);
 					sound.play(soundFile);
-				} 
-				catch (ex) 
+				}
+				catch (ex)
 				{
 				}
-			}			
+			}
 		},
 		
 		/**
