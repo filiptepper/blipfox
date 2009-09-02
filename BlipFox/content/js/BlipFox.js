@@ -21,7 +21,7 @@
  */
 
 /* Konsola do debuggowania. */
-const BLIPFOX_DEBUG = true;
+const BLIPFOX_DEBUG = false;
 
 /* Wersja. */
 const BLIPFOX_VERSION = '1.1.2';
