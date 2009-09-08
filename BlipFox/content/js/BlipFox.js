@@ -483,7 +483,7 @@ BlipFox = (function()
 				{
 					var date = new Date();
 		
-					if (date.getTime() - 7000 > _lastMessagePollDate)
+					if (date.getTime() - 12000 > _lastMessagePollDate)
 					{
 						_getMessages();
 					}
