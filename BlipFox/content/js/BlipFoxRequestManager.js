@@ -414,4 +414,8 @@ function BlipFoxRequestManager()
 		var url = 'updates/' + message + '/recording/';
 		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
+	
+	this.shortenUrl = function(url, callback) {
+		_sendRequest(BLIPFOX_API_URL + 'shortlinks', callback, 'shortlink[original_link]=' + encodeURIComponent(url), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
+	}
 }

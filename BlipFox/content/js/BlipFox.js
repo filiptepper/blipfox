@@ -1646,28 +1646,28 @@ BlipFox = (function()
 				return false;
 			}
 			
-			var linkPattern = /http:\/\/[\S]+(\b|$)|\^([A-Za-z0-9]+)|#([\s]{0,1}[A-Za-z0-9ÄÃÄÅÅÅ»Å¹ÄÅÄÃ³ÄÅÅÅ¼ÅºÄÅ_\-]{2,50}[:]{0,1})/gim;
+			var linkPattern = /https?:\/\/[^\>\<\s\"]+/gim;
 			var message = inputMessage.value;
 			
 			while (linkPattern.exec(message) !== null)
 			{
-				var url = RegExp.lastMatch;
-				BlipFox.getUrlCompresser().compressUrl(url, 
-					{
-						success: function(request, param)
-						{
-							var orginalUrl = param;
-							var compressedUrl = request.responseText;
-							var inputMessage = BlipFox.getLayoutManager().getInputMessage();
-							
-							inputMessage.value = inputMessage.value.replace(orginalUrl, compressedUrl);
-							BlipFox.updateCharactersLeft(inputMessage);
-						},
-						error: function(request, ex)
-						{
-							//alert('UrlCompresser Error.');
-						}
-					});
+        var url = RegExp.lastMatch;
+        if (url.substring(0, 15) != "http://rdir.pl/") {
+          _requestManager.shortenUrl(url, 
+          {
+            success: function(request, param)
+            {
+              var originalUrl = param;
+              eval("var compressedUrl = " + request.responseText);
+              var inputMessage = BlipFox.getLayoutManager().getInputMessage();
+
+              inputMessage.value = inputMessage.value.replace(compressedUrl.original_link, compressedUrl.url);
+            },
+            error: function(request, ex)
+            {
+            }
+          });
+        }
 			}
 		},
 		
