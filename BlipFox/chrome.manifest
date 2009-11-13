@@ -1,5 +1,4 @@
 content	blipfox	content/
 locale	blipfox	en-US	locale/en-US/
 locale	blipfox	pl-PL	locale/pl-PL/
-skin	blipfox	classic	skin/classic
 overlay	chrome://browser/content/browser.xul	chrome://blipfox/content/BlipFox.xul
