@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,14 +28,14 @@ function BlipFoxRequestManager()
 	 * @private
 	 */
 	var _password = '';
-	
+
 	/**
 	 * Nazwa użytkownika.
 	 * @var string
 	 * @private
 	 */
 	var _username = '';
-	
+
 	/**
 	 * Metoda inicjalizują obiekt, weryfikuje istnieje danych do logowania.
 	 * @private
@@ -44,36 +44,36 @@ function BlipFoxRequestManager()
 	{
 		_username = BlipFoxPreferencesManager.getUsername();
 		_password = BlipFoxPreferencesManager.getPassword();
-		
+
 		if (_username === '' || _password === '')
 		{
 			throw missingCredentialsError;
 		}
 	};
-	
+
 	function _sendMultipartRequest(body, file, callback)
 	{
 		try
 		{
 			const Ci = Components.interfaces;
-		
+
 			var boundary = '------blipfox---blipfox---' + Math.random();
 			var mstream = Components.classes['@mozilla.org/io/multiplex-input-stream;1'].createInstance(Ci.nsIMultiplexInputStream);
 			var sstream;
-		
+
 			esc_params = {};
 			esc_params['picture'] = file;
 			esc_params['body'] = body;
-		
+
 			for (var p in esc_params)
 			{
 				sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-			
+
 				if ('object' == typeof esc_params[p] && null != esc_params[p])
 				{
 					sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="update[' + p + ']"', -1);
 					mstream.appendStream(sstream);
-		
+
 					sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
 					sstream.setData('; filename="' + esc_params[p].filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n', -1);
 					mstream.appendStream(sstream);
@@ -87,8 +87,8 @@ function BlipFoxRequestManager()
 					sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
 					sstream.setData('\r\n', -1);
 					mstream.appendStream(sstream);
-				} 
-				else 
+				}
+				else
 				{
 					var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
 					unicodeConverter.charset = "UTF-8";
@@ -103,11 +103,11 @@ function BlipFoxRequestManager()
 					mstream.appendStream(sstream);
 				}
 			}
-		
+
 			sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
 			sstream.setData('--' + boundary + '--\r\n', -1);
 			mstream.appendStream(sstream);
-		
+
 			sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
 			sstream.setData('POST /updates HTTP/1.1\r\n' +
 				'Host: api.blip.pl\r\n' +
@@ -118,9 +118,9 @@ function BlipFoxRequestManager()
 				'Content-Length: ' + mstream.available() + '\r\n' +
 				'Content-Type: multipart/form-data; boundary=' + boundary +
 				'\r\n\r\n', -1);
-		
+
 			mstream.insertStream(sstream, 0);
-		
+
 			try
 			{
 				var service = Components.classes['@mozilla.org/network/socket-transport-service;1'].getService(Ci.nsISocketTransportService);
@@ -142,14 +142,14 @@ function BlipFoxRequestManager()
 						istream.close();
 						ostream.close();
 					},
-		
+
 					// Docs are slim so I'm not sure if this gets called only
 					// once per request or perhaps multiple times
 					//   The code can handle whatever
 					onDataAvailable: function(request, context,
 						stream, offset, count) {
 						this.raw += istream.read(count);
-		
+
 						// If we've received all of the headers, grab the
 						// content length and drop the headers
 						if (!this.content_length
@@ -161,13 +161,13 @@ function BlipFoxRequestManager()
 								this.raw = this.raw.split(/\r?\n\r?\n/)[1];
 							}
 						}
-		
+
 						// Nothing left to do if we don't know the length
 						if (!this.content_length) { return; }
-		
+
 						// Also nothing more to do if there's still data coming
 						if (this.raw.length != this.content_length) { return; }
-		
+
 						// Dispatch to the UI as soon as we have the entire
 						// payload
 						if (typeof callback.success === 'function')
@@ -176,7 +176,7 @@ function BlipFoxRequestManager()
 						}
 					},
 				}, null);
-			} 
+			}
 			catch (err)
 			{
 				if (typeof callback.error === 'function')
@@ -193,12 +193,12 @@ function BlipFoxRequestManager()
 			}
 		}
 	}
-	
+
 	this.sendGetRequest = function(url, callback)
 	{
 		_sendRequest(url, callback, null, 'GET');
 	}
-	
+
 	/**
 	 * Metoda wysyła request do serwera oraz obsługuje jego zachowanie
 	 * po zakończeniu.
@@ -212,7 +212,7 @@ function BlipFoxRequestManager()
 	function _sendRequest(url, callback, params, method, headers)
 	{
 		_init();
-		
+
 		if (typeof method === 'undefined')
 		{
 			method = 'GET';
@@ -249,7 +249,7 @@ function BlipFoxRequestManager()
 					if (typeof callback.error === 'function')
 					{
 						callback.error(request);
-					}					
+					}
 				}
 				else if (request.readyState == 4 && request.status == 401)
 				{
@@ -287,20 +287,22 @@ function BlipFoxRequestManager()
 					}
 					else
 					{
-						if (!(ex instanceof NetworkException)) 
+						if (!(ex instanceof NetworkException) && !(ex instanceof SyntaxError))
 						{
+							alert("Koniecznie zgłoś ten błąd autorowi!");
+						  alert(ex.constructor.toString());
 							alert(ex.message);
 						}
 					}
-				}	
+				}
 			}
 		}
-		
+
 		if (typeof params === 'null')
 		{
 			params = null;
 		}
-		
+
 		request.send(params);
 	};
 
@@ -324,7 +326,7 @@ function BlipFoxRequestManager()
 	{
 		_sendRequest(BLIPFOX_API_URL + 'users/' + username + '?include=background,current_status', callback);
 	}
-	
+
 	/**
 	 * Metoda wysyła wiadomość.
 	 * @param string message Treść wiadomości.
@@ -355,13 +357,13 @@ function BlipFoxRequestManager()
 				break;
 		}
 	}
-	
+
 	/**
 	 * Metoda pobiera zawartość kokpitu.
 	 * @param callback Object Obiekt zawierający metody success i error, wywoływane po requeście.
 	 * @param integer lastMessage Identyfikator ostatnio pobranej wiadomości.
 	 * @public
-	 */	
+	 */
 	this.getMessages = function(callback, lastMessage)
 	{
 		var url = 'dashboard';
@@ -370,51 +372,51 @@ function BlipFoxRequestManager()
 		{
 			url += '/since/' + BlipFox.getLastMessageId();
 		}
-		
+
 		url += '?include=pictures,user,recipient,user[avatar],recipient[avatar]';
 
 		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
-	
+
 	/**
 	 * Metoda pobiera treść linku (rdir.pl).
 	 * @param string link Identyfikator shortlinku.
 	 * @param callback Object Obiekt zawierający metody success i error, wywoływane po requeście.
 	 * @public
-	 */	
+	 */
 	this.getUrl = function(link, callback)
 	{
 		var url = 'shortlinks/' + link;
 		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
-	
+
 	this.checkFavourite = function(message, callback)
 	{
 		_sendRequest(FAVOURITES_API_URL + 'check?msg_id=' + message + '&auth2=' + window.btoa( _username + ':' + _password), callback);
 	}
-	
+
 	this.addToFavourites = function(message, callback)
 	{
 		_sendRequest(FAVOURITES_API_URL + 'set?msg_id=' + message + '&cmd=1&auth2=' + window.btoa( _username + ':' + _password), callback);
 	}
-	
+
 	this.sendImage = function(body, file, callback)
 	{
 		_sendMultipartRequest(body, file, callback);
 	}
-	
+
 	this.getMovie = function(message, callback)
 	{
 		var url = 'updates/' + message + '/movie/';
 		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
-	
+
 	this.getRecording = function(message, callback)
 	{
 		var url = 'updates/' + message + '/recording/';
 		_sendRequest(BLIPFOX_API_URL + url, callback);
 	}
-	
+
 	this.shortenUrl = function(url, callback) {
 		_sendRequest(BLIPFOX_API_URL + 'shortlinks', callback, 'shortlink[original_link]=' + encodeURIComponent(url), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
 	}
