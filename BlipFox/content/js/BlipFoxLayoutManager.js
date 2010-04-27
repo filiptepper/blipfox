@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,30 +23,30 @@
 function BlipFoxLayoutManager()
 {
 	/**
-	 * Właściwość zawierająca uchwyt do obiektu XUL wyświetlającego rozszerzenie. 
+	 * Właściwość zawierająca uchwyt do obiektu XUL wyświetlającego rozszerzenie.
 	 * @var Object
 	 * @private
 	 */
 	var _container = null;
 
 	/**
-	 * Właściwość zawierająca uchwyt do obiektu XUL wyświetlającego rozszerzenie w Firefox 3. 
+	 * Właściwość zawierająca uchwyt do obiektu XUL wyświetlającego rozszerzenie w Firefox 3.
 	 * @var Object
 	 * @private
 	 */
 	var _panel = null;
-	
+
 	/**
 	 * Metoda pokazująca obiekt XUL wyświetlający rozszerzenie.
 	 * @private
 	 */
 	var _showContainer = function()
 	{
-		if (_panel !== null) 
+		if (_panel !== null)
 		{
 			_panel.openPopup(_panel.parentNode, 'before_end', -21, -36, false, false);
 		}
-		else 
+		else
 		{
 			_container.style.display = 'block';
 		}
@@ -61,7 +61,7 @@ function BlipFoxLayoutManager()
 	{
 		return window.document.getElementById('blipfox-input-friends');
 	}
-	
+
 	/**
 	 * Wrapper publiczny na metodę _getFriendsMenulist.
 	 * @return object Obiekt wyświetlający listę znajomych.
@@ -71,7 +71,7 @@ function BlipFoxLayoutManager()
 	{
 		return _getInputFriends();
 	}
-	
+
 	/**
 	 * Metoda znajduje wśród elementów XUL obiekt do wpisywania treści wiadomości.
 	 * @return object Obiekt do wpisywania treści wiadomości.
@@ -81,7 +81,7 @@ function BlipFoxLayoutManager()
 	{
 		return window.document.getElementById('blipfox-input-message');
 	}
-	
+
 	/**
 	 * Wrapper publiczny na metodę _getInputMessage.
 	 * @return object Obiekt do wpisywania treści wiadomości.
@@ -91,90 +91,90 @@ function BlipFoxLayoutManager()
 	{
 		return _getInputMessage();
 	}
-	
+
 	var _getInputFile = function()
 	{
 		return window.document.getElementById('blipfox-input-file');
 	}
-	
+
 	this.getInputFile = function()
 	{
 		return _getInputFile();
 	}
-	
+
 	/**
 	 * Metoda ukrywająca obiekt XUL wyświetlający rozszerzenie.
 	 * @private
 	 */
 	var _hideContainer = function()
 	{
-		if (_panel !== null) 
+		if (_panel !== null)
 		{
 			_panel.hidePopup();
 		}
-		else 
+		else
 		{
 			_container.style.display = 'none';
 		}
-		
+
 		/* Usunięcie oznaczenia kolorem z listy nowych wiadomości. */
 		if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.INITIALIZED) === true)
 		{
 			var messagesList = window.document.getElementById('blipfox-popup-messages');
 			var messagesCount = messagesList.childNodes.length;
-			
-			for (i = 0; i < messagesCount; i++) 
+
+			for (i = 0; i < messagesCount; i++)
 			{
-				if (messagesList.childNodes[i].getAttribute('new_message') == 'true') 
+				if (messagesList.childNodes[i].getAttribute('new_message') == 'true')
 				{
 					messagesList.childNodes[i].setAttribute('new_message', 'false');
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Właściwa przetrzymująca informację, czy panel jest w trakcie ruchu w oknie przeglądarki.
 	 * @var boolean
 	 * @private
 	 */
 	var _containerMoving = false;
-	
+
 	/**
 	 * Właściwość przetrzymująca pozycję X na początku przesuwania okienka.
 	 * @var integer
 	 * @private
 	 */
 	var _containerMovingX = 0;
-	
+
 	/**
 	 * Właściwość przetrzymująca pozycję Y na początku przesuwania okienka.
 	 * @var integer
 	 * @private
 	 */
 	var _containerMovingY = 0;
-	
+
 	/**
 	 * Właściwość przetrzymująca pozycję X myszki podczas przesuwania okienka.
 	 * @var integer
 	 * @private
 	 */
 	var _containerMovingMouseX = 0;
-	
+
 	/**
 	 * Właściwość przetrzymująca pozycję Y myszki podczas przesywania okienka.
 	 * @var integer
 	 * @private
 	 */
 	var _containerMovingMouseY = 0;
-	
+
 	/**
 	 * Obiekt podlegający przesunięciu.
 	 * @var Object
 	 * @private
 	 */
 	var _containerMovingElement = null;
-	
+
 	/**
 	 * Metoda wywoływana w momencie kliknięcia na miejscu do przenoszenia okienka.
 	 * @param Event e Obiekt Event.
@@ -183,9 +183,9 @@ function BlipFoxLayoutManager()
 	var _containerMovingBegin = function(e)
 	{
 		BlipFox.log('MovingBegin');
-		
+
 		_containerMoving = true;
-		
+
 		_containerMovingX = _containerMovingElement.screenX;
 		_containerMovingY = _containerMovingElement.screenY;
 //		_containerMovingX = _containerMovingElement.style.right.replace('px', '');
@@ -193,7 +193,7 @@ function BlipFoxLayoutManager()
 		_containerMovingMouseX = e.screenX;
 		_containerMovingMouseY = e.screenY;
 	}
-	
+
 	/**
 	 * Metoda wywoływana w momencie zakończenia przenoszenia okienka.
 	 * @param Event e Obiekt Event.
@@ -205,7 +205,7 @@ function BlipFoxLayoutManager()
 		BlipFox.log('MovingEnd');
 		_containerMoving = false;
 	}
-	
+
 	/**
 	 * Metoda wywoływana w momencie przenoszenia okienka.
 	 * @param Event e Obiekt Event.
@@ -213,7 +213,7 @@ function BlipFoxLayoutManager()
 	 */
 	var _containerMovingMove = function(e)
 	{
-		if (_containerMoving === true) 
+		if (_containerMoving === true)
 		{
 			var moveByX = -(_containerMovingMouseX - e.screenX);
 			var moveByY = -(_containerMovingMouseY - e.screenY);
@@ -222,20 +222,20 @@ function BlipFoxLayoutManager()
 			_containerMovingElement.moveTo(_containerMovingX + moveByX, _containerMovingY + moveByY);
 		}
 	}
-	
+
 	this.setEvents = function(element, allEvents)
 	{
 		/* @todo: Dodać obsługę przesuwania. */
 		/*
 		element.onmousedown = _containerMovingBegin;
-		if (allEvents === true) 
+		if (allEvents === true)
 		{
 			window.document.onmouseup = _containerMovingEnd;
 			window.document.onmousemove = _containerMovingMove;
 		}
 		*/
 	}
-	
+
 	/**
 	 * Metoda inicjalizująca obiekty XUL wyświetlające rozszerzenie.
 	 * @private
@@ -246,7 +246,7 @@ function BlipFoxLayoutManager()
 		_container.setAttribute('firefox_version', BlipFox.getFirefoxVersion());
 		_container.className = 'blipfox-loading';
 		_container.id = 'blipfox-panel';
-						
+
 		if (BlipFox.getFirefoxVersion() === 3)
 		{
 			_panel = document.createElement('panel');
@@ -256,8 +256,8 @@ function BlipFoxLayoutManager()
 
 			var popupset = window.document.getElementById('browser-bottombox');
 			popupset.appendChild(_panel);
-			
-			_containerMovingElement = _panel.boxObject;	
+
+			_containerMovingElement = _panel.boxObject;
 		}
 		else
 		{
@@ -265,11 +265,11 @@ function BlipFoxLayoutManager()
 			_container.style.right = '19px';
 			_container.style.position = 'fixed';
 			_container.style.bottom = '56px';
-			window.document.firstChild.appendChild(_container);			
+			window.document.firstChild.appendChild(_container);
 			_containerMovingElement = _container;
 		}
 
-		if (BLIPFOX_DEBUG === true && BlipFox.getFirefoxVersion() !== 3)		
+		if (BLIPFOX_DEBUG === true && BlipFox.getFirefoxVersion() !== 3)
 		{
 			/* To działa tylko z FF2. */
 			_logConsole = window.document.createElement('textbox');
@@ -286,10 +286,10 @@ function BlipFoxLayoutManager()
 
 			window.document.firstChild.appendChild(_logConsole);
 		}
-		
+
 		return;
 	}
-	
+
 	/**
 	 * Metoda ukrywająca obiekty XUL wyświetlające rozszerzenie.
 	 * @private
@@ -299,7 +299,7 @@ function BlipFoxLayoutManager()
 		BlipFox.unsetStatus(BlipFoxStatus.VISIBLE);
 		_hideContainer();
 	}
-		
+
 	/**
 	 * Metoda kontrolująca pokazywanie obiektu XUL wyświetlającego rozszerzenie.
 	 * @private
@@ -308,11 +308,11 @@ function BlipFoxLayoutManager()
 	{
 		/* Ustawienie statusu rozszerzenia na widoczny. */
 		BlipFox.setStatus(BlipFoxStatus.VISIBLE);
-		
+
 		/* Wyzerowanie licznika wiadomości. */
 		_setStatusbarCount(null);
-		
-		/* Pokazanie okienka rozszerzenia. */			
+
+		/* Pokazanie okienka rozszerzenia. */
 		_showContainer();
 
 		/**
@@ -327,7 +327,7 @@ function BlipFoxLayoutManager()
 			}
 		}, 1);
 	}
-		
+
 	/**
 	 * Metoda ustawia liczbę wiadomości w pasku statusu.
 	 * Jeżeli podany jest parametr null to wartość jest czyszczona.
@@ -345,10 +345,10 @@ function BlipFoxLayoutManager()
 		{
 			count = '(' + count + ')';
 		}
-		
+
 		return window.document.getElementById('blipfox-statusbar-count').value = count;
 	}
-	
+
 	/**
 	 * Wrapper na metodę prywatną _setStatusbarCount.
 	 * @param integer count Ilość wiadomości.
@@ -359,7 +359,7 @@ function BlipFoxLayoutManager()
 	{
 		return _setStatusbarCount(count);
 	}
-	
+
 	/**
 	 * Metoda pobiera obiekt zawierający ikonkę w pasku statusu.
 	 * @return Object Obiekt zawierający ikonkę w pasku statusu.
@@ -384,7 +384,7 @@ function BlipFoxLayoutManager()
 	{
 		return _getStatusbarIcon().src = 'chrome://blipfox/content/images/blipfox-statusbar-icon-on.gif';
 	}
-	
+
 	/**
 	 * Metoda ustawia ikonkę w pasku statusu na wyłączoną.
 	 * @return mixed Wynik ustawienia ikonki.
@@ -394,27 +394,27 @@ function BlipFoxLayoutManager()
 	{
 		return _getStatusbarIcon().src = 'chrome://blipfox/content/images/blipfox-statusbar-icon-off.gif';
 	}
-	
+
 	this.setInputFileOn = function()
 	{
 		return _getInputFile().src = 'chrome://blipfox/content/images/blipfox-input-file-on.gif';
 	}
-	
+
 	this.setInputFileOff = function()
 	{
 		return _getInputFile().src = 'chrome://blipfox/content/images/blipfox-input-file-off.gif';
 	}
-	
+
 	var _getProcessingThrobber = function()
 	{
 		return window.document.getElementById('blipfox-processing-throbber');
 	}
-	
+
 	this.enableProcessingThrobber = function()
 	{
 		_getProcessingThrobber().src = 'chrome://blipfox/content/images/blipfox-processing-throbber.gif';
 	}
-	
+
 	this.disableProcessingThrobber = function()
 	{
 		_getProcessingThrobber().src = '';
@@ -424,7 +424,7 @@ function BlipFoxLayoutManager()
 	 * Metoda ustawia tooltip na ikonce Blipa w pasku statusu.
 	 * @param string value Treść do ustawienia.
 	 * @public
-	 */	
+	 */
 	this.setStatusbarPanelTooltip = function(value)
 	{
 		return _getStatusbarPanel().setAttribute('tooltiptext', value);
@@ -454,23 +454,23 @@ function BlipFoxLayoutManager()
 	 */
 	this.togglePopup = function()
 	{
-		if (BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false) 
+		if (BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false)
 		{
 			_showPopup();
 		}
-		else 
+		else
 		{
 			_hidePopup();
 		}
 	}
-	
+
 	/**
 	 * Link do obrazka tła. Link pochodzi z profilu użytkownika.
 	 * @var string
 	 * @private
 	 */
 	var _backgroundImage = '';
-	
+
 	/**
 	 * Metoda ustawiająca obrazek tła.
 	 * @param String image Link do obrazka tła.
@@ -480,14 +480,14 @@ function BlipFoxLayoutManager()
 	{
 		_backgroundImage = image;
 	}
-	
+
 	/**
 	 * Kolor tła. Kolor pochodzi z profilu użytkownika.
 	 * @var string
 	 * @private
 	 */
 	var _backgroundColor = '';
-	
+
 	/**
 	 * Metoda ustawiająca kolor tła.
 	 * @param String color Kolor tła.
@@ -508,7 +508,7 @@ function BlipFoxLayoutManager()
 
 		var messagesCount = messages.length;
 		var currentMessagesCount = messagesList.childNodes.length;
-		
+
 		if (messagesCount + currentMessagesCount > 100)
 		{
 			var removeCount = messagesCount + currentMessagesCount - 100;
@@ -517,7 +517,7 @@ function BlipFoxLayoutManager()
 				messagesList.removeChild(messagesList.lastChild);
 			}
 		}
-		
+
 		/* Zapisujemy ostatni status zalogowanego użytkownika. */
 		var lastUserStatus = '';
 		var lastUserStatusId = 0;
@@ -538,13 +538,13 @@ function BlipFoxLayoutManager()
 		{
 			this.setUserStatus(lastUserStatus, lastUserStatusId);
 		}
-		
+
 		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === true)
 		{
 			BlipFox.unsetStatus(BlipFoxStatus.LOADING);
 		}
 	}
-	
+
 	/**
 	 * Metoda zmienia aktualny status użytkownika w nagłówku.
 	 * @param string userStatus Tekst statusu.
@@ -562,7 +562,7 @@ function BlipFoxLayoutManager()
 		_appendMessageToElement(userStatusWrapped, currentUserStatus);
 		currentUserStatus.setAttribute('message_id', id);
 	}
-	
+
 	/**
 	 * Metoda usuwa okienko.
 	 * @public
@@ -572,8 +572,8 @@ function BlipFoxLayoutManager()
 		_container.parentNode.removeChild(_container);
 		this.setStatusbarIconOff();
 		_initializePopup();
-	}	
-	
+	}
+
 	/**
 	 * Metoda wyświetlająca otrzymaną wiadomość
 	 * @param Object message Obiekt wiadomości z API.
@@ -582,17 +582,18 @@ function BlipFoxLayoutManager()
 	 */
 	function _showMessage(message)
 	{
+	  BlipFox.log(message);
 		var messageContainer = document.createElement('vbox');
-		
-		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+
+		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
 		{
 			var notificationImage = null;
 			if (typeof message.user.avatar != 'undefined')
 			{
 				notificationImage = message.user.avatar.url.replace('.jpg', '_nano.jpg');
 			}
-			
-			if (BlipFoxPreferencesManager.get('notifyStatuses') === 'true' && message.type == 'Status') 
+
+			if (BlipFoxPreferencesManager.get('notifyStatuses') === 'true' && message.type == 'Status')
 			{
 				BlipFox.notify(message.user.login + ': ' + message.body, notificationImage);
 			}
@@ -606,120 +607,125 @@ function BlipFoxLayoutManager()
 			}
 		}
 
-		if ((message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') || message.type == 'UpdateTip') 
+		BlipFox.log(message.type);
+		BlipFox.log(BlipFoxPreferencesManager.get('showNotifications'));
+
+		if ((message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') || message.type == 'UpdateTip')
 		{
+		  BlipFox.log("rendering Notice...");
 			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
 			messageContainer.style.opacity = 1;
 			messageContainer.className = 'blipfox-notification';
 
 			/* Oznaczanie nowych wiadomości. */
-			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
 			{
 				messageContainer.setAttribute('new_message', 'true');
 			}
-			
+
 			messageContainer.appendChild(document.createTextNode(' '));
-			
+
 			var messageBody = message.body;
-			
-			_appendMessageToElement(messageBody, messageContainer);		
+
+			_appendMessageToElement(messageBody, messageContainer);
 		}
 		else if (message.type != 'Notice' )
 		{
+		  BlipFox.log("rendering regular update...");
 			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
 			messageContainer.style.opacity = 1;
 			messageContainer.className = 'blipfox-message';
 			messageContainer.setAttribute('username', message.user.login);
 			messageContainer.setAttribute('transport', message.transport.name.toLowerCase());
-			
+
 			/* Oznaczanie nowych wiadomości. */
-			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username')) 
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
 			{
 				messageContainer.setAttribute('new_message', 'true');
 			}
-			
+
 			messageContainer.setAttribute('allow_delete', 'false');
-			
+
 			/* Ukrycie ikonki odpowiedzi, gdy użytkownik jest autorem wiadomości. */
-			if (message.user.login == BlipFoxPreferencesManager.get('username')) 
+			if (message.user.login == BlipFoxPreferencesManager.get('username'))
 			{
 				messageContainer.setAttribute('user_message', 'true');
 				messageContainer.setAttribute('allow_delete', 'true');
 			}
-			else 
+			else
 			{
 				messageContainer.setAttribute('user_message', 'false');
 			}
 			messageContainer.setAttribute('messageId', message.id);
-			
+
 			/* Avatar autora wiadomości. */
 			var avatarFromUrl = 'http://static4.blip.pl/images/nn_nano.png';
-			if (typeof message.user.avatar !== 'undefined') 
+			if (typeof message.user.avatar !== 'undefined')
 			{
 				avatarFromUrl = message.user.avatar.url.replace('.jpg', '_nano.jpg');
 			}
 			messageContainer.setAttribute('avatarFromUrl', avatarFromUrl);
-			
+
 			/* Avatar adresata wiadomości. */
-			if (typeof message.recipient !== 'undefined') 
+			if (typeof message.recipient !== 'undefined')
 			{
-				if (message.recipient.login == BlipFoxPreferencesManager.get('username')) 
+				if (message.recipient.login == BlipFoxPreferencesManager.get('username'))
 				{
 					messageContainer.setAttribute('allow_delete', 'true');
 				}
-				
+
 				var avatarToUrl = 'http://static4.blip.pl/images/nn_nano.png';
-				if (typeof message.recipient.avatar !== 'undefined') 
+				if (typeof message.recipient.avatar !== 'undefined')
 				{
 					avatarToUrl = message.recipient.avatar.url.replace('.jpg', '_nano.jpg');
 				}
 				messageContainer.setAttribute('avatarToUrl', avatarToUrl);
 				messageContainer.setAttribute('usernameTo', message.recipient.login);
 			}
-			
+
 			messageContainer.setAttribute('messageType', message.type);
 			messageContainer.setAttribute('time', message.created_at.substr(11));
-			
-			if (typeof message.recipient !== 'undefined') 
+
+			if (typeof message.recipient !== 'undefined')
 			{
 				messageContainer.setAttribute('username_destination', message.recipient.login);
 			}
-			
+
 			/* Dołączenie nazwy nadawcy do treści wiadomości. */
 			messageContainer.appendChild(showMessageUser(message.user.login, message.type));
-			
+
 			/* Dołączenie nazwy adresata do treści wiadomości. */
-			if (message.type != 'Status') 
+			if (message.type != 'Status')
 			{
-				if (message.type == 'DirectedMessage') 
+				if (message.type == 'DirectedMessage')
 				{
 					messageContainer.appendChild(document.createTextNode(' > '));
 				}
-				else if (message.type == 'PrivateMessage') 
+				else if (message.type == 'PrivateMessage')
 				{
 					messageContainer.appendChild(document.createTextNode(' >> '));
 				}
 				messageContainer.appendChild(showMessageUser(message.recipient.login, message.type));
-		
+
 				var size = {width : 220, height : 176};
 			} else {
 				var size = {width : 240, height : 192};
 			}
-			
+
 			/* Dwukropek przed treścią wiadomości. */
 			messageContainer.appendChild(document.createTextNode(': '));
-			
+
 			var messageBody = message.body;
-			
+
 			_appendMessageToElement(messageBody, messageContainer);
-			
+
 			/* Obsługa obrazka. */
-			if (typeof message.pictures !== 'undefined') 
+			if (typeof message.pictures !== 'undefined')
 			{
 				var messagePicturesCount = message.pictures.length;
-				for (var i = 0; i < messagePicturesCount; i++) 
+				for (var i = 0; i < messagePicturesCount; i++)
 				{
 					var messagePicture = document.createElement('image');
 					messagePicture.setAttribute('src', message.pictures[i].url.replace('.jpg', '_standard.jpg'));
@@ -733,11 +739,11 @@ function BlipFoxLayoutManager()
 					messageContainer.appendChild(messagePicture);
 				}
 			}
-			
+
 			/* Obsługa video. */
-			if (typeof message.movie_path !== 'undefined') 
+			if (typeof message.movie_path !== 'undefined')
 			{
-				BlipFox.getRequestManager().getMovie(message.id, 
+				BlipFox.getRequestManager().getMovie(message.id,
 						{
 					success: function(request)
 					{
@@ -745,11 +751,11 @@ function BlipFoxLayoutManager()
 					}
 						});
 			}
-			
+
 			/* Obsługa wiadomości głosowych. */
-			if (typeof message.recording_path !== 'undefined') 
+			if (typeof message.recording_path !== 'undefined')
 			{
-				BlipFox.getRequestManager().getRecording(message.id, 
+				BlipFox.getRequestManager().getRecording(message.id,
 				{
 					success: function(request)
 					{
@@ -757,8 +763,8 @@ function BlipFoxLayoutManager()
 					}
 				});
 			}
-			
-			if (BlipFoxPreferencesManager.get('showEmbeds') === 'true') 
+
+			if (BlipFoxPreferencesManager.get('showEmbeds') === 'true')
 			{
 				messageContainer = _embedYouTube(messageContainer, message.body, message.type, size);
 				messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type, size);
@@ -768,10 +774,10 @@ function BlipFoxLayoutManager()
 
 	    return messageContainer;
 	};
-	
+
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
-	 * z filmami z YouTube. 
+	 * z filmami z YouTube.
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
@@ -782,13 +788,13 @@ function BlipFoxLayoutManager()
 	{
 		var pattern = /http:\/\/(([A-Za-z]+[\.])*)youtube.com\/watch\?v=([A-Za-z0-9\-_]+)/;
 		var url = "'http://www.youtube.com/v/' + RegExp.$3";
-		
+
 		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
 	}
-	
+
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
-	 * z filmami z Google Video. 
+	 * z filmami z Google Video.
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
@@ -799,13 +805,13 @@ function BlipFoxLayoutManager()
 	{
 		var pattern = /http:\/\/video.google.com\/videoplay\?docid=([0-9\-]+)/;
 		var url = "'http://video.google.com/googleplayer.swf?docId=' + RegExp.$1 + '&hl=en'";
-		
+
 		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
 	}
-	
+
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
-	 * z filmami z Vimeo. 
+	 * z filmami z Vimeo.
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
@@ -816,13 +822,13 @@ function BlipFoxLayoutManager()
 	{
 		var pattern = /http:\/\/vimeo.com\/([0-9]+)/;
 		var url = "'http://www.vimeo.com/moogaloop.swf?clip_id=' + RegExp.$1 + '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ff5b00&amp;fullscreen=1'";
-		
+
 		return _embedElement(messageContainer, messageBody, messageType, pattern, url, size);
 	}
-	
+
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
-	 * z filmami z Vimeo. 
+	 * z filmami z Vimeo.
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
@@ -835,13 +841,13 @@ function BlipFoxLayoutManager()
 		var url = "'http://blip.pl/play-movie.swf?videoUrl=/user_generated/movies/' + RegExp.$1 + '.flv'";
 		eval('var movie = ' + messageBody);
 		size = {width : size.width, height : size.height - 10};
-		
+
 		return _embedElement(messageContainer, movie.id, messageType, pattern, url, size);
 	}
-	
+
 	/**
 	 * Metoda wyświetla na końcu wiadomości flash playera
-	 * z filmami z Vimeo. 
+	 * z filmami z Vimeo.
 	 * @param Object messageContainer Kontener na wiadomość.
 	 * @param string messageBody Treść wiadomości.
 	 * @param string messageType Rodzaj wiadomości.
@@ -853,7 +859,7 @@ function BlipFoxLayoutManager()
 		var url = "'http://blip.pl/play-recording.swf?filename=/user_generated/recordings/1964' + RegExp.$1 + '.mp3'";
 		eval('var voice = ' + messageBody);
 		size = {width : 72, height : 24};
-		
+
 		return _embedElement(messageContainer, voice.id, messageType, pattern, url, size);
 	}
 
@@ -879,14 +885,14 @@ function BlipFoxLayoutManager()
 			var eurl = eval(url);
 			embed.src = eurl;
 			embed.setAttribute('src', eurl);
-			
+
 			messageContainer.appendChild(embed);
-			messageBody = RegExp.rightContext;			
+			messageBody = RegExp.rightContext;
 		}
-		
+
 		return messageContainer;
 	}
-	
+
 	/**
 	 * Metoda obsługuje wyświetlenie wiadomości.
 	 * @param Object message Obiekt wiadomości z API.
@@ -906,12 +912,12 @@ function BlipFoxLayoutManager()
 		{
 			var token = document.createTextNode(RegExp.leftContext);
 			element.appendChild(token);
-			
+
 			var link = document.createElement('a');
 			var linkTitle = RegExp.lastMatch;
 			var rightContext = RegExp.rightContext;
 
-			if (RegExp.lastMatch.substring(0, 1) == '^') 
+			if (RegExp.lastMatch.substring(0, 1) == '^')
 			{
 				link.href = BlipFox.getUserDashboardLink(RegExp.lastMatch.substring(1));
 				link.setAttribute('tooltiptext', RegExp.lastMatch.substring(1));
@@ -919,11 +925,11 @@ function BlipFoxLayoutManager()
 			else if (RegExp.lastMatch.substring(0, 1) == '#' || RegExp.lastMatch.substring(0, 1) == '@')
 			{
 				var tag = RegExp.lastMatch.substring(1).replace(':', '');
-				
+
 				link.href = BlipFox.getTagLink(tag);
 				link.setAttribute('tooltiptext', 'tag: ' + tag);
 			}
-			else 
+			else
 			{
 				link.href = RegExp.lastMatch;
 				if (RegExp.lastMatch.substring(0, 15) == 'http://rdir.pl/')
@@ -935,13 +941,13 @@ function BlipFoxLayoutManager()
 					 */
 					var linkId = RegExp.lastMatch.substring(15);
 					link.setAttribute('shortlink', linkId);
-					
-					BlipFox.getRequestManager().getUrl(RegExp.lastMatch.substring(15), 
+
+					BlipFox.getRequestManager().getUrl(RegExp.lastMatch.substring(15),
 					{
 						success: function(request)
 						{
 							eval('var shortlink = ' + request.responseText);
-							
+
 							var linkCollection = window.document.getElementById('blipfox-popup-scrollbox').getElementsByTagName('a');
 							for (var i = 0; i < linkCollection.length; i++)
 							{
@@ -963,7 +969,7 @@ function BlipFoxLayoutManager()
 						success: function(request)
 						{
 							eval('var linkedMessage = ' + request.responseText);
-							
+
 							var linkCollection = window.document.getElementById('blipfox-popup-scrollbox').getElementsByTagName('a');
 							for (var i = 0; i < linkCollection.length; i++)
 							{
@@ -980,50 +986,50 @@ function BlipFoxLayoutManager()
 							}
 						}
 					});
-					
+
 					BlipFox.log(linkUrl);
 				}
 			}
-			
+
 			if (element.id == 'blipfox-popup-header-status')
 			{
 				link.className = 'blipfox-status-link';
 			}
 			else
-			{ 
+			{
 				link.className = 'blipfox-message-link';
 			}
-			
+
 			linkTitle = linkTitle.replace(/^http:\/\/|http:\/\/www./, '');
 			if (linkTitle.length > 25)
 			{
 				linkTitle = linkTitle.substr(0, 25) + '...';
 			}
-			
+
 			link.appendChild(document.createTextNode(linkTitle));
 		  	link.addEventListener('click', function(e)
 			{
-				if (BlipFoxEventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON) 
+				if (BlipFoxEventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
 				{
 					BlipFox.openUrl(e.target.href);
 				}
-			}, false); 
-			
+			}, false);
+
 			link.setAttribute('contextmenu', 'blipfox-link-context');
-			
+
 			element.appendChild(link);
-			
+
 			linkPattern.lastIndex = 0;
 			message = rightContext;
 		}
-		
+
 	    if (message)
 		{
 	    	message = wordwrap(message, 25, ' ', true);
 			element.appendChild(document.createTextNode(message));
 	    }
 	}
-	
+
 	/**
 	 * Metoda wyświetla nazwę użytkownika.
 	 * @param string username Nazwa użytkownka.
@@ -1042,10 +1048,10 @@ function BlipFoxLayoutManager()
 		{
 			BlipFox.showUserDashboard(user);
 		}
-		
+
 		return user;
 	}
-	
+
 	/**
 	 * Metoda wywoływana po zainicjowaniu wszystkich elementow niezbędnych do uruchomienia wtyczki.
 	 * @public
@@ -1055,7 +1061,7 @@ function BlipFoxLayoutManager()
 		_container.className = 'blipfox-popup';
 		this.setBackground();
 	}
-	
+
 	/**
 	 * Metoda ustawia tło w okienku.
 	 * @public
@@ -1069,7 +1075,7 @@ function BlipFoxLayoutManager()
 			_container.style.backgroundImage = 'url(' + _backgroundImage + ')';
 		}
 	}
-	
+
 	/**
 	 * Metoda przygotowuje listę obserwowanych do listy wyboru.
 	 * @param Array friends Lista obserwowanych z API.
@@ -1077,7 +1083,7 @@ function BlipFoxLayoutManager()
 	this.showFriends = function(friends)
 	{
 		// var friendsList = _getInputFriends();
-		// 
+		//
 		// /* Usunięcie istniejących znajomych z listy */
 		// var friendsLength = friends.length;
 		// for (var i = friendsLength; i >= 0; i--)
@@ -1085,14 +1091,14 @@ function BlipFoxLayoutManager()
 		// 	friendsList.removeItemAt(i);
 		// }
 		// friendsList.insertItemAt(0, '---' , '');
-		// 
+		//
 		// var friendsLength = friends.length;
 		// for (i = 0; i < friendsLength; i++)
 		// {
 		// 	friendsList.insertItemAt(i + 1, friends[i], friends[i]);
 		// }
 	}
-	
+
 	/**
 	 * Metoda zwraca obiekt XUL zawierający rozszerzenie.
 	 * @param Object Obiekt XUL
@@ -1102,6 +1108,6 @@ function BlipFoxLayoutManager()
 	{
 		return _container;
 	}
-	
+
 	_initializePopup();
 }
