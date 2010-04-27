@@ -16,7 +16,7 @@
   <RDF:Description RDF:about="rdf:#$5JslM"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="2.0.0.0"
-                   em:maxVersion="3.6.*"
+                   em:maxVersion="3.7.*"
                    em:updateLink="http://blipfox.com/files/BlipFox-current.xpi"
                    em:updateInfoURL="http://blipfox.com/"
                    em:updateHash="sha1:98c4109d03323031a5726210bca4541beda76536" />
