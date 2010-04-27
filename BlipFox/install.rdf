@@ -9,12 +9,12 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{07498471-8DFE-45D1-B1E4-0839E613180F}"
                    em:name="BlipFox"
-                   em:version="1.1.7"
+                   em:version="1.1.8"
                    em:creator="Filip Tepper"
                    em:author="Filip Tepper"
                    em:homepageURL="http://blipfox.com/"
                    em:updateURL="http://blipfox.com/files/update.rdf"
-                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHJnWgmyosbhmWsisAIa2LMT4nV7H2dzece0jE+b+mtmr8og3Axjsk8Tocaa2MEl1DGoxwofaPUNH9RuUUC9+DwVVsxfsyFToN+cM9FuiYOaDBv860hqN7oM6cszhqWZdLd0x3FshIp9ArMObFImcQ3iHvJaZpa8CpfbPMxjtKuwIDAQAB">
+                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCq/SZZ46E3fhE4+8a/jYGsq8kbRpYS5aD6vfIobjixGjfQnBnyzzkAe2ViTh4M/jfICYq1/ovkYcFA7dcKwhLc8M+DYAg7/sUon3/u/+F/28H1q4vdmGcB+XS1uBDIzAdXGxP+gBZtMUkOp3YsdQSGWGKOyQMdixtWF5ae3jEkywIDAQAB">
     <em:targetApplication RDF:resource="rdf:#$Z8rup2"/>
   </RDF:Description>
 </RDF:RDF>
