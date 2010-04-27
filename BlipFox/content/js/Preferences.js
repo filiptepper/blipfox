@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,7 +33,7 @@ var Preferences = (function()
 	{
 		window.close();
 	}
-	
+
 	/**
 	 * Metoda weryfikuje poprawność formularza preferencji.
 	 * Tu pewnie coś powinno być.
@@ -44,7 +44,7 @@ var Preferences = (function()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Metoda odczytuje wartość z pola checkbox formularza preferencji.
 	 * @param string elementId Identyfikator obiektu.
@@ -55,7 +55,7 @@ var Preferences = (function()
 	{
 		return window.document.getElementById(elementId).checked === true ? 'true' : 'false';
 	}
-	
+
 	/**
 	 * Metoda zapisuje wartość formularza preferencji.
 	 * @param string preference Nazwa preferencji.
@@ -66,14 +66,14 @@ var Preferences = (function()
 	{
 		BlipFoxPreferencesManager.set(preference, value);
 	}
-	
+
 	/**
 	 * Metoda zapisuje wszystkie preferencje z formularza.
 	 * @private
 	 */
 	var _savePreferences = function()
 	{
-		var preferences = 
+		var preferences =
 		{
 			'username': window.document.getElementById('blipfox-preferences-username').value,
 			'password': window.document.getElementById('blipfox-preferences-password').value,
@@ -88,7 +88,7 @@ var Preferences = (function()
 			'markNewMessages': _getCheckboxPreference('blipfox-preferences-markNewMessages'),
 			'soundNewMessages': _getCheckboxPreference('blipfox-preferences-soundNewMessages'),
 			'hideOnClick': _getCheckboxPreference('blipfox-preferences-hideOnClick'),
-			'showEmbeds': _getCheckboxPreference('blipfox-preferences-showEmbeds'),
+/*      'showEmbeds': _getCheckboxPreference('blipfox-preferences-showEmbeds'),*/
 			'notifyStatuses': _getCheckboxPreference('blipfox-preferences-notifyStatuses'),
 			'notifyMessages': _getCheckboxPreference('blipfox-preferences-notifyMessages'),
 			'showNotifications': _getCheckboxPreference('blipfox-preferences-showNotifications'),
@@ -97,7 +97,7 @@ var Preferences = (function()
 			'showTagsIn': (window.document.getElementById('blipfox-preferences-tags-blip').getAttribute('selected') === 'true' ? 'blip' : 'blipcast'),
 			'soundFile': (window.document.getElementById('blipfox-preferences-soundFile').value == BlipFoxLocaleManager.getLocaleString('noFile') ? '' : window.document.getElementById('blipfox-preferences-soundFile').value)
 		};
-	
+
 		if (preferences['passwordFromPM'] === 'true')
 		{
 			preferences['password'] = '';
@@ -108,7 +108,7 @@ var Preferences = (function()
 			_savePreference(i, preferences[i]);
 		}
 	}
-	
+
 	return {
 		/**
 		 * Metoda zapisuje wartość skrótu klawiszowego do zamykania/otwierania okienka.
@@ -125,14 +125,14 @@ var Preferences = (function()
 			element.setAttribute('ctrlKey', e.ctrlKey);
 			element.setAttribute('shiftKey', e.shiftKey);
 		},
-		
+
 		/**
 		 * Metoda ładuje preferencje użytkownika i umieszcza je w formularzu.
 		 * @public
 		 */
 		loadPreferences: function()
 		{
-			if (BlipFoxPreferencesManager.get('soundFile') === '') 
+			if (BlipFoxPreferencesManager.get('soundFile') === '')
 			{
 				window.document.getElementById('blipfox-preferences-soundFile').value = BlipFoxLocaleManager.getLocaleString('noFile');
 			}
@@ -140,7 +140,7 @@ var Preferences = (function()
 			{
 				window.document.getElementById('blipfox-preferences-soundFile').value = BlipFoxPreferencesManager.get('soundFile');
 			}
-			
+
 			window.document.getElementById('blipfox-preferences-username').value = BlipFoxPreferencesManager.get('username');
 			window.document.getElementById('blipfox-preferences-password').value = BlipFoxPreferencesManager.get('password');
 			window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFoxPreferencesManager.get('passwordFromPM') === 'true' ? true : false;
@@ -151,7 +151,7 @@ var Preferences = (function()
 			window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFoxPreferencesManager.get('markNewMessages') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-soundNewMessages').checked = BlipFoxPreferencesManager.get('soundNewMessages') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-hideOnClick').checked = BlipFoxPreferencesManager.get('hideOnClick') === 'true' ? true : false;
-			window.document.getElementById('blipfox-preferences-showEmbeds').checked = BlipFoxPreferencesManager.get('showEmbeds') === 'true' ? true : false;
+/*      window.document.getElementById('blipfox-preferences-showEmbeds').checked = BlipFoxPreferencesManager.get('showEmbeds') === 'true' ? true : false;*/
 			window.document.getElementById('blipfox-preferences-notifyStatuses').checked = BlipFoxPreferencesManager.get('notifyStatuses') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-notifyMessages').checked = BlipFoxPreferencesManager.get('notifyMessages') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-showNotifications').checked = BlipFoxPreferencesManager.get('showNotifications') === 'true' ? true : false;
@@ -169,13 +169,13 @@ var Preferences = (function()
 		 */
 		save: function()
 		{
-			if (_validateSave()) 
+			if (_validateSave())
 			{
 				_savePreferences();
 				_close();
 			}
 		},
-		
+
 		/**
 		 * Metoda zamyka okienko preferecji.
 		 * Wywoływana przyciskiem Cancel.
@@ -185,11 +185,11 @@ var Preferences = (function()
 		{
 			_close();
 		},
-		
+
 		/**
 		 * Metoda ukrywa/pokazuje elementy formularza w zależności od wybranej opcji
 		 * informowania dźwiękiem o nowych wiadomościach.
-		 * @param Object element Pole formularza preferencji. 
+		 * @param Object element Pole formularza preferencji.
 		 * @param boolean onload Informacja, czy formularzy pokazywany jest w momencie otwierania okna preferencji.
 		 * @public
 		 */
@@ -208,7 +208,7 @@ var Preferences = (function()
 				window.resizeBy(0, -50);
 			}
 		},
-		
+
 		/**
 		 * Metoda obsługuje wybór pliku do powiadamiania dźwiękiem.
 		 * @public
@@ -230,13 +230,13 @@ var Preferences = (function()
 				window.document.getElementById('blipfox-preferences-soundFile').value = '';
 			}
 		},
-		
+
 		/**
 		 * Metoda blokuje pole na haslo uzytkownika jesli ustawione jest pobieranie
 		 * hasla z Menadzera Hasel.
-		 * @param Object element Pole formularza preferencji. 
+		 * @param Object element Pole formularza preferencji.
 		 * @public
-		 */		
+		 */
 		updatePasswordField: function(element)
 		{
 			if (element.checked)
@@ -248,14 +248,14 @@ var Preferences = (function()
 				window.document.getElementById('blipfox-preferences-password').disabled = false;
 			}
 		}
-		
+
 	}
 })();
 
 window.addEventListener('load', function(e)
 {
 	/* Sprawdzenie, czy dostępna jest usługa powiadamiania użytkownika - jeżeli nie, to ukrywane są elementy formularza. */
-	try 
+	try
 	{
 		var _notificationService = Components.classes["@mozilla.org/alerts-service;1"].getService(Components.interfaces.nsIAlertsService);
 	}
@@ -265,7 +265,7 @@ window.addEventListener('load', function(e)
 	}
 
 	Preferences.loadPreferences();
-						
+
 	/* A tu mały hack - inaczej okienko znika. */
 	setTimeout(function()
 	{

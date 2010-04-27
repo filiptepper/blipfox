@@ -79,9 +79,9 @@
 					<checkbox
 						id="blipfox-preferences-hideOnClick"
 						label="&hideOnClick.label;" />
-					<checkbox
-						id="blipfox-preferences-showEmbeds"
-						label="&showEmbeds.label;" />
+          <!-- <checkbox
+            id="blipfox-preferences-showEmbeds"
+            label="&showEmbeds.label;" /> -->
 				</row>
 				<row id="blipfox-preferences-notify">
 					<checkbox
@@ -98,7 +98,7 @@
 					<checkbox
 						id="blipfox-preferences-notifyNotifications"
 						label="&notifyNotifications.label;" />
-				</row>				
+				</row>
 			</rows>
 		</grid>
 		<checkbox

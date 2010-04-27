@@ -734,37 +734,37 @@ function BlipFoxLayoutManager()
 				}
 			}
 
-			/* Obsługa video. */
-			if (typeof message.movie_path !== 'undefined')
-			{
-				BlipFox.getRequestManager().getMovie(message.id,
-						{
-					success: function(request)
-					{
-					messageContainer = _embedMMSVideo(messageContainer, request.responseText, message.type, size);
-					}
-						});
-			}
-
-			/* Obsługa wiadomości głosowych. */
-			if (typeof message.recording_path !== 'undefined')
-			{
-				BlipFox.getRequestManager().getRecording(message.id,
-				{
-					success: function(request)
-					{
-						messageContainer = _embedVoiceMessage(messageContainer, request.responseText, message.type);
-					}
-				});
-			}
-
-			if (BlipFoxPreferencesManager.get('showEmbeds') === 'true')
-			{
-				messageContainer = _embedYouTube(messageContainer, message.body, message.type, size);
-				messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type, size);
-				messageContainer = _embedVimeo(messageContainer, message.body, message.type, size);
-			}
-		}
+      /* Obsługa video. */
+/*      if (typeof message.movie_path !== 'undefined')
+      {
+        BlipFox.getRequestManager().getMovie(message.id,
+            {
+          success: function(request)
+          {
+          messageContainer = _embedMMSVideo(messageContainer, request.responseText, message.type, size);
+          }
+            });
+      }
+*/
+      /* Obsługa wiadomości głosowych. */
+/*      if (typeof message.recording_path !== 'undefined')
+      {
+        BlipFox.getRequestManager().getRecording(message.id,
+        {
+          success: function(request)
+          {
+            messageContainer = _embedVoiceMessage(messageContainer, request.responseText, message.type);
+          }
+        });
+      }
+*/
+/*      if (BlipFoxPreferencesManager.get('showEmbeds') === 'true')
+      {
+        messageContainer = _embedYouTube(messageContainer, message.body, message.type, size);
+        messageContainer = _embedGoogleVideo(messageContainer, message.body, message.type, size);
+        messageContainer = _embedVimeo(messageContainer, message.body, message.type, size);
+      }
+*/		}
 
 	    return messageContainer;
 	};
