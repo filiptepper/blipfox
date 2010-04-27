@@ -446,9 +446,11 @@ BlipFox = (function()
 				/**
 				 * Ustawienie aktualnego statusu użytkownika.
 				 */
-				if (typeof user.current_status.body !== 'undefined')
+				if (typeof user.current_status !== "undefined" && typeof user.current_status.body !== 'undefined')
 				{
 					_data._status = user.current_status;
+				} else {
+				  _data._status = { "body": "[Nie ustawiłeś jeszcze żadnego statusu!]", "id": 0 }
 				}
 
 				BlipFox.setStatus(BlipFoxStatus.LOADED_USER);
