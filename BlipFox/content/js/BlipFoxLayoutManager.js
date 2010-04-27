@@ -582,7 +582,6 @@ function BlipFoxLayoutManager()
 	 */
 	function _showMessage(message)
 	{
-	  BlipFox.log(message);
 		var messageContainer = document.createElement('vbox');
 
 		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
@@ -607,12 +606,8 @@ function BlipFoxLayoutManager()
 			}
 		}
 
-		BlipFox.log(message.type);
-		BlipFox.log(BlipFoxPreferencesManager.get('showNotifications'));
-
 		if ((message.type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true') || message.type == 'UpdateTip')
 		{
-		  BlipFox.log("rendering Notice...");
 			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
 			messageContainer.style.opacity = 1;
@@ -632,7 +627,6 @@ function BlipFoxLayoutManager()
 		}
 		else if (message.type != 'Notice' )
 		{
-		  BlipFox.log("rendering regular update...");
 			window.document.getElementById('blipfox-statusbar-panel').setAttribute('tooltiptext', message.user.login + ' > ' + message.body);
 			messageContainer.id = message.id;
 			messageContainer.style.opacity = 1;
