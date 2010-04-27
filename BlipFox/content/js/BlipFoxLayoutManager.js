@@ -964,6 +964,7 @@ function BlipFoxLayoutManager()
 					/* Prawdopodobnie działająca obsługa podglądu wiadomości blipowych. */
 					var linkUrl = RegExp.lastMatch.split('/').slice(3).join('/');
 					link.setAttribute('blipMessage', linkUrl.split('/')[1]);
+					linkTitle = "[blip]";
 					BlipFox.getRequestManager().sendGetRequest(BLIPFOX_API_URL + linkUrl,
 					{
 						success: function(request)
