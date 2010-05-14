@@ -243,49 +243,18 @@ function BlipFoxLayoutManager()
 	var _initializePopup = function()
 	{
 		_container = document.createElement('vbox');
-		_container.setAttribute('firefox_version', BlipFox.getFirefoxVersion());
 		_container.className = 'blipfox-loading';
 		_container.id = 'blipfox-panel';
 
-		if (BlipFox.getFirefoxVersion() === 3)
-		{
-			_panel = document.createElement('panel');
-			_panel.setAttribute('noautofocus', 'true');
-			_panel.setAttribute('noautohide', 'true');
-			_panel.appendChild(_container);
+		_panel = document.createElement('panel');
+		_panel.setAttribute('noautofocus', 'true');
+		_panel.setAttribute('noautohide', 'true');
+		_panel.appendChild(_container);
 
-			var popupset = window.document.getElementById('browser-bottombox');
-			popupset.appendChild(_panel);
+		var popupset = window.document.getElementById('browser-bottombox');
+		popupset.appendChild(_panel);
 
-			_containerMovingElement = _panel.boxObject;
-		}
-		else
-		{
-			_container.align = 'end';
-			_container.style.right = '19px';
-			_container.style.position = 'fixed';
-			_container.style.bottom = '56px';
-			window.document.firstChild.appendChild(_container);
-			_containerMovingElement = _container;
-		}
-
-		if (BLIPFOX_DEBUG === true && BlipFox.getFirefoxVersion() !== 3)
-		{
-			/* To działa tylko z FF2. */
-			_logConsole = window.document.createElement('textbox');
-			_logConsole.setAttribute('rows', 30);
-			_logConsole.setAttribute('cols', 100);
-			_logConsole.setAttribute('multiline', true);
-			_logConsole.id = 'blip-log-console';
-			_logConsole.style.position = 'fixed';
-			_logConsole.style.left = '5px';
-			_logConsole.style.top = '50px';
-			_logConsole.style.color = 'black';
-			_logConsole.wrap = 'soft';
-			_logConsole.tabscrolling = true;
-
-			window.document.firstChild.appendChild(_logConsole);
-		}
+		_containerMovingElement = _panel.boxObject;
 
 		return;
 	}
@@ -833,7 +802,7 @@ function BlipFoxLayoutManager()
 	{
 		var pattern = /([0-9]+)/;
 		var url = "'http://blip.pl/play-movie.swf?videoUrl=/user_generated/movies/' + RegExp.$1 + '.flv'";
-		eval('var movie = ' + messageBody);
+		var movie = JSON.parse(messageBody);
 		size = {width : size.width, height : size.height - 10};
 
 		return _embedElement(messageContainer, movie.id, messageType, pattern, url, size);
@@ -851,7 +820,7 @@ function BlipFoxLayoutManager()
 	{
 		var pattern = /([0-9]+)/;
 		var url = "'http://blip.pl/play-recording.swf?filename=/user_generated/recordings/1964' + RegExp.$1 + '.mp3'";
-		eval('var voice = ' + messageBody);
+		var voice = JSON.parse(messageBody);
 		size = {width : 72, height : 24};
 
 		return _embedElement(messageContainer, voice.id, messageType, pattern, url, size);
@@ -940,7 +909,7 @@ function BlipFoxLayoutManager()
 					{
 						success: function(request)
 						{
-							eval('var shortlink = ' + request.responseText);
+							var shortlink = JSON.parse(request.responseText);
 
 							var linkCollection = window.document.getElementById('blipfox-popup-scrollbox').getElementsByTagName('a');
 							for (var i = 0; i < linkCollection.length; i++)
@@ -963,7 +932,7 @@ function BlipFoxLayoutManager()
 					{
 						success: function(request)
 						{
-							eval('var linkedMessage = ' + request.responseText);
+							var linkedMessage = JSON.parse(request.responseText);
 
 							var linkCollection = window.document.getElementById('blipfox-popup-scrollbox').getElementsByTagName('a');
 							for (var i = 0; i < linkCollection.length; i++)

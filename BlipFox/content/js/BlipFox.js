@@ -263,7 +263,7 @@ BlipFox = (function()
 		{
 			success: function(request)
 			{
-				eval('var friends = ' + request.responseText);
+				var friends = JSON.parse(request.responseText);
 
 				_data._friends = [];
 
@@ -320,7 +320,7 @@ BlipFox = (function()
 					return;
 				}
 
-				eval('_data._messages = ' + request.responseText);
+				_data._messages = JSON.parse(request.responseText);
 
 				var messagesLength = _data._messages.length;
 				if (messagesLength > 0)
@@ -417,7 +417,7 @@ BlipFox = (function()
 		{
 			success: function(request)
 			{
-				eval('var user = ' + request.responseText);
+				var user = JSON.parse(request.responseText);
 
 				/**
 				 * Ustawienie tła.
@@ -846,22 +846,9 @@ BlipFox = (function()
 		{
 			if (BLIPFOX_DEBUG === true)
 			{
-				if (BlipFox.getFirefoxVersion() === 3)
-				{
-					/* Logowanie na konsolę Firefoksa. */
-					var console = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-					console.logStringMessage(message);
-				}
-				else
-				{
-					/* Logowanie na niezależną konsolę. */
-					var logConsole = window.document.getElementById('blip-log-console');
-
-					var date = new Date();
-					var log = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' ' + message;
-
-					logConsole.value = log + "\n" + logConsole.value;
-				}
+				/* Logowanie na konsolę Firefoksa. */
+				var console = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+				console.logStringMessage(message);
 			}
 		},
 
@@ -1455,27 +1442,6 @@ BlipFox = (function()
 		},
 
 		/**
-		 * Metoda zwraca wersję Firefoxa, z której korzysta Firefox.
-		 * @return integer Numer wersji.
-		 * @public
-		 */
-		getFirefoxVersion: function()
-		{
-			if (_firefoxVersion === null)
-			{
-				_firefoxVersion = 2;
-
-				var foo = Components.classes["@mozilla.org/login-manager;1"];
-				if (typeof foo === 'function')
-				{
-					_firefoxVersion = 3;
-				}
-			}
-
-			return _firefoxVersion;
-		},
-
-		/**
 		 * Metoda przygotowuje link do skopiowania do schowka na podstawie klikniętego permalinku wiadomości.
 		 * @public
 		 */
@@ -1661,7 +1627,7 @@ BlipFox = (function()
             success: function(request, param)
             {
               var originalUrl = param;
-              eval("var compressedUrl = " + request.responseText);
+              var compressedUrl = JSON.parse(request.responseText);
               var inputMessage = BlipFox.getLayoutManager().getInputMessage();
 
               inputMessage.value = inputMessage.value.replace(compressedUrl.original_link, compressedUrl.url);
@@ -1735,7 +1701,7 @@ BlipFox = (function()
 			{
 				success: function(request)
 				{
-					eval('var response = ' + request.responseText);
+					var response = JSON.parse(request.responseText);
 					if (response.response.id[messageId])
 					{
 						BlipFox.favouriteAdded(element);
@@ -1811,20 +1777,6 @@ BlipFox = (function()
 window.addEventListener('load', function(e)
 {
 	BlipFox.onLoad(e);
-
-	/**
-	 * Obsługa przechodzenia między zakładkami. Rozszerzenie znika
-	 * i po jednej mikrosekundzie jest przywracane.
-	 */
-	if (BlipFox.getFirefoxVersion() === 2)
-	{
-		var container = gBrowser.tabContainer;
-		container.addEventListener('TabSelect', function(e)
-		{
-			BlipFox.getLayoutManager().restoreOverlay();
-		}, false);
-	}
-
 }, false);
 
 window.addEventListener('keydown', function(e)
