@@ -543,8 +543,8 @@ BlipFox.Application = (function()
     */
    onLoad: function(e)
    {
-     _layoutManager = new BlipFoxLayoutManager();
-     _requestManager = new BlipFoxRequestManager();
+     _layoutManager = new BlipFox.LayoutManager();
+     _requestManager = new BlipFox.RequestManager();
 
      /* Inicjalizacja podstawowych zdarzeń. */
 

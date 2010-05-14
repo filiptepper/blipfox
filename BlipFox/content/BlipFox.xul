@@ -21,8 +21,8 @@
 	<script src="js/BlipFoxLocaleManager.js" />
 	<script src="js/BlipFoxEventUtilities.js" />
 	<script src="js/BlipFoxPreferencesManager.js" />
-	<script src="js/BlipFoxRequestManager.js" />
-	<script src="js/BlipFoxLayoutManager.js" />
+	<script src="js/RequestManager.js" />
+	<script src="js/LayoutManager.js" />
 	<script src="js/Control.js" />
 	<statusbar id="status-bar">
 		<statusbarpanel

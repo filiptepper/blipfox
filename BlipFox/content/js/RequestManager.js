@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-function BlipFoxRequestManager()
+BlipFox.RequestManager = function()
 {
   /**
    * Hasło użytkownika.

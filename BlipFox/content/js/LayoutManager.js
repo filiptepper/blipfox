@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-function BlipFoxLayoutManager()
+BlipFox.LayoutManager = function()
 {
   /**
    * Właściwość zawierająca uchwyt do obiektu XUL wyświetlającego rozszerzenie.
@@ -838,11 +838,11 @@ function BlipFoxLayoutManager()
       message = rightContext;
     }
 
-      if (message)
+    if (message)
     {
-      	message = BlipFox.Helpers.wordwrap(message, 25, ' ', true);
+      message = BlipFox.Helpers.wordwrap(message, 25, ' ', true);
       element.appendChild(document.createTextNode(message));
-      }
+    }
   }
 
   /**
