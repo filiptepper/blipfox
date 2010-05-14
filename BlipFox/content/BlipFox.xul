@@ -39,39 +39,39 @@
 			<menupopup id="blipfox-statusbar-context">
 				<menuitem
 					label="&statusbar.contextmenu.preferences;"
-					onclick="BlipFox.showPreferences();" />
+					onclick="BlipFox.Application.showPreferences();" />
 				<menuitem
 					label="&statusbar.contextmenu.turnon;"
 					id="blipfox-statusbar-context-turnon"
-					onclick="BlipFox.turnon();" />
+					onclick="BlipFox.Application.turnon();" />
 				<menuitem
 					label="&statusbar.contextmenu.turnoff;"
 					id="blipfox-statusbar-context-turnoff"
-					onclick="BlipFox.turnoff();"
+					onclick="BlipFox.Application.turnoff();"
 					visible="false" />
 			</menupopup>
 			<menupopup
 				id="blipfox-permalink-context"
-				onpopupshowing="BlipFox.preparePermalinkForClipboard();">
+				onpopupshowing="BlipFox.Application.preparePermalinkForClipboard();">
 				<menuitem
 					label="&permalink.copyToClipboard;"
 					id="blipfox-permalink-context-copyToClipboard"
-					onclick="BlipFox.copyLinkToClipboard();" />
+					onclick="BlipFox.Application.copyLinkToClipboard();" />
 			</menupopup>
 			<menupopup
 				id="blipfox-link-context"
-				onpopupshowing="BlipFox.prepareLinkForClipboard();">
+				onpopupshowing="BlipFox.Application.prepareLinkForClipboard();">
 				<menuitem
 					label="&link.copyToClipboard;"
 					id="blipfox-link-context-copyToClipboard"
-					onclick="BlipFox.copyLinkToClipboard();" />
+					onclick="BlipFox.Application.copyLinkToClipboard();" />
 			</menupopup>
 			<menupopup
 				id="blipfox-text-context">
 				<menuitem
 					label="&text.copyToClipboard;"
 					id="blipfox-text-context-copyToClipboard"
-					onclick="BlipFox.copyMessageToClipboard();" />
+					onclick="BlipFox.Application.copyMessageToClipboard();" />
 			</menupopup>
 		</popupset>
 	</statusbar>

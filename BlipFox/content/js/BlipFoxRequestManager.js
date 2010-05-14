@@ -179,7 +179,7 @@ function BlipFoxRequestManager()
       }
       catch (err)
       {
-        BlipFox.log(err);
+        BlipFox.Application.log(err);
         if (typeof callback.error === 'function')
         {
           callback.error(request);
@@ -188,7 +188,7 @@ function BlipFoxRequestManager()
     }
     catch(e)
     {
-      BlipFox.log(err);
+      BlipFox.Application.log(err);
       if (typeof callback.error === 'function')
       {
         callback.error();
@@ -256,12 +256,12 @@ function BlipFoxRequestManager()
         else if (request.readyState == 4 && request.status == 401)
         {
           /* Błędna nazwa użytkownika i/lub hasło. */
-          BlipFox.unsetStatus(BlipFoxStatus.AUTHENTICATED);
+          BlipFox.Application.unsetStatus(BlipFoxStatus.AUTHENTICATED);
           throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
         }
         else if (request.readyState == 4 && request.status == 503)
         {
-          BlipFox.log('HTTP: 503');
+          BlipFox.Application.log('HTTP: 503');
 
           /* Błąd sieci. */
           throw new BlipFox.NetworkException("networkError");
@@ -276,7 +276,7 @@ function BlipFoxRequestManager()
       }
       catch (ex)
       {
-        BlipFox.log(ex);
+        BlipFox.Application.log(ex);
         if (typeof callback.error === 'function')
         {
           callback.error(request, ex);
@@ -371,9 +371,9 @@ function BlipFoxRequestManager()
   {
     var url = 'dashboard';
 
-    if (BlipFox.getLastMessageId() !== null)
+    if (BlipFox.Application.getLastMessageId() !== null)
     {
-      url += '/since/' + BlipFox.getLastMessageId();
+      url += '/since/' + BlipFox.Application.getLastMessageId();
     }
 
     url += '?include=pictures,user,recipient,user[avatar],recipient[avatar]';

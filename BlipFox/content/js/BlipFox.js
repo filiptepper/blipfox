@@ -26,7 +26,75 @@
 */
 if (typeof BlipFox === "undefined") { var BlipFox = {}; }
 
-BlipFox = (function()
+/* Stałe. */
+BlipFox.Const = {
+  /* Konsola do debuggowania. */
+  BLIPFOX_DEBUG: true,
+
+  /* Wersja. */
+  BLIPFOX_VERSION: '1.1.9',
+
+  /* URL do API. */
+  BLIPFOX_API_URL: 'http://api.blip.pl/',
+
+  /* URL Blip. */
+  BLIPFOX_BLIP_URL: 'http://blip.pl/',
+
+  /* URL do bliplogu. */
+  BLIPFOX_BLIPLOG_URL: '.blip.pl/',
+
+  /* URL sekretarka (Tomasza Topy) */
+  BLIPFOX_SECRETARY_URL: 'http://szmerybajery.pl/sekretarka/index.php',
+
+  /* Maksymalna dlugosc wiadomosci wysylanej na Blipa */
+  BLIP_MESSAGE_MAX_LENGTH: 160
+};
+
+/* Status rozszerzenia. */
+BlipFox.Status = {
+  /* Rozszerzenie włączone. */
+  ON: 1,
+
+  /* Rozszerzenie widoczne. */
+  VISIBLE: 2,
+
+  /* Rozszerzenie zostało zainicjalizowane. */
+  INITIALIZED: 4,
+
+  /* Użytkownik posiada prawidłową nazwę użytkownika i hasło. */
+  AUTHENTICATED: 8,
+
+  /* Dane użytkownika załadowane. */
+  LOADED_USER: 16,
+
+  /* Wiadomości załadowane. */
+  LOADED_MESSAGES: 32,
+
+  /* Załadowani obserwowani. */
+  LOADED_FRIENDS: 64,
+
+  /* Uruchomione pobieranie wiadomości. */
+  POLLING: 128,
+
+  /* Pierwsze pobranie wiadomości. */
+  LOADING: 256
+};
+
+/**
+ * Wyjątek do obsługi błędów logowania.
+ * @param string message Opis błędu.
+ */
+BlipFox.CredentialsException = function(message){ this.message = message; };
+
+/**
+ * Wyjątek do obsługi błędów sieciowych.
+ * @param string message Opis błędu.
+ */
+BlipFox.NetworkException = function(message){ this.message = message; };
+
+
+
+BlipFox.Application = (function()
 {
   	/**
    * Struktura zawierająca dane, na których działa rozszerzenie.
@@ -113,12 +181,12 @@ BlipFox = (function()
     /* Brak nazwy użytkownika lub hasła. */
     if (BlipFoxPreferencesManager.getUsername() === '' || BlipFoxPreferencesManager.getPassword() === '')
     {
-      BlipFox.showPreferences();
+      BlipFox.Application.showPreferences();
       return false;
     }
 
-    BlipFox.setStatus(BlipFox.Status.ON);
-    BlipFox.setStatus(BlipFox.Status.LOADING);
+    BlipFox.Application.setStatus(BlipFox.Status.ON);
+    BlipFox.Application.setStatus(BlipFox.Status.LOADING);
 
     /* Pobranie informacji o aktualnym użytkowniku. */
     _getUser(BlipFoxPreferencesManager.getUsername());
@@ -130,7 +198,7 @@ BlipFox = (function()
     _getMessages();
 
     /* Ustawienie sprawdzenia, czy wszystkie elementy zostały już pobrane. */
-    BlipFox.Timer().initWithCallback(BlipFox.isInitialized, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+    BlipFox.Timer().initWithCallback(BlipFox.Application.isInitialized, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 
     return true;
   }
@@ -185,9 +253,9 @@ BlipFox = (function()
 
         _data._friends.sort();
 
-        BlipFox.setStatus(BlipFox.Status.LOADED_FRIENDS);
+        BlipFox.Application.setStatus(BlipFox.Status.LOADED_FRIENDS);
 
-        if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED))
+        if (BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED))
         {
           _layoutManager.showFriends(_data._friends);
         }
@@ -208,9 +276,9 @@ BlipFox = (function()
    */
   var _getMessages = function()
   {
-    if (BlipFox.checkStatus(BlipFox.Status.POLLING) === true)
+    if (BlipFox.Application.checkStatus(BlipFox.Status.POLLING) === true)
     {
-      BlipFox.unsetStatus(BlipFox.Status.POLLING);
+      BlipFox.Application.unsetStatus(BlipFox.Status.POLLING);
     }
 
     _requestManager.getMessages(
@@ -218,7 +286,7 @@ BlipFox = (function()
       success: function(request)
       {
         /* Po wyłączeniu nie wykonujemy już żadnych operacji. */
-        if (BlipFox.checkStatus(BlipFox.Status.ON) === false)
+        if (BlipFox.Application.checkStatus(BlipFox.Status.ON) === false)
         {
           return;
         }
@@ -235,7 +303,7 @@ BlipFox = (function()
            * Jeżeli okienko jest schowane to zapisywana jest ilość nowych wiadomości.
            * Ilość wiadomości pokazywana jest na pasku statusu.
            */
-          if (BlipFox.checkStatus(BlipFox.Status.VISIBLE) === false)
+          if (BlipFox.Application.checkStatus(BlipFox.Status.VISIBLE) === false)
           {
             var playSound = false;
 
@@ -260,7 +328,7 @@ BlipFox = (function()
             }
             if (BlipFoxPreferencesManager.get('soundNewMessages') == 'true' && playSound === true)
             {
-              BlipFox.playMessageSound();
+              BlipFox.Application.playMessageSound();
             }
           }
         }
@@ -269,17 +337,17 @@ BlipFox = (function()
         var date = new Date();
         _lastMessagePollDate = date.getTime();
 
-        if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
+        if (BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED) === true)
         {
           _layoutManager.showMessages(_data._messages);
         }
 
-        BlipFox.setStatus(BlipFox.Status.LOADED_MESSAGES);
+        BlipFox.Application.setStatus(BlipFox.Status.LOADED_MESSAGES);
 
         /* Ustawiamy timer do ponownego pobierania wiadomości */
-        if (BlipFox.checkStatus(BlipFox.Status.POLLING) === false)
+        if (BlipFox.Application.checkStatus(BlipFox.Status.POLLING) === false)
         {
-          BlipFox.setStatus(BlipFox.Status.POLLING);
+          BlipFox.Application.setStatus(BlipFox.Status.POLLING);
           _checkPoll();
         }
       },
@@ -296,9 +364,9 @@ BlipFox = (function()
           _lastMessagePollDate = date.getTime();
 
           /* Ustawiamy timer do ponownego pobierania wiadomości */
-          if (BlipFox.checkStatus(BlipFox.Status.POLLING) === false)
+          if (BlipFox.Application.checkStatus(BlipFox.Status.POLLING) === false)
           {
-            BlipFox.setStatus(BlipFox.Status.POLLING);
+            BlipFox.Application.setStatus(BlipFox.Status.POLLING);
             _checkPoll();
           }
         }
@@ -341,7 +409,7 @@ BlipFox = (function()
           _layoutManager.setBackgroundColor('#111111');
         }
 
-        if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED))
+        if (BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED))
         {
           _layoutManager.setBackground();
         }
@@ -356,7 +424,7 @@ BlipFox = (function()
           _data._status = { "body": "[Nie ustawiłeś jeszcze żadnego statusu!]", "id": 0 }
         }
 
-        BlipFox.setStatus(BlipFox.Status.LOADED_USER);
+        BlipFox.Application.setStatus(BlipFox.Status.LOADED_USER);
       },
       error: function(request, exception)
       {
@@ -378,11 +446,11 @@ BlipFox = (function()
     try
     {
       if (
-        BlipFox.checkStatus(BlipFox.Status.AUTHENTICATED) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.AUTHENTICATED) === true
         &&
-        BlipFox.checkStatus(BlipFox.Status.ON) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.ON) === true
         &&
-        BlipFox.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
         )
       {
         BlipFox.Timer().initWithCallback(function()
@@ -399,19 +467,19 @@ BlipFox = (function()
           }
         }, 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
-      else if (BlipFox.checkStatus(BlipFox.Status.ON) === true || BlipFox.checkStatus(BlipFox.Status.ON) === false)
+      else if (BlipFox.Application.checkStatus(BlipFox.Status.ON) === true || BlipFox.Application.checkStatus(BlipFox.Status.ON) === false)
       {
         return;
       }
       else
       {
-        BlipFox.destroy();
+        BlipFox.Application.destroy();
         throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
       }
     }
     catch (ex)
     {
-      BlipFox.alert(ex.message);
+      BlipFox.Application.alert(ex.message);
     }
   }
 
@@ -454,7 +522,7 @@ BlipFox = (function()
   }
   catch (ex)
   {
-    BlipFox.log(ex);
+    BlipFox.Application.log(ex);
   }
 
   /**
@@ -486,73 +554,6 @@ BlipFox = (function()
 
   /* Metody publiczne. */
   return {
-
-    /**
-     * Wyjątek do obsługi błędów logowania.
-     * @param string message Opis błędu.
-     */
-    CredentialsException: function(message){ this.message = message; },
-
-    /**
-     * Wyjątek do obsługi błędów sieciowych.
-     * @param string message Opis błędu.
-     */
-    NetworkException: function(message){ this.message = message; },
-
-    /* Stałe. */
-    Const: {
-      /* Konsola do debuggowania. */
-      BLIPFOX_DEBUG: false,
-
-      /* Wersja. */
-      BLIPFOX_VERSION: '1.1.9',
-
-      /* URL do API. */
-      BLIPFOX_API_URL: 'http://api.blip.pl/',
-
-      /* URL Blip. */
-      BLIPFOX_BLIP_URL: 'http://blip.pl/',
-
-      /* URL do bliplogu. */
-      BLIPFOX_BLIPLOG_URL: '.blip.pl/',
-
-      /* URL sekretarka (Tomasza Topy) */
-      BLIPFOX_SECRETARY_URL: 'http://szmerybajery.pl/sekretarka/index.php',
-
-      /* Maksymalna dlugosc wiadomosci wysylanej na Blipa */
-      BLIP_MESSAGE_MAX_LENGTH: 160
-    },
-
-    /* Status rozszerzenia. */
-    Status: {
-      /* Rozszerzenie włączone. */
-      ON: 1,
-
-      /* Rozszerzenie widoczne. */
-      VISIBLE: 2,
-
-      /* Rozszerzenie zostało zainicjalizowane. */
-      INITIALIZED: 4,
-
-      /* Użytkownik posiada prawidłową nazwę użytkownika i hasło. */
-      AUTHENTICATED: 8,
-
-      /* Dane użytkownika załadowane. */
-      LOADED_USER: 16,
-
-      /* Wiadomości załadowane. */
-      LOADED_MESSAGES: 32,
-
-      /* Załadowani obserwowani. */
-      LOADED_FRIENDS: 64,
-
-      /* Uruchomione pobieranie wiadomości. */
-      POLLING: 128,
-
-      /* Pierwsze pobranie wiadomości. */
-      LOADING: 256
-    },
-
     /**
      * Metoda zwraca identyfikator ostatnio pobranej wiadomości.
      * @return integer Identyfikator ostatnio wiadomości.
@@ -571,16 +572,16 @@ BlipFox = (function()
     isInitialized: function()
     {
       if (
-        BlipFox.checkStatus(BlipFox.Status.LOADED_USER) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.LOADED_USER) === true
         &&
-        BlipFox.checkStatus(BlipFox.Status.LOADED_FRIENDS) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.LOADED_FRIENDS) === true
         &&
-        BlipFox.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
         &&
-        BlipFox.checkStatus(BlipFox.Status.VISIBLE) === true
+        BlipFox.Application.checkStatus(BlipFox.Status.VISIBLE) === true
       )
       {
-        BlipFox.setStatus(BlipFox.Status.INITIALIZED);
+        BlipFox.Application.setStatus(BlipFox.Status.INITIALIZED);
 
         _layoutManager.initialized();
 
@@ -596,13 +597,13 @@ BlipFox = (function()
         }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
 
-      else if (BlipFox.checkStatus(BlipFox.Status.AUTHENTICATED) === false)
+      else if (BlipFox.Application.checkStatus(BlipFox.Status.AUTHENTICATED) === false)
       {
-        BlipFox.destroy();
+        BlipFox.Application.destroy();
       }
       else
       {
-        BlipFox.Timer().initWithCallback(BlipFox.isInitialized, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+        BlipFox.Timer().initWithCallback(BlipFox.Application.isInitialized, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
     },
 
@@ -638,7 +639,7 @@ BlipFox = (function()
         hWindow.blipFoxInstance = true;
         var autoLogin = BlipFoxPreferencesManager.get('autoLogin');
         if ( autoLogin == 'true' ) {
-          BlipFox.togglePopup();
+          BlipFox.Application.togglePopup();
         }
       }
     },
@@ -652,10 +653,10 @@ BlipFox = (function()
       try
       {
         /* Za każdym razem zakładam, że użytkownik od nowa podał swoje dane. */
-        BlipFox.setStatus(BlipFox.Status.AUTHENTICATED);
+        BlipFox.Application.setStatus(BlipFox.Status.AUTHENTICATED);
 
         /* Wtyczka nie była zainicjowana - ładowanie danych. */
-        if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === false)
+        if (BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED) === false)
         {
           if (_initialize())
           {
@@ -673,11 +674,11 @@ BlipFox = (function()
       }
       catch (ex)
       {
-        BlipFox.log(ex);
+        BlipFox.Application.log(ex);
         if (ex instanceof BlipFox.CredentialsException)
         {
-          BlipFox.alert(ex.message);
-          BlipFox.showPreferences();
+          BlipFox.Application.alert(ex.message);
+          BlipFox.Application.showPreferences();
         }
       }
     },
@@ -703,7 +704,7 @@ BlipFox = (function()
       {
         case LEFT_MOUSE_BUTTON:
           /* Lewy przycisk myszy. */
-          BlipFox.togglePopup();
+          BlipFox.Application.togglePopup();
           break;
       }
       e.stopPropagation();
@@ -787,14 +788,14 @@ BlipFox = (function()
      */
     destroy: function()
     {
-      BlipFox.unsetStatus(BlipFox.Status.POOLING);
-      BlipFox.unsetStatus(BlipFox.Status.LOADED_FRIENDS);
-      BlipFox.unsetStatus(BlipFox.Status.LOADED_MESSAGES);
-      BlipFox.unsetStatus(BlipFox.Status.LOADED_USER);
-      BlipFox.unsetStatus(BlipFox.Status.AUTHENTICATED);
-      BlipFox.unsetStatus(BlipFox.Status.INITIALIZED);
-      BlipFox.unsetStatus(BlipFox.Status.VISIBLE);
-      BlipFox.unsetStatus(BlipFox.Status.ON);
+      BlipFox.Application.unsetStatus(BlipFox.Status.POOLING);
+      BlipFox.Application.unsetStatus(BlipFox.Status.LOADED_FRIENDS);
+      BlipFox.Application.unsetStatus(BlipFox.Status.LOADED_MESSAGES);
+      BlipFox.Application.unsetStatus(BlipFox.Status.LOADED_USER);
+      BlipFox.Application.unsetStatus(BlipFox.Status.AUTHENTICATED);
+      BlipFox.Application.unsetStatus(BlipFox.Status.INITIALIZED);
+      BlipFox.Application.unsetStatus(BlipFox.Status.VISIBLE);
+      BlipFox.Application.unsetStatus(BlipFox.Status.ON);
 
       _lastMessageId = null;
       _layoutManager.destroy();
@@ -1006,7 +1007,7 @@ BlipFox = (function()
         }
         catch (e)
         {
-          BlipFox.log(e);
+          BlipFox.Application.log(e);
           /**
            * Brzydki sposób obsługi.
            * Nie zawsze dostępny jest obiekt tabbrowser.
@@ -1190,7 +1191,7 @@ BlipFox = (function()
 
       if (inputMessage.value.length > BlipFox.Const.BLIP_MESSAGE_MAX_LENGTH)
       {
-        BlipFox.alert(BlipFoxLocaleManager.getLocaleString('statusTooLong'));
+        BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('statusTooLong'));
         return false;
       }
 
@@ -1205,8 +1206,8 @@ BlipFox = (function()
           {
             var msg = _lockMessaging ? _lockMessaging : '';
             _layoutManager.getInputMessage().value = msg;
-            BlipFox.updateCharactersLeft(_layoutManager.getInputMessage());
-            BlipFox.updateInputColor();
+            BlipFox.Application.updateCharactersLeft(_layoutManager.getInputMessage());
+            BlipFox.Application.updateInputColor();
             _emptyInputFile();
             inputMessage.readOnly = false;
 
@@ -1220,7 +1221,7 @@ BlipFox = (function()
             _emptyInputFile();
             inputMessage.readOnly = false;
             _layoutManager.disableProcessingThrobber();
-            BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
+            BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
           }
         }
 
@@ -1244,7 +1245,7 @@ BlipFox = (function()
           _emptyInputFile();
           inputMessage.readOnly = false;
           _layoutManager.disableProcessingThrobber();
-          BlipFox.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
+          BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
         }
       }
 
@@ -1262,7 +1263,7 @@ BlipFox = (function()
       {
         window.document.getElementById('blipfox-statusbar-context-turnon').setAttribute('visible', true);
         window.document.getElementById('blipfox-statusbar-context-turnoff').setAttribute('visible', false);
-        BlipFox.destroy();
+        BlipFox.Application.destroy();
       }
     },
 
@@ -1343,7 +1344,7 @@ BlipFox = (function()
             messageNode = window.document.getElementById(messageId);
             BlipFox.Timer().initWithCallback(function()
             {
-              BlipFox.hideMessage(messageNode);
+              BlipFox.Application.hideMessage(messageNode);
             }, 50, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
             if (window.document.getElementById('blipfox-popup-header-status').getAttribute('message_id') == messageId)
             {
@@ -1353,7 +1354,7 @@ BlipFox = (function()
           error: function(e)
           {
             _layoutManager.disableProcessingThrobber();
-            BlipFox.alert(BlipFoxLocaleManager.getLocaleString('deleteFailed'));
+            BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('deleteFailed'));
           }
         });
       }
@@ -1371,7 +1372,7 @@ BlipFox = (function()
         messageNode.style.opacity -= 0.05;
         BlipFox.Timer().initWithCallback(function(e)
         {
-          BlipFox.hideMessage(messageNode);
+          BlipFox.Application.hideMessage(messageNode);
         }, 50, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
       else
@@ -1436,7 +1437,7 @@ BlipFox = (function()
         }
         catch (ex)
         {
-          BlipFox.log(ex);
+          BlipFox.Application.log(ex);
         }
       }
     },
@@ -1482,7 +1483,7 @@ BlipFox = (function()
       }
       catch (ex)
       {
-        BlipFox.log(ex);
+        BlipFox.Application.log(ex);
       }
     },
 
@@ -1569,7 +1570,7 @@ BlipFox = (function()
             {
               var originalUrl = param;
               var compressedUrl = JSON.parse(request.responseText);
-              var inputMessage = BlipFox.getLayoutManager().getInputMessage();
+              var inputMessage = BlipFox.Application.getLayoutManager().getInputMessage();
 
               inputMessage.value = inputMessage.value.replace(compressedUrl.original_link, compressedUrl.url);
             },
@@ -1591,7 +1592,7 @@ BlipFox = (function()
       try {
         this.postUrl(BlipFox.Const.BLIPFOX_SECRETARY_URL, dataString);
       } catch (ex) {
-        BlipFox.alert(ex);
+        BlipFox.Application.alert(ex);
       }
     },
 
@@ -1664,7 +1665,7 @@ BlipFox.Timer = function() { return Components.classes["@mozilla.org/timer;1"].c
 
 window.addEventListener('load', function(e)
 {
-  BlipFox.onLoad(e);
+  BlipFox.Application.onLoad(e);
 }, false);
 
 window.addEventListener('keydown', function(e)
@@ -1672,13 +1673,13 @@ window.addEventListener('keydown', function(e)
   var shortcutPreferences = BlipFox.getShortcutPreferences();
   if (e.shiftKey === shortcutPreferences.shiftKey && e.ctrlKey === shortcutPreferences.shiftKey && e.altKey === shortcutPreferences.altKey && e.metaKey === shortcutPreferences.metaKey && e.keyCode == shortcutPreferences.keyCode)
   {
-    BlipFox.togglePopup();
+    BlipFox.Application.togglePopup();
   }
 }, false);
 
 window.addEventListener('click', function(e)
 {
-  if (BlipFoxPreferencesManager.get('hideOnClick') == 'true' && BlipFox.checkStatus(BlipFox.Status.VISIBLE) === true && BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
+  if (BlipFoxPreferencesManager.get('hideOnClick') == 'true' && BlipFox.Application.checkStatus(BlipFox.Status.VISIBLE) === true && BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED) === true)
   {
     var panel = window.document.getElementById('blipfox-panel').boxObject;
 
@@ -1687,7 +1688,7 @@ window.addEventListener('click', function(e)
     {
       if (e.target.id != 'blipfox-text-context-copyToClipboard' && e.target.id != 'blipfox-permalink-context-copyToClipboard' && e.target.id != 'blipfox-link-context-copyToClipboard')
       {
-        BlipFox.togglePopup();
+        BlipFox.Application.togglePopup();
       }
     }
   }

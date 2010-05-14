@@ -29,12 +29,12 @@
 						<xul:image
 							class="blipfox-message-avatar"
 							align="top"
-							onclick="BlipFox.showUserDashboard(this)"
+							onclick="BlipFox.Application.showUserDashboard(this)"
 							xbl:inherits="src=avatarFromUrl,username=username,tooltiptext=username" />
 						<xul:image
 							class="blipfox-message-avatar-to blipfox-message-avatar"
 							align="top"
-							onclick="BlipFox.showUserDashboard(this)"
+							onclick="BlipFox.Application.showUserDashboard(this)"
 							xbl:inherits="src=avatarToUrl,username=usernameTo,messageType=messageType,tooltiptext=usernameTo" />
 						<xul:description
 							class="blipfox-message-body"
@@ -56,38 +56,38 @@
 							class="blipfox-message-toolbar-quote"
 							value="&quote;"
 							tooltiptext="&quote;"
-							onclick="BlipFox.quoteMessage(this);"
+							onclick="BlipFox.Application.quoteMessage(this);"
 							xbl:inherits="messageType=messageType,messageId=messageId" />
 						<xul:label
 							class="blipfox-message-toolbar-reply"
 							value="&reply;"
 							tooltiptext="&reply;"
-							onclick="BlipFox.replyToUser(this);"
+							onclick="BlipFox.Application.replyToUser(this);"
 							xbl:inherits="username=username,user_message=user_message,messageType=messageType" />
 						<xul:label
 							value="X"
-							onclick="BlipFox.deleteMessage(this);"
+							onclick="BlipFox.Application.deleteMessage(this);"
 							xbl:inherits="messageId=messageId,allow_delete,messageType=messageType"
 							class="blipfox-message-toolbar-delete" />
 							<xul:image
 								src="chrome://blipfox/content/images/blipfox-message-toolbar-permalink.gif"
 								class="blipfox-message-toolbar-permalink-status"
 								xbl:inherits="messageId=messageId,messageType=messageType"
-								onclick="BlipFox.showStatus(event, this);"
+								onclick="BlipFox.Application.showStatus(event, this);"
 								contextmenu="blipfox-permalink-context"
 								tooltiptext="&permalink;" />
 							<xul:image
 								src="chrome://blipfox/content/images/blipfox-message-toolbar-permalink.gif"
 								class="blipfox-message-toolbar-permalink-directed_message"
 								xbl:inherits="messageId=messageId,messageType=messageType"
-								onclick="BlipFox.showDirectedMessage(event, this);"
+								onclick="BlipFox.Application.showDirectedMessage(event, this);"
 								contextmenu="blipfox-permalink-context"
 								tooltiptext="&permalink;" />
 							<xul:image
 								src="chrome://blipfox/content/images/blipfox-message-toolbar-permalink.gif"
 								class="blipfox-message-toolbar-permalink-private_message"
 								xbl:inherits="messageId=messageId,messageType=messageType"
-								onclick="BlipFox.showPrivateMessage(event, this);"
+								onclick="BlipFox.Application.showPrivateMessage(event, this);"
 								contextmenu="blipfox-permalink-context"
 								tooltiptext="&permalink;" />
 					</xul:hbox>
@@ -114,7 +114,7 @@
 					<xul:label
 						id="blipfox-popup-header-close"
 						tooltiptext="&close;"
-						onclick="BlipFox.togglePopup();"
+						onclick="BlipFox.Application.togglePopup();"
 						value="_" />
 				</xul:hbox>
 				<xul:hbox align="center">
@@ -141,9 +141,9 @@
 							class="plain"
 							tabscrolling="true"
 							accesskey="m"
-							onkeydown="BlipFox.validateInputMessage(event, this);"
-							onfocus="BlipFox.onInputMessageFocus(event, this);"
-							onkeyup="return BlipFox.autocompleteInputMessage(event, this);" />
+							onkeydown="BlipFox.Application.validateInputMessage(event, this);"
+							onfocus="BlipFox.Application.onInputMessageFocus(event, this);"
+							onkeyup="return BlipFox.Application.autocompleteInputMessage(event, this);" />
 						<xul:hbox
 							align="center"
 							class="blipfox-input-toolbar">
@@ -151,29 +151,29 @@
 								id="blipfox-input-dashboard"
 								tooltiptext="&dashboard;"
 								xbl:inherits="username=username"
-								onclick="BlipFox.showUserDashboard(this); return false;"
+								onclick="BlipFox.Application.showUserDashboard(this); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-dashboard.gif" />
 							<xul:image
 								id="blipfox-input-secretary"
 								tooltiptext="&secretary;"
 								align="start"
-								onclick="BlipFox.showUserSecretary(this); return false;"
+								onclick="BlipFox.Application.showUserSecretary(this); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-secretary.gif" />
 							<xul:image
 								id="blipfox-input-refresh"
 								tooltiptext="&refresh;"
 								xbl:inherits="username=username"
-								onclick="BlipFox.refresh(); return false;"
+								onclick="BlipFox.Application.refresh(); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-refresh.gif" />
 							<xul:image
 								id="blipfox-input-settings"
 								tooltiptext="&settings;"
 								xbl:inherits="username=username"
-								onclick="BlipFox.showPreferences(); return false;"
+								onclick="BlipFox.Application.showPreferences(); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-settings.gif" />
 							<xul:image
 								tooltiptext="&plugin.turnoff;"
-								onclick="BlipFox.turnoff();"
+								onclick="BlipFox.Application.turnoff();"
 								src="chrome://blipfox/content/images/blipfox-input-turn_off.gif"
 								id="blipfox-input-turnoff" />
 							<xul:spacer flex="1" />
@@ -193,22 +193,22 @@
 								tooltiptext="&messagingLock;"
 								id="blipfox-messaging-lock"
 								src="chrome://blipfox/content/images/blipfox-input-messaging-off.gif"
-								onclick="BlipFox.lockMessaging(this);" />
+								onclick="BlipFox.Application.lockMessaging(this);" />
 							<xul:image
 								tooltiptext="&compressUrls;"
 								id="blipfox-compress-urls"
 								src="chrome://blipfox/content/images/blipfox-input-compress-url.gif"
-								onclick="BlipFox.compressUrls();" />
+								onclick="BlipFox.Application.compressUrls();" />
 							<xul:image
 								tooltiptext="&selectFile;"
 								id="blipfox-input-file"
 								src="chrome://blipfox/content/images/blipfox-input-file-off.gif"
-								onclick="BlipFox.selectFile();" />
+								onclick="BlipFox.Application.selectFile();" />
 							<xul:image
 								class="blipfox-input-submit"
 								tooltiptext="&message.send;"
 								align="end"
-								onclick="BlipFox.sendMessage(); return false;"
+								onclick="BlipFox.Application.sendMessage(); return false;"
 								src="chrome://blipfox/content/images/blipfox-input-submit.png" />
 						</xul:hbox>
 					</xul:vbox>
