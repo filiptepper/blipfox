@@ -621,7 +621,7 @@ BlipFox.Application = (function()
    {
      switch (BlipFox.EventUtilities.getMouseButton(e))
      {
-       case LEFT_MOUSE_BUTTON:
+       case BlipFox.EventUtilities.LEFT_MOUSE_BUTTON:
          /* Lewy przycisk myszy. */
          BlipFox.Application.togglePopup();
          break;
@@ -839,7 +839,7 @@ BlipFox.Application = (function()
     */
    showStatus: function(e, element)
    {
-     if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+     if (BlipFox.EventUtilities.getMouseButton(e) == BlipFox.EventUtilities.LEFT_MOUSE_BUTTON)
      {
        this.openUrl(this.getStatusLink(element.getAttribute('messageId')));
      }
@@ -875,7 +875,7 @@ BlipFox.Application = (function()
     */
    showDirectedMessage: function(e, element)
    {
-     if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+     if (BlipFox.EventUtilities.getMouseButton(e) == BlipFox.EventUtilities.LEFT_MOUSE_BUTTON)
      {
        this.openUrl(this.getDirectedMessageLink(element.getAttribute('messageId')));
      }
@@ -889,7 +889,7 @@ BlipFox.Application = (function()
     */
    showPrivateMessage: function(e, element)
    {
-     if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+     if (BlipFox.EventUtilities.getMouseButton(e) == BlipFox.EventUtilities.LEFT_MOUSE_BUTTON)
      {
        this.openUrl(this.getPrivateMessageLink(element.getAttribute('messageId')));
      }
@@ -1378,7 +1378,7 @@ BlipFox.Application = (function()
     */
    showTextContext: function(e)
    {
-     if (BlipFox.EventUtilities.getMouseButton(e) == RIGHT_MOUSE_BUTTON && window.getSelection() != '')
+     if (BlipFox.EventUtilities.getMouseButton(e) == BlipFox.EventUtilities.RIGHT_MOUSE_BUTTON && window.getSelection() != '')
      {
        window.document.getElementById('blipfox-text-context').showPopup(e.target, e.screenX, e.screenY);
      }
@@ -1523,10 +1523,8 @@ BlipFox.Application = (function()
     */
    postUrl: function(url, dataString)
    {
-     const Cc = Components.classes;
-     const Ci = Components.interfaces;
-     var stringStream = Cc["@mozilla.org/io/string-input-stream;1"].
-     createInstance(Ci.nsIStringInputStream);
+     var stringStream = Components.classes["@mozilla.org/io/string-input-stream;1"].
+     createInstance(Components.interfaces.nsIStringInputStream);
      if ("data" in stringStream)
      {
        stringStream.data = dataString;
@@ -1536,8 +1534,8 @@ BlipFox.Application = (function()
        stringStream.setData(dataString, dataString.length);
      }
 
-     var postData = Cc["@mozilla.org/network/mime-input-stream;1"].
-     createInstance(Ci.nsIMIMEInputStream);
+     var postData = Components.classes["@mozilla.org/network/mime-input-stream;1"].
+     createInstance(Components.interfaces.nsIMIMEInputStream);
      postData.addHeader("Content-Type", "application/x-www-form-urlencoded");
      postData.addContentLength = true;
      postData.setData(stringStream);

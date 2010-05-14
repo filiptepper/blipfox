@@ -824,7 +824,7 @@ BlipFox.LayoutManager = function()
       link.appendChild(document.createTextNode(linkTitle));
       	link.addEventListener('click', function(e)
       {
-        if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+        if (BlipFox.EventUtilities.getMouseButton(e) == BlipFox.EventUtilities.LEFT_MOUSE_BUTTON)
         {
           BlipFox.Application.openUrl(e.target.href);
         }

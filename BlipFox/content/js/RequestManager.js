@@ -55,10 +55,8 @@ BlipFox.RequestManager = function()
   {
     try
     {
-      const Ci = Components.interfaces;
-
       var boundary = '------blipfox---blipfox---' + Math.random();
-      var mstream = Components.classes['@mozilla.org/io/multiplex-input-stream;1'].createInstance(Ci.nsIMultiplexInputStream);
+      var mstream = Components.classes['@mozilla.org/io/multiplex-input-stream;1'].createInstance(Components.interfaces.nsIMultiplexInputStream);
       var sstream;
 
       esc_params = {};
@@ -67,30 +65,30 @@ BlipFox.RequestManager = function()
 
       for (var p in esc_params)
       {
-        sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+        sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
 
         if ('object' == typeof esc_params[p] && null != esc_params[p])
         {
           sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="update[' + p + ']"', -1);
           mstream.appendStream(sstream);
 
-          sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+          sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
           sstream.setData('; filename="' + esc_params[p].filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n', -1);
           mstream.appendStream(sstream);
-          var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+          var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);
              			file.initWithPath(esc_params[p].path);
-             			var fstream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
-          fstream.init(file, 1, 1, Ci.nsIFileInputStream.CLOSE_ON_EOF);
-          var bstream = Components.classes['@mozilla.org/network/buffered-input-stream;1'].createInstance(Ci.nsIBufferedInputStream);
+             			var fstream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Components.interfaces.nsIFileInputStream);
+          fstream.init(file, 1, 1, Components.interfaces.nsIFileInputStream.CLOSE_ON_EOF);
+          var bstream = Components.classes['@mozilla.org/network/buffered-input-stream;1'].createInstance(Components.interfaces.nsIBufferedInputStream);
           bstream.init(fstream, 4096);
           mstream.appendStream(bstream);
-          sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+          sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
           sstream.setData('\r\n', -1);
           mstream.appendStream(sstream);
         }
         else
         {
-          var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
+          var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
           unicodeConverter.charset = "UTF-8";
                 convertedParam = unicodeConverter.ConvertFromUnicode(esc_params[p]);
                 convertedParam += unicodeConverter.Finish();
@@ -98,17 +96,17 @@ BlipFox.RequestManager = function()
           sstream.setData('--' + boundary + '\r\nContent-Disposition: form-data; name="update[' + p + ']"', -1);
           mstream.appendStream(sstream);
 
-          sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+          sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
           sstream.setData('\r\n\r\n' + convertedParam + '\r\n', -1);
           mstream.appendStream(sstream);
         }
       }
 
-      sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+      sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
       sstream.setData('--' + boundary + '--\r\n', -1);
       mstream.appendStream(sstream);
 
-      sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+      sstream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
       sstream.setData('POST /updates HTTP/1.1\r\n' +
         'Host: api.blip.pl\r\n' +
         'Authorization: Basic ' + window.btoa(_username + ':' + _password) + '\r\n' +
@@ -123,18 +121,18 @@ BlipFox.RequestManager = function()
 
       try
       {
-        var service = Components.classes['@mozilla.org/network/socket-transport-service;1'].getService(Ci.nsISocketTransportService);
+        var service = Components.classes['@mozilla.org/network/socket-transport-service;1'].getService(Components.interfaces.nsISocketTransportService);
         var transport = service.createTransport(null, 0, 'api.blip.pl', 80, null);
-        var ostream = transport.openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+        var ostream = transport.openOutputStream(Components.interfaces.nsITransport.OPEN_BLOCKING, 0, 0);
         while (mstream.available())
         {
           var a = mstream.available();
           ostream.writeFrom(mstream, Math.min(a, 8192));
         }
         var _istream = transport.openInputStream(0,0,0);
-        var istream = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Ci.nsIScriptableInputStream);
+        var istream = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Components.interfaces.nsIScriptableInputStream);
         istream.init(_istream);
-        var pump = Components.classes['@mozilla.org/network/input-stream-pump;1'].createInstance(Ci.nsIInputStreamPump);
+        var pump = Components.classes['@mozilla.org/network/input-stream-pump;1'].createInstance(Components.interfaces.nsIInputStreamPump);
         pump.init(_istream, -1, -1, 0, 0, false);
         pump.asyncRead({id: this.id, content_length: null, raw: '',
           onStartRequest: function(request, context) {},

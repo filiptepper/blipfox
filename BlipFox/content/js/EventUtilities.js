@@ -20,22 +20,22 @@
  * THE SOFTWARE.
  */
 
-/**
- * Stała określająca lewy przycisk myszki.
- * @const
- */
-const LEFT_MOUSE_BUTTON = 1;
-
-/**
- * Stała określająca prawy przycisk myszki.
- * @const
- */
-const RIGHT_MOUSE_BUTTON = 2;
-
 BlipFox.EventUtilities = (function()
 {
   /* Metody publiczne. */
   return {
+    /**
+     * Stała określająca lewy przycisk myszki.
+     * @const
+     */
+    LEFT_MOUSE_BUTTON: 1,
+
+    /**
+     * Stała określająca prawy przycisk myszki.
+     * @const
+     */
+    RIGHT_MOUSE_BUTTON: 2,
+
     /**
      * Funkcja zwraca przycisk myszy związany z przekazanym zdarzeniem.
      * @param Event e Obiekt Event JavaScript.
@@ -47,10 +47,10 @@ BlipFox.EventUtilities = (function()
       switch (e.button)
       {
         case 0:
-          return LEFT_MOUSE_BUTTON;
+          return BlipFox.EventUtilities.LEFT_MOUSE_BUTTON;
           break;
         case 2:
-          return RIGHT_MOUSE_BUTTON;
+          return BlipFox.EventUtilities.RIGHT_MOUSE_BUTTON;
           break;
       }
 

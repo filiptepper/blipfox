@@ -20,9 +20,6 @@
  * THE SOFTWARE.
  */
 
-/* Czas trzymania hasla z menadzera hasel w cache (w ms) */
-const PASSWORD_CACHE_TIME = 5 * 60 * 1000;
-
 BlipFox.PreferencesManager = (function()
 {
   /**
@@ -116,7 +113,7 @@ BlipFox.PreferencesManager = (function()
      	if (this.get('passwordFromPM') === 'true')
      	{
      		var time = new Date().getTime();
-     		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
+     		var cacheExpired = time - cachedPassword['time'] > (5 * 60 * 1000);
      		if (cacheExpired || cachedPassword['value'] == '')
      		{
      			cachedPassword['time'] = time;
