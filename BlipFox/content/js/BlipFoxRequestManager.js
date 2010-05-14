@@ -393,16 +393,6 @@ function BlipFoxRequestManager()
 		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + url, callback);
 	}
 
-	this.checkFavourite = function(message, callback)
-	{
-		_sendRequest(BlipFox.Const.FAVOURITES_API_URL + 'check?msg_id=' + message + '&auth2=' + window.btoa( _username + ':' + _password), callback);
-	}
-
-	this.addToFavourites = function(message, callback)
-	{
-		_sendRequest(BlipFox.Const.FAVOURITES_API_URL + 'set?msg_id=' + message + '&cmd=1&auth2=' + window.btoa( _username + ':' + _password), callback);
-	}
-
 	this.sendImage = function(body, file, callback)
 	{
 		_sendMultipartRequest(body, file, callback);

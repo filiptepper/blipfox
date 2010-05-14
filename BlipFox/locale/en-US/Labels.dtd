@@ -18,8 +18,6 @@
 <!ENTITY dashboard "Dashboard">
 <!ENTITY plugin.turnoff "Turn off">
 <!ENTITY refresh "Refresh">
-<!ENTITY favourites "Favourites">
-<!ENTITY addToFavourites "Add to Favourites">
 <!ENTITY selectFile "Upload a file">
 <!ENTITY compressUrls "Compress links">
 <!ENTITY messagingLock "Messaging lock">

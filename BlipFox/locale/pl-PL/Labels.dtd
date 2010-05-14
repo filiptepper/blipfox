@@ -18,8 +18,6 @@
 <!ENTITY dashboard "Kokpit">
 <!ENTITY plugin.turnoff "Wyłącz">
 <!ENTITY refresh "Odśwież">
-<!ENTITY favourites "Ulubione">
-<!ENTITY addToFavourites "Dodaj do Ulubionych">
 <!ENTITY selectFile "Załącz plik">
 <!ENTITY compressUrls "Skróć linki">
 <!ENTITY messagingLock "Blokada rozmowy">
