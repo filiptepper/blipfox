@@ -270,13 +270,14 @@ BlipFox = (function()
 				var friendsLength = friends.length;
 				for (i = 0; i < friendsLength; i++)
 				{
+				  var login = friends[i].tracked_user_path.substring(7);
 					/**
 					 * Dodane małe zabezpieczenie na wypadek, gdyby API miało problem z metodą /friends.
 					 * Sprawdzamy, czy w tablicy nie powtarzają się elementy.
 					 */
-					if (_data._friends.indexOf(friends[i].login) == -1)
+					if (_data._friends.indexOf(login) == -1)
 					{
-						_data._friends[_data._friends.length] = friends[i].login;
+						_data._friends[_data._friends.length] = login;
 					}
 				}
 
@@ -551,6 +552,7 @@ BlipFox = (function()
 	}
 	catch (ex)
 	{
+	  BlipFox.log(ex);
 	}
 
 	/**
@@ -708,6 +710,7 @@ BlipFox = (function()
 			}
  			catch (ex)
 			{
+			  BlipFox.log(ex);
 				if (ex instanceof CredentialsException)
 				{
 					BlipFox.alert(ex.message);
@@ -1058,6 +1061,7 @@ BlipFox = (function()
 				}
 				catch (e)
 				{
+				  BlipFox.log(e);
 					/**
 					 * Brzydki sposób obsługi.
 					 * Nie zawsze dostępny jest obiekt tabbrowser.
@@ -1497,6 +1501,7 @@ BlipFox = (function()
 				}
 				catch (ex)
 				{
+				  BlipFox.log(ex);
 				}
 			}
 		},
@@ -1542,6 +1547,7 @@ BlipFox = (function()
 			}
 			catch (ex)
 			{
+			  BlipFox.log(ex);
 			}
 		},
 

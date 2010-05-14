@@ -179,6 +179,7 @@ function BlipFoxRequestManager()
 			}
 			catch (err)
 			{
+			  BlipFox.log(err);
 				if (typeof callback.error === 'function')
 				{
 					callback.error(request);
@@ -187,6 +188,7 @@ function BlipFoxRequestManager()
 		}
 		catch(e)
 		{
+		  BlipFox.log(err);
 			if (typeof callback.error === 'function')
 			{
 				callback.error();
@@ -274,6 +276,7 @@ function BlipFoxRequestManager()
 			}
 			catch (ex)
 			{
+			  BlipFox.log(ex);
 				if (typeof callback.error === 'function')
 				{
 					callback.error(request, ex);
@@ -313,7 +316,7 @@ function BlipFoxRequestManager()
 	 */
 	this.getFriends = function(callback)
 	{
-		_sendRequest(BLIPFOX_API_URL + 'friends', callback);
+		_sendRequest(BLIPFOX_API_URL + "subscriptions/from", callback);
 	}
 
 	/**

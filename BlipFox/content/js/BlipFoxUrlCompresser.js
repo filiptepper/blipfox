@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,7 +32,7 @@ function BlipFoxUrlCompresser()
 		request.open('GET', url, true);
 		request.onreadystatechange = function()
 		{
- 			
+ 
 			try
 			{
 				if (request.readyState == 4 && request.status == 200)
@@ -52,16 +52,17 @@ function BlipFoxUrlCompresser()
 			}
 			catch (ex)
 			{
+			  BlipFox.log(ex);
 				if (typeof callback.error === 'function')
 				{
 					callback.error(request, ex);
 				}
 			};
-		}		
-		
-		request.send(null);	
+		}
+
+		request.send(null);
 	},
-	
+
 	this.compressUrl = function(url, callback)
 	{
 		return this.sendGetRequest(IS_GD_API_URL + url, callback, url);
