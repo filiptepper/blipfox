@@ -23,7 +23,8 @@
 /**
  * Obiekt obsługuje okienko preferencji.
  */
-var Preferences = (function()
+BlipFox = {}
+BlipFox.Preferences = (function()
 {
   /**
    * Metoda zamyka okienko preferencji.
@@ -258,11 +259,11 @@ window.addEventListener('load', function(e)
     window.document.getElementById('blipfox-preferences-notify').style.display = 'none';
   }
 
-  Preferences.loadPreferences();
+  BlipFox.Preferences.loadPreferences();
 
   /* A tu mały hack - inaczej okienko znika. */
   setTimeout(function()
   {
-    Preferences.toggleSoundSelect(window.document.getElementById('blipfox-preferences-soundNewMessages'), true);
+    BlipFox.Preferences.toggleSoundSelect(window.document.getElementById('blipfox-preferences-soundNewMessages'), true);
   }, 1);
 }, false);

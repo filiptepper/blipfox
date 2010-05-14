@@ -44,7 +44,7 @@
 			<checkbox
 				id="blipfox-preferences-passwordFromPM"
 				label="&passwordFromPM.label;"
-				oncommand="Preferences.updatePasswordField(this);" />
+				oncommand="BlipFox.Preferences.updatePasswordField(this);" />
 			<checkbox
 				id="blipfox-preferences-autoLogin"
 				label="&autoLogin.label;" />
@@ -57,7 +57,7 @@
 			value="&showhide.label;" />
 		<textbox
 			id="blipfox-preferences-shortcut"
-			onkeydown="Preferences.setShortcut(this, event); return false;" />
+			onkeydown="BlipFox.Preferences.setShortcut(this, event); return false;" />
 	</groupbox>
 	<groupbox>
 		<caption label="&multimedia.caption;" />
@@ -104,7 +104,7 @@
 		<checkbox
 			id="blipfox-preferences-soundNewMessages"
 			label="&soundNewMessages.label;"
-			oncommand="Preferences.toggleSoundSelect(this);" />
+			oncommand="BlipFox.Preferences.toggleSoundSelect(this);" />
 		<label
 			id="blipfox-preferences-soundFile"
 			style="display:none;" />
@@ -112,7 +112,7 @@
 			id="blipfox-preferences-soundSelect"
 			label="&soundSelect.label;"
 			style="display:none;"
-			onclick="Preferences.selectSound();" />
+			onclick="BlipFox.Preferences.selectSound();" />
 	</groupbox>
 	<groupbox>
 		<caption label="&other.label;" />
@@ -125,9 +125,9 @@
 		style="margin-right: 5px">
 		<button
 			label="&preferences.save;"
-			onclick="Preferences.save()" />
+			onclick="BlipFox.Preferences.save()" />
 		<button
 			label="&preferences.cancel;"
-			onclick="Preferences.cancel();" />
+			onclick="BlipFox.Preferences.cancel();" />
 	</hbox>
 </window>
