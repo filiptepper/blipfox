@@ -2,13 +2,16 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAKo1WdOlvDjcbkdEnLlDxSrDKBG14Vu2Cgbp1kBdxsHpoCJL6s4hkcmSjEOEqF8W+KhJDdqEKhy2Tc+l1qkLoBaljXvtJZGR1ZOj0kCBRh3HkCaLaBjeGwR+830dNNzO6kU8jp2XC0JUm7xhsrYc9poTxWtW2n/KQKMyX9gLDXZU">
+    <em:updates RDF:resource="rdf:#$1JslM"/>
+  </RDF:Description>
+  <RDF:Seq RDF:about="rdf:#$1JslM">
+    <RDF:li RDF:resource="rdf:#$2JslM"/>
+  </RDF:Seq>
   <RDF:Description RDF:about="rdf:#$2JslM"
                    em:version="1.1.9">
     <em:targetApplication RDF:resource="rdf:#$5JslM"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAFKDFMBDxTh1yK3v/fw53gOWv/7wLXSr2sxVo1GQMGD7qfrxjbZ9WqThlN6prSHu4aLQGiqIAf+uCjspK3STjQXhfXTcRrpyNcNjAlcZkp1lyB7uPwz+4NJG7QshfbmZng9xxz9MrofSCTOubJQJ4BeEW3I8I7YZJSw5VutLn5Lo">
-    <em:updates RDF:resource="rdf:#$1JslM"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$5JslM"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
@@ -16,8 +19,5 @@
                    em:maxVersion="3.7a5pre"
                    em:updateLink="http://blipfox.com/files/BlipFox-current.xpi"
                    em:updateInfoURL="http://blipfox.com/"
-                   em:updateHash="sha1:c7a54343a83896f0f6da0aa22313bf407bac57cf" />
-  <RDF:Seq RDF:about="rdf:#$1JslM">
-    <RDF:li RDF:resource="rdf:#$2JslM"/>
-  </RDF:Seq>
+                   em:updateHash="sha1:cb17389a9b915d279c01ce7bdec3166e0e0f233a" />
 </RDF:RDF>
