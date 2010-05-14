@@ -149,7 +149,6 @@ var Preferences = (function()
 			window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFoxPreferencesManager.get('markNewMessages') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-soundNewMessages').checked = BlipFoxPreferencesManager.get('soundNewMessages') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-hideOnClick').checked = BlipFoxPreferencesManager.get('hideOnClick') === 'true' ? true : false;
-/*      window.document.getElementById('blipfox-preferences-showEmbeds').checked = BlipFoxPreferencesManager.get('showEmbeds') === 'true' ? true : false;*/
 			window.document.getElementById('blipfox-preferences-notifyStatuses').checked = BlipFoxPreferencesManager.get('notifyStatuses') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-notifyMessages').checked = BlipFoxPreferencesManager.get('notifyMessages') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-showNotifications').checked = BlipFoxPreferencesManager.get('showNotifications') === 'true' ? true : false;
