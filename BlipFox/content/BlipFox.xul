@@ -15,6 +15,7 @@
 			id="blipfox-error-strings"
 			src="chrome://blipfox/locale/Errors.dtd" />
 	</stringbundleset>
+	<script src="js/BlipFox.js" />
 	<script src="js/functions.js" />
 	<script src="js/BlipFoxLocaleManager.js" />
 	<script src="js/BlipFoxEventUtilities.js" />
@@ -22,7 +23,6 @@
 	<script src="js/BlipFoxRequestManager.js" />
 	<script src="js/BlipFoxUrlCompresser.js" />
 	<script src="js/BlipFoxLayoutManager.js" />
-	<script src="js/BlipFox.js" />
 	<statusbar id="status-bar">
 		<statusbarpanel
 			class="statusbarpanel-iconic"

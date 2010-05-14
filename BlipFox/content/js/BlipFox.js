@@ -413,7 +413,7 @@ BlipFox = (function()
       else
       {
         BlipFox.destroy();
-        throw invalidCredentialsError;
+        throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
       }
     }
     catch (ex)
@@ -649,10 +649,6 @@ BlipFox = (function()
           BlipFox.togglePopup();
         }
       }
-
-      missingCredentialsError = new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterUsernameAndPassword'));
-      invalidCredentialsError = new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
-      networkError = new BlipFox.NetworkException('networkError');
     },
 
     /**

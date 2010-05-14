@@ -47,7 +47,7 @@ function BlipFoxRequestManager()
 
     if (_username === '' || _password === '')
     {
-      throw missingCredentialsError;
+      throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterUsernameAndPassword'));
     }
   };
 
@@ -257,14 +257,14 @@ function BlipFoxRequestManager()
         {
           /* Błędna nazwa użytkownika i/lub hasło. */
           BlipFox.unsetStatus(BlipFoxStatus.AUTHENTICATED);
-          throw invalidCredentialsError;
+          throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
         }
         else if (request.readyState == 4 && request.status == 503)
         {
           BlipFox.log('HTTP: 503');
 
           /* Błąd sieci. */
-          throw networkError;
+          throw new BlipFox.NetworkException("networkError");
         }
         else if (request.readyState == 4)
         {
