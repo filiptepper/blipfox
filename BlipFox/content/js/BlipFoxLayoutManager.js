@@ -523,7 +523,7 @@ function BlipFoxLayoutManager()
   this.setUserStatus = function(userStatus, id)
   {
     var currentUserStatus = window.document.getElementById('blipfox-popup-header-status');
-    var userStatusWrapped = wordwrap(userStatus, 33, ' ', true);
+    var userStatusWrapped = BlipFox.wordwrap(userStatus, 33, ' ', true);
     while (currentUserStatus.firstChild)
     {
       currentUserStatus.removeChild(currentUserStatus.firstChild);
@@ -840,7 +840,7 @@ function BlipFoxLayoutManager()
 
       if (message)
     {
-      	message = wordwrap(message, 25, ' ', true);
+      	message = BlipFox.wordwrap(message, 25, ' ', true);
       element.appendChild(document.createTextNode(message));
       }
   }

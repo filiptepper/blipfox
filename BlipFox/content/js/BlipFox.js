@@ -1686,7 +1686,7 @@ window.addEventListener('load', function(e)
 
 window.addEventListener('keydown', function(e)
 {
-  var shortcutPreferences = getShortcutPreferences();
+  var shortcutPreferences = BlipFox.getShortcutPreferences();
   if (e.shiftKey === shortcutPreferences.shiftKey && e.ctrlKey === shortcutPreferences.shiftKey && e.altKey === shortcutPreferences.altKey && e.metaKey === shortcutPreferences.metaKey && e.keyCode == shortcutPreferences.keyCode)
   {
     BlipFox.togglePopup();

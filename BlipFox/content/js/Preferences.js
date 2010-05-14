@@ -23,7 +23,8 @@
 /**
  * Obiekt obsługuje okienko preferencji.
  */
-BlipFox = {}
+if (typeof BlipFox === "undefined") { var BlipFox = {}; }
+
 BlipFox.Preferences = (function()
 {
   /**
@@ -117,7 +118,7 @@ BlipFox.Preferences = (function()
      */
     setShortcut: function(element, e)
     {
-      element.value = humanizeKeyCode(e);
+      element.value = BlipFox.humanizeKeyCode(e);
       element.setAttribute('shortcut', e.keyCode);
       element.setAttribute('metaKey', e.metaKey);
       element.setAttribute('altKey', e.altKey);
@@ -145,7 +146,7 @@ BlipFox.Preferences = (function()
       window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFoxPreferencesManager.get('passwordFromPM') === 'true' ? true : false;
       window.document.getElementById('blipfox-preferences-autoLogin').checked = BlipFoxPreferencesManager.get('autoLogin') === 'true' ? true : false;
       this.updatePasswordField(window.document.getElementById('blipfox-preferences-passwordFromPM'));
-      this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), getShortcutPreferences());
+      this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), BlipFox.getShortcutPreferences());
       window.document.getElementById('blipfox-preferences-noDashboardBackground').checked = BlipFoxPreferencesManager.get('noDashboardBackground') === 'true' ? true : false;
       window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFoxPreferencesManager.get('markNewMessages') === 'true' ? true : false;
       window.document.getElementById('blipfox-preferences-soundNewMessages').checked = BlipFoxPreferencesManager.get('soundNewMessages') === 'true' ? true : false;

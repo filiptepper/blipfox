@@ -20,13 +20,15 @@
  * THE SOFTWARE.
  */
 
+if (typeof BlipFox === "undefined") { var BlipFox = {}; }
+
 /**
  * Funkcja przetwarza kod klawiszy z obiektu Event do formy
  * czytelnej dla użytkownika.
  * @param e Event Obiekt Event.
  * @return string Etykieta skrótu klawiszowego.
  */
-function humanizeKeyCode(e)
+BlipFox.humanizeKeyCode = function(e)
 {
   var humanized = [];
 
@@ -59,7 +61,7 @@ function humanizeKeyCode(e)
  * Funkcja zwraca aktualny skrót klawiszowy na podstawie preferencji użytkownika.
  * @return Object Obiekt podobny Event.
  */
-function getShortcutPreferences()
+BlipFox.getShortcutPreferences = function()
 {
 
   var fakeEvent =
@@ -78,7 +80,7 @@ function getShortcutPreferences()
   * Funkcja zwraca haslo z menadzera hasel dla danej domeny oraz nazwy uzytkownika
   * @return String Haslo uzytkownika
   */
-function getPasswordFromManager(host, username) {
+BlipFox.getPasswordFromManager = function(host, username) {
   lowerCaseUsername = username.toLowerCase();
 
   if (Components.classes["@mozilla.org/passwordmanager;1"]) // Firefox starszy niz 3
@@ -126,7 +128,7 @@ function getPasswordFromManager(host, username) {
  * @param boolean ucinanie słowa
  * @return string
  */
-function wordwrap( str, int_width, str_break, cut ) {
+BlipFox.wordwrap = function( str, int_width, str_break, cut ) {
     // http://kevin.vanzonneveld.net
     // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
     // +   improved by: Nick Callen
