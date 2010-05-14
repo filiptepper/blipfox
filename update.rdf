@@ -3,7 +3,7 @@
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="rdf:#$2JslM"
-                   em:version="1.1.8">
+                   em:version="1.1.9">
     <em:targetApplication RDF:resource="rdf:#$5JslM"/>
   </RDF:Description>
   <RDF:Description RDF:about="urn:mozilla:extension:{07498471-8DFE-45D1-B1E4-0839E613180F}"

@@ -24,7 +24,7 @@
 const BLIPFOX_DEBUG = false;
 
 /* Wersja. */
-const BLIPFOX_VERSION = '1.1.8';
+const BLIPFOX_VERSION = '1.1.9';
 
 /* URL do API. */
 const BLIPFOX_API_URL = 'http://api.blip.pl/';
