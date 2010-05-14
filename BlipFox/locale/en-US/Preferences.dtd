@@ -11,9 +11,6 @@
 <!ENTITY passwordFromPM.label "Retrieve password from Firefox's Password manager (for blip.pl)">
 <!ENTITY noDashboardBackground.label "Do not load dashboard's background">
 <!ENTITY other.label "Other">
-<!ENTITY tag.blipcast.label "Blipcast">
-<!ENTITY tag.blip.label "Blip">
-<!ENTITY tags.label "Open tags in:">
 <!ENTITY markNewMessages.label "Mark new messages when invisible">
 <!ENTITY soundNewMessages.label "Play a sound on new messages when invisible">
 <!ENTITY soundSelect.label "Select a file">

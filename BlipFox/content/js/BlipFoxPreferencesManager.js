@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,8 +33,8 @@ BlipFoxPreferencesManager = (function()
 	 * @var Object
 	 * @private
 	 */
-	var preferencesService = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService).getBranch('extensions.blipfox.'); 
-	
+	var preferencesService = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService).getBranch('extensions.blipfox.');
+
 	/**
 	 * Obiekt zawierające domyślne preferencje.
 	 * @var Object
@@ -51,7 +51,6 @@ BlipFoxPreferencesManager = (function()
 		shortcutCtrl: 'true',
 		shortcutShift: 'true',
 		noDashboardBackground: 'false',
-		showTagsIn: 'blipcast',
 		markNewMessages: 'false',
 		soundNewMessages: 'false',
 		hideOnClick: 'false',
@@ -68,12 +67,12 @@ BlipFoxPreferencesManager = (function()
 	 * @var Object
 	 * @private
 	 */
-	var cachedPassword = 
+	var cachedPassword =
 	{
 		time: '0',
 		value: ''
 	};
-	
+
 	return {
 		/**
 		 * Metoda pobiera preferencję użytkownika.
@@ -90,10 +89,10 @@ BlipFoxPreferencesManager = (function()
 			{
 				value = defaults[preference];
 			}
-			
+
 			return value;
 		},
-		
+
 		/**
 		 * Metoda ustawia preferencję użytkownika.
 		 * @param string preference Nazwa.
@@ -103,7 +102,7 @@ BlipFoxPreferencesManager = (function()
 		{
 			return preferencesService.setCharPref(preference, value);
 		},
-		
+
 		/**
 		 * Metoda zwraca zapisana nazwe uzytkownika (dla zgodnosci z getPassword())
 		 */
@@ -111,14 +110,14 @@ BlipFoxPreferencesManager = (function()
 		{
 			return this.get('username');
 		},
-		
+
 		/**
 		 * Metoda zwraca zapisane haslo uzytkownika
 		 */
 		 getPassword: function()
 		 {
 		 	if (this.get('passwordFromPM') === 'true')
-		 	{ 		
+		 	{
 		 		var time = new Date().getTime();
 		 		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
 		 		if (cacheExpired || cachedPassword['value'] == '')
@@ -126,7 +125,7 @@ BlipFoxPreferencesManager = (function()
 		 			cachedPassword['time'] = time;
 		 			cachedPassword['value'] = getPasswordFromManager('blip.pl', this.getUsername());
 		 		}
-		 			
+
 		 		return cachedPassword['value'];
 		 	}
 		 	else

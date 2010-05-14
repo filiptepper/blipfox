@@ -576,9 +576,6 @@ BlipFox = (function()
       /* URL do bliplogu. */
       BLIPFOX_BLIPLOG_URL: '.blip.pl/',
 
-      /* URL Blipcast. */
-      BLIPFOX_BLIPCAST_URL: 'http://blipcast.pl/',
-
       /* URL sekretarka (Tomasza Topy) */
       BLIPFOX_SECRETARY_URL: 'http://szmerybajery.pl/sekretarka/index.php',
 
@@ -918,21 +915,14 @@ BlipFox = (function()
 		},
 
 		/**
-		 * Metoda zwraca link do tagu w zależności od konfiguracji.
+		 * Metoda zwraca link do tagu.
 		 * @param string tag Tag.
 		 * @return string URL do tagu.
 		 * @public
 		 */
 		getTagLink: function(tag)
 		{
-			switch (BlipFoxPreferencesManager.get('showTagsIn'))
-			{
-				case 'blip':
-					return this.getBlipTagLink(tag);
-				default:
-					return this.getBlipcastLink(tag);
-
-			}
+			return this.getBlipTagLink(tag);
 		},
 
 		/**
@@ -944,17 +934,6 @@ BlipFox = (function()
 		getBlipTagLink: function(tag)
 		{
 			return BlipFox.Const.BLIPFOX_BLIP_URL + 'tags/' + tag.replace('Ę', 'e').replace('ę', 'e').replace('Ó', 'o').replace('ó', 'o').replace('Ą', 'a').replace('ą', 'a').replace('Ś', 's').replace('ś', 's').replace('Ł', 'l').replace('ł', 'l').replace('Ż', 'z').replace('ż', 'z').replace('Ź', 'z').replace('ź', 'z').replace('Ć', 'c').replace('ć', 'c').replace('Ń', 'n').replace('ń', 'n');
-		},
-
-		/**
-		 * Metoda zwraca link do tagu na blipcast.pl.
-		 * @param string tag Tag.
-		 * @return string URL do tagu na blipcast.pl
-		 * @public
-		 */
-		getBlipcastLink: function(tag)
-		{
-			return BlipFox.Const.BLIPFOX_BLIPCAST_URL + tag.replace('Ę', 'e').replace('ę', 'e').replace('Ó', 'o').replace('ó', 'o').replace('Ą', 'a').replace('ą', 'a').replace('Ś', 's').replace('ś', 's').replace('Ł', 'l').replace('ł', 'l').replace('Ż', 'z').replace('ż', 'z').replace('Ź', 'z').replace('ź', 'z').replace('Ć', 'c').replace('ć', 'c').replace('Ń', 'n').replace('ń', 'n');
 		},
 
 		/**

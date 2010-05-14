@@ -119,19 +119,6 @@
 		<checkbox
 			id="blipfox-preferences-useSpellchecker"
 			label="&useSpellchecker.label;" />
-		<radiogroup>
-			<label value="&tags.label;" />
-			<hbox>
-				<radio
-					id="blipfox-preferences-tags-blipcast"
-					label="&tag.blipcast.label;"
-					value="blipcast" />
-				<radio
-					id="blipfox-preferences-tags-blip"
-					label="&tag.blip.label;"
-					value="blip" />
-			</hbox>
-		</radiogroup>
 	</groupbox>
 	<hbox
 		align="right"

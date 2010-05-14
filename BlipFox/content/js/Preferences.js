@@ -88,13 +88,11 @@ var Preferences = (function()
 			'markNewMessages': _getCheckboxPreference('blipfox-preferences-markNewMessages'),
 			'soundNewMessages': _getCheckboxPreference('blipfox-preferences-soundNewMessages'),
 			'hideOnClick': _getCheckboxPreference('blipfox-preferences-hideOnClick'),
-/*      'showEmbeds': _getCheckboxPreference('blipfox-preferences-showEmbeds'),*/
 			'notifyStatuses': _getCheckboxPreference('blipfox-preferences-notifyStatuses'),
 			'notifyMessages': _getCheckboxPreference('blipfox-preferences-notifyMessages'),
 			'showNotifications': _getCheckboxPreference('blipfox-preferences-showNotifications'),
 			'notifyNotifications': _getCheckboxPreference('blipfox-preferences-notifyNotifications'),
 			'useSpellchecker': _getCheckboxPreference('blipfox-preferences-useSpellchecker'),
-			'showTagsIn': (window.document.getElementById('blipfox-preferences-tags-blip').getAttribute('selected') === 'true' ? 'blip' : 'blipcast'),
 			'soundFile': (window.document.getElementById('blipfox-preferences-soundFile').value == BlipFoxLocaleManager.getLocaleString('noFile') ? '' : window.document.getElementById('blipfox-preferences-soundFile').value)
 		};
 
@@ -157,9 +155,6 @@ var Preferences = (function()
 			window.document.getElementById('blipfox-preferences-showNotifications').checked = BlipFoxPreferencesManager.get('showNotifications') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-notifyNotifications').checked = BlipFoxPreferencesManager.get('notifyNotifications') === 'true' ? true : false;
 			window.document.getElementById('blipfox-preferences-useSpellchecker').checked = BlipFoxPreferencesManager.get('useSpellchecker') === 'true' ? true : false;
-			window.document.getElementById('blipfox-preferences-tags-blipcast').setAttribute('selected', false);
-			window.document.getElementById('blipfox-preferences-tags-blip').setAttribute('selected', false);
-			window.document.getElementById('blipfox-preferences-tags-' + BlipFoxPreferencesManager.get('showTagsIn')).setAttribute('selected', true);
 		},
 
 		/**
