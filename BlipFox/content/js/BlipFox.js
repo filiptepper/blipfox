@@ -73,13 +73,6 @@ BlipFox = (function()
   var _requestManager;
 
   /**
-   * Obiekt zarządzający skracaniem / wydłużaniem adresow url.
-   * @var BlipFoxUrlCompreser
-   * @private
-   */
-  var _urlCompresser;
-
-  /**
    * Identyfikator ostatnio pobranej wiadomości.
    * @var integer
    * @private
@@ -632,7 +625,6 @@ BlipFox = (function()
     {
       _layoutManager = new BlipFoxLayoutManager();
       _requestManager = new BlipFoxRequestManager();
-      _urlCompresser = new BlipFoxUrlCompresser();
 
       /* Inicjalizacja podstawowych zdarzeń. */
 
@@ -1330,16 +1322,6 @@ BlipFox = (function()
     getRequestManager: function()
     {
       return _requestManager;
-    },
-
-    /**
-     * Metoda zwraca instancję obiektu BlipFoxUrlCompresser.
-     * @return BlipFoxRequestManager
-     * @public
-     */
-    getUrlCompresser: function()
-    {
-      return _urlCompresser;
     },
 
     /**
