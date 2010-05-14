@@ -24,6 +24,7 @@
  * Obiekt obsługuje okienko preferencji.
  */
 if (typeof BlipFox === "undefined") { var BlipFox = {}; }
+BlipFox.Timer = function() { return Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer); }
 
 BlipFox.Preferences = (function()
 {
@@ -263,8 +264,8 @@ window.addEventListener('load', function(e)
   BlipFox.Preferences.loadPreferences();
 
   /* A tu mały hack - inaczej okienko znika. */
-  setTimeout(function()
+  BlipFox.Timer().initWithCallback(function()
   {
     BlipFox.Preferences.toggleSoundSelect(window.document.getElementById('blipfox-preferences-soundNewMessages'), true);
-  }, 1);
+  }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 }, false);

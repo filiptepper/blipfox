@@ -288,13 +288,13 @@ function BlipFoxLayoutManager()
      * Ustawienie fokusu na oknie wpisywania wiadomości.
      * Timeout ze względu na czas potrzebny na rendering elementów.
      */
-    setTimeout(function()
+    BlipFox.Timer().initWithCallback(function()
     {
       if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
       {
         _getInputMessage().focus();
       }
-    }, 1);
+    }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
   }
 
   /**
@@ -410,10 +410,10 @@ function BlipFoxLayoutManager()
     if (BlipFox.checkStatus(BlipFox.Status.VISIBLE) === true)
     {
       _hideContainer();
-      setTimeout(function()
+      BlipFox.Timer().initWithCallback(function()
       {
         _showContainer();
-      }, 1);
+      }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
     }
   }
 

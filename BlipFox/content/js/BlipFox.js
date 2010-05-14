@@ -137,7 +137,7 @@ BlipFox = (function()
     _getMessages();
 
     /* Ustawienie sprawdzenia, czy wszystkie elementy zostały już pobrane. */
-    setTimeout(BlipFox.isInitialized, 1);
+    BlipFox.Timer().initWithCallback(BlipFox.isInitialized, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 
     return true;
   }
@@ -392,7 +392,7 @@ BlipFox = (function()
         BlipFox.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
         )
       {
-        setTimeout(function()
+        BlipFox.Timer().initWithCallback(function()
         {
           var date = new Date();
 
@@ -404,7 +404,7 @@ BlipFox = (function()
           {
             _checkPoll();
           }
-        }, 1000);
+        }, 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
       else if (BlipFox.checkStatus(BlipFox.Status.ON) === true || BlipFox.checkStatus(BlipFox.Status.ON) === false)
       {
@@ -591,7 +591,7 @@ BlipFox = (function()
 
         _layoutManager.initialized();
 
-        setTimeout(function()
+        BlipFox.Timer().initWithCallback(function()
         {
           _layoutManager.showFriends(_data._friends);
           _layoutManager.showMessages(_data._messages);
@@ -600,7 +600,7 @@ BlipFox = (function()
 
           window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.getUsername());
           _layoutManager.getInputMessage().focus();
-        }, 1);
+        }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
 
       else if (BlipFox.checkStatus(BlipFox.Status.AUTHENTICATED) === false)
@@ -609,7 +609,7 @@ BlipFox = (function()
       }
       else
       {
-        setTimeout(BlipFox.isInitialized, 1);
+        BlipFox.Timer().initWithCallback(BlipFox.isInitialized, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
     },
 
@@ -1359,10 +1359,10 @@ BlipFox = (function()
           {
             _layoutManager.disableProcessingThrobber();
             messageNode = window.document.getElementById(messageId);
-            setTimeout(function()
+            BlipFox.Timer().initWithCallback(function()
             {
               BlipFox.hideMessage(messageNode);
-            }, 50);
+            }, 50, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
             if (window.document.getElementById('blipfox-popup-header-status').getAttribute('message_id') == messageId)
             {
               _layoutManager.setUserStatus('[Wiadomość usunięta]')
@@ -1387,10 +1387,10 @@ BlipFox = (function()
       if (messageNode.style.opacity > 0)
       {
         messageNode.style.opacity -= 0.05;
-        setTimeout(function(e)
+        BlipFox.Timer().initWithCallback(function(e)
         {
           BlipFox.hideMessage(messageNode);
-        }, 50);
+        }, 50, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
       else
       {
@@ -1678,6 +1678,7 @@ BlipFox = (function()
 
 BlipFox.CredentialsException.prototype = new Error();
 BlipFox.NetworkException.prototype = new Error();
+BlipFox.Timer = function() { return Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer); }
 
 window.addEventListener('load', function(e)
 {
