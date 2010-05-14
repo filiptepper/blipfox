@@ -20,32 +20,11 @@
  * THE SOFTWARE.
  */
 
-/* Konsola do debuggowania. */
-const BLIPFOX_DEBUG = false;
 
-/* Wersja. */
-const BLIPFOX_VERSION = '1.1.9';
-
-/* URL do API. */
-const BLIPFOX_API_URL = 'http://api.blip.pl/';
-
-/* URL Blip. */
-const BLIPFOX_BLIP_URL = 'http://blip.pl/';
-
-/* URL do bliplogu. */
-const BLIPFOX_BLIPLOG_URL = '.blip.pl/';
-
-/* URL Blipcast. */
-const BLIPFOX_BLIPCAST_URL = 'http://blipcast.pl/';
-
-/* URL sekretarka (Tomasza Topy) */
-const BLIPFOX_SECRETARY_URL = 'http://szmerybajery.pl/sekretarka/index.php';
-
-/* URL do API Favourites. */
-const FAVOURITES_API_URL = 'http://favourites.appspot.com/';
-
-/* Maksymalna dlugosc wiadomosci wysylanej na Blipa */
-const BLIP_MESSAGE_MAX_LENGTH = 160;
+/**
+* Obiekt sterujący rozszerzeniem.
+*/
+if (typeof BlipFox === "undefined") { var BlipFox = {}; }
 
 /**
  * Wyjątek do obsługi błędów logowania.
@@ -112,14 +91,9 @@ var BlipFoxStatus = {
 	LOADING: 256
 };
 
-/**
- * Obiekt sterujący rozszerzeniem.
- */
-var BlipFox = {};
-
 BlipFox = (function()
 {
-	/**
+  	/**
 	 * Struktura zawierająca dane, na których działa rozszerzenie.
 	 * @var Object
 	 * @private
@@ -585,6 +559,37 @@ BlipFox = (function()
 	/* Metody publiczne. */
 	return {
 
+    /* Stałe. */
+    Const: {
+      /* Konsola do debuggowania. */
+      BLIPFOX_DEBUG: false,
+
+      /* Wersja. */
+      BLIPFOX_VERSION: '1.1.9',
+
+      /* URL do API. */
+      BLIPFOX_API_URL: 'http://api.blip.pl/',
+
+      /* URL Blip. */
+      BLIPFOX_BLIP_URL: 'http://blip.pl/',
+
+      /* URL do bliplogu. */
+      BLIPFOX_BLIPLOG_URL: '.blip.pl/',
+
+      /* URL Blipcast. */
+      BLIPFOX_BLIPCAST_URL: 'http://blipcast.pl/',
+
+      /* URL sekretarka (Tomasza Topy) */
+      BLIPFOX_SECRETARY_URL: 'http://szmerybajery.pl/sekretarka/index.php',
+
+      /* URL do API Favourites. */
+      FAVOURITES_API_URL: 'http://favourites.appspot.com/',
+
+      /* Maksymalna dlugosc wiadomosci wysylanej na Blipa */
+      BLIP_MESSAGE_MAX_LENGTH: 160
+    },
+
+
 		/**
 		 * Metoda zwraca identyfikator ostatnio pobranej wiadomości.
 		 * @return integer Identyfikator ostatnio wiadomości.
@@ -847,7 +852,7 @@ BlipFox = (function()
 		 */
 		log: function(message)
 		{
-			if (BLIPFOX_DEBUG === true)
+			if (BlipFox.Const.BLIPFOX_DEBUG === true)
 			{
 				/* Logowanie na konsolę Firefoksa. */
 				var console = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
@@ -902,7 +907,7 @@ BlipFox = (function()
 		 */
 		getUserDashboardLink: function(username)
 		{
-			return BLIPFOX_BLIP_URL + 'users/' + username + '/dashboard';
+			return BlipFox.Const.BLIPFOX_BLIP_URL + 'users/' + username + '/dashboard';
 		},
 
 		/**
@@ -912,7 +917,7 @@ BlipFox = (function()
 		 */
 		showUserBliplog: function(element)
 		{
-			this.openUrl('http://' + element.getAttribute('username') + BLIPFOX_BLIPLOG_URL);
+			this.openUrl('http://' + element.getAttribute('username') + BlipFox.Const.BLIPFOX_BLIPLOG_URL);
 		},
 
 		/**
@@ -941,7 +946,7 @@ BlipFox = (function()
 		 */
 		getBlipTagLink: function(tag)
 		{
-			return BLIPFOX_BLIP_URL + 'tags/' + tag.replace('Ę', 'e').replace('ę', 'e').replace('Ó', 'o').replace('ó', 'o').replace('Ą', 'a').replace('ą', 'a').replace('Ś', 's').replace('ś', 's').replace('Ł', 'l').replace('ł', 'l').replace('Ż', 'z').replace('ż', 'z').replace('Ź', 'z').replace('ź', 'z').replace('Ć', 'c').replace('ć', 'c').replace('Ń', 'n').replace('ń', 'n');
+			return BlipFox.Const.BLIPFOX_BLIP_URL + 'tags/' + tag.replace('Ę', 'e').replace('ę', 'e').replace('Ó', 'o').replace('ó', 'o').replace('Ą', 'a').replace('ą', 'a').replace('Ś', 's').replace('ś', 's').replace('Ł', 'l').replace('ł', 'l').replace('Ż', 'z').replace('ż', 'z').replace('Ź', 'z').replace('ź', 'z').replace('Ć', 'c').replace('ć', 'c').replace('Ń', 'n').replace('ń', 'n');
 		},
 
 		/**
@@ -952,7 +957,7 @@ BlipFox = (function()
 		 */
 		getBlipcastLink: function(tag)
 		{
-			return BLIPFOX_BLIPCAST_URL + tag.replace('Ę', 'e').replace('ę', 'e').replace('Ó', 'o').replace('ó', 'o').replace('Ą', 'a').replace('ą', 'a').replace('Ś', 's').replace('ś', 's').replace('Ł', 'l').replace('ł', 'l').replace('Ż', 'z').replace('ż', 'z').replace('Ź', 'z').replace('ź', 'z').replace('Ć', 'c').replace('ć', 'c').replace('Ń', 'n').replace('ń', 'n');
+			return BlipFox.Const.BLIPFOX_BLIPCAST_URL + tag.replace('Ę', 'e').replace('ę', 'e').replace('Ó', 'o').replace('ó', 'o').replace('Ą', 'a').replace('ą', 'a').replace('Ś', 's').replace('ś', 's').replace('Ł', 'l').replace('ł', 'l').replace('Ż', 'z').replace('ż', 'z').replace('Ź', 'z').replace('ź', 'z').replace('Ć', 'c').replace('ć', 'c').replace('Ń', 'n').replace('ń', 'n');
 		},
 
 		/**
@@ -963,7 +968,7 @@ BlipFox = (function()
 		 */
 		getStatusLink: function(messageId)
 		{
-			return BLIPFOX_BLIP_URL + 's/' + messageId;
+			return BlipFox.Const.BLIPFOX_BLIP_URL + 's/' + messageId;
 		},
 
 		/**
@@ -988,7 +993,7 @@ BlipFox = (function()
 		 */
 		getDirectedMessageLink: function(messageId)
 		{
-			return BLIPFOX_BLIP_URL + 'dm/' + messageId;
+			return BlipFox.Const.BLIPFOX_BLIP_URL + 'dm/' + messageId;
 		},
 
 		/**
@@ -999,7 +1004,7 @@ BlipFox = (function()
 		 */
 		getPrivateMessageLink: function (messageId)
 		{
-			return BLIPFOX_BLIP_URL + 'pm/' + messageId;
+			return BlipFox.Const.BLIPFOX_BLIP_URL + 'pm/' + messageId;
 		},
 
 		/**
@@ -1135,7 +1140,7 @@ BlipFox = (function()
 				this.clearInputMessage(e, inputMessage);
 				return this.sendMessage();
 			}
-			if (inputMessage.value.length > BLIP_MESSAGE_MAX_LENGTH && e.keyCode != 13)
+			if (inputMessage.value.length > BlipFox.Const.BLIP_MESSAGE_MAX_LENGTH && e.keyCode != 13)
 			{
 				return false;
 			}
@@ -1152,8 +1157,8 @@ BlipFox = (function()
 		{
 			var charactersLeftLabel = window.document.getElementById('blipfox-input-charactersleft');
 
-			charactersLeftLabel.value = BLIP_MESSAGE_MAX_LENGTH - inputMessage.value.length;
-			if (inputMessage.value.length > BLIP_MESSAGE_MAX_LENGTH)
+			charactersLeftLabel.value = BlipFox.Const.BLIP_MESSAGE_MAX_LENGTH - inputMessage.value.length;
+			if (inputMessage.value.length > BlipFox.Const.BLIP_MESSAGE_MAX_LENGTH)
 			{
 				charactersLeftLabel.style.color = 'red';
 			}
@@ -1243,7 +1248,7 @@ BlipFox = (function()
 				return false;
 			}
 
-			if (inputMessage.value.length > BLIP_MESSAGE_MAX_LENGTH)
+			if (inputMessage.value.length > BlipFox.Const.BLIP_MESSAGE_MAX_LENGTH)
 			{
 				BlipFox.alert(BlipFoxLocaleManager.getLocaleString('statusTooLong'));
 				return false;
@@ -1654,7 +1659,7 @@ BlipFox = (function()
 		{
 			var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.getUsername(), BlipFoxPreferencesManager.getPassword());
 			try {
-				this.postUrl(BLIPFOX_SECRETARY_URL, dataString);
+				this.postUrl(BlipFox.Const.BLIPFOX_SECRETARY_URL, dataString);
 			} catch (ex) {
 				BlipFox.alert(ex);
 			}

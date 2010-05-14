@@ -114,7 +114,7 @@ function BlipFoxRequestManager()
 				'Authorization: Basic ' + window.btoa(_username + ':' + _password) + '\r\n' +
 				'Accept: application/json\r\n' +
 				'X-blip-api: 0.02\r\n' +
-				'User-Agent: BlipFox ' + BLIPFOX_VERSION + '\r\n' +
+				'User-Agent: BlipFox ' + BlipFox.Const.BLIPFOX_VERSION + '\r\n' +
 				'Content-Length: ' + mstream.available() + '\r\n' +
 				'Content-Type: multipart/form-data; boundary=' + boundary +
 				'\r\n\r\n', -1);
@@ -225,7 +225,7 @@ function BlipFoxRequestManager()
 		request.open(method, url, true, _username, _password);
 		request.setRequestHeader('Authorization', 'Basic ' + window.btoa(_username + ':' + _password));
 		request.setRequestHeader('Accept', 'application/json');
-		request.setRequestHeader('User-Agent', 'BlipFox ' + BLIPFOX_VERSION);
+		request.setRequestHeader('User-Agent', 'BlipFox ' + BlipFox.Const.BLIPFOX_VERSION);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.setRequestHeader('X-blip-api', '0.02')
 
@@ -316,7 +316,7 @@ function BlipFoxRequestManager()
 	 */
 	this.getFriends = function(callback)
 	{
-		_sendRequest(BLIPFOX_API_URL + "subscriptions/from", callback);
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + "subscriptions/from", callback);
 	}
 
 	/**
@@ -327,7 +327,7 @@ function BlipFoxRequestManager()
 	 */
 	this.getUser = function(username, callback)
 	{
-		_sendRequest(BLIPFOX_API_URL + 'users/' + username + '?include=background,current_status', callback);
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + 'users/' + username + '?include=background,current_status', callback);
 	}
 
 	/**
@@ -338,7 +338,7 @@ function BlipFoxRequestManager()
 	 */
 	this.sendMessage = function(message, callback)
 	{
-		_sendRequest(BLIPFOX_API_URL + 'updates', callback, 'body=' + encodeURIComponent(message), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + 'updates', callback, 'body=' + encodeURIComponent(message), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
 	}
 
 	/**
@@ -353,10 +353,10 @@ function BlipFoxRequestManager()
 		switch (messageType)
 		{
 			case 'PrivateMessage':
-				_sendRequest(BLIPFOX_API_URL + 'pm/' + messageId, callback, '', 'DELETE');
+				_sendRequest(BlipFox.Const.BLIPFOX_API_URL + 'pm/' + messageId, callback, '', 'DELETE');
 				break;
 			default:
-				_sendRequest(BLIPFOX_API_URL + 'updates/' + messageId, callback, '', 'DELETE');
+				_sendRequest(BlipFox.Const.BLIPFOX_API_URL + 'updates/' + messageId, callback, '', 'DELETE');
 				break;
 		}
 	}
@@ -378,7 +378,7 @@ function BlipFoxRequestManager()
 
 		url += '?include=pictures,user,recipient,user[avatar],recipient[avatar]';
 
-		_sendRequest(BLIPFOX_API_URL + url, callback);
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + url, callback);
 	}
 
 	/**
@@ -390,17 +390,17 @@ function BlipFoxRequestManager()
 	this.getUrl = function(link, callback)
 	{
 		var url = 'shortlinks/' + link;
-		_sendRequest(BLIPFOX_API_URL + url, callback);
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + url, callback);
 	}
 
 	this.checkFavourite = function(message, callback)
 	{
-		_sendRequest(FAVOURITES_API_URL + 'check?msg_id=' + message + '&auth2=' + window.btoa( _username + ':' + _password), callback);
+		_sendRequest(BlipFox.Const.FAVOURITES_API_URL + 'check?msg_id=' + message + '&auth2=' + window.btoa( _username + ':' + _password), callback);
 	}
 
 	this.addToFavourites = function(message, callback)
 	{
-		_sendRequest(FAVOURITES_API_URL + 'set?msg_id=' + message + '&cmd=1&auth2=' + window.btoa( _username + ':' + _password), callback);
+		_sendRequest(BlipFox.Const.FAVOURITES_API_URL + 'set?msg_id=' + message + '&cmd=1&auth2=' + window.btoa( _username + ':' + _password), callback);
 	}
 
 	this.sendImage = function(body, file, callback)
@@ -411,16 +411,16 @@ function BlipFoxRequestManager()
 	this.getMovie = function(message, callback)
 	{
 		var url = 'updates/' + message + '/movie/';
-		_sendRequest(BLIPFOX_API_URL + url, callback);
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + url, callback);
 	}
 
 	this.getRecording = function(message, callback)
 	{
 		var url = 'updates/' + message + '/recording/';
-		_sendRequest(BLIPFOX_API_URL + url, callback);
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + url, callback);
 	}
 
 	this.shortenUrl = function(url, callback) {
-		_sendRequest(BLIPFOX_API_URL + 'shortlinks', callback, 'shortlink[original_link]=' + encodeURIComponent(url), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
+		_sendRequest(BlipFox.Const.BLIPFOX_API_URL + 'shortlinks', callback, 'shortlink[original_link]=' + encodeURIComponent(url), 'POST', {'Content-Type' : 'application/x-www-form-urlencoded'});
 	}
 }
