@@ -135,28 +135,3 @@ BlipFoxPreferencesManager = (function()
      }
   }
 })();
-
-    /**
-     * Metoda zwraca zapisane haslo uzytkownika
-     */
-     getPassword: function()
-     {
-     	if (this.get('passwordFromPM') === 'true')
-     	{
-     		var time = new Date().getTime();
-     		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
-     		if (cacheExpired || cachedPassword['value'] == '')
-     		{
-     			cachedPassword['time'] = time;
-     			cachedPassword['value'] = getPasswordFromManager('blip.pl', this.getUsername());
-     		}
-
-     		return cachedPassword['value'];
-     	}
-     	else
-     	{
-     		return this.get('password');
-     	}
-     }
-  }
-})();

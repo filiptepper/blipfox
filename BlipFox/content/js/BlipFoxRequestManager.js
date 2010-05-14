@@ -290,7 +290,7 @@ function BlipFoxRequestManager()
           }
           else
           {
-            if (!(ex instanceof NetworkException) && !(ex instanceof SyntaxError))
+            if (!(ex instanceof BlipFox.NetworkException) && !(ex instanceof SyntaxError))
             {
               alert("Koniecznie zgłoś ten błąd autorowi!");
               alert(ex.constructor.toString());

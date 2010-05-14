@@ -26,21 +26,6 @@
 */
 if (typeof BlipFox === "undefined") { var BlipFox = {}; }
 
-/**
- * Wyjątek do obsługi błędów logowania.
- * @param string message Opis błędu.
- */
-function CredentialsException(message){this.message = message;};
-CredentialsException.prototype = new Error();
-
-/**
- * Wyjątek do obsługi błędów sieciowych.
- * @param string message Opis błędu.
- */
-
-function NetworkException(message){this.message = message;};
-NetworkException.prototype = new Error();
-
 BlipFox = (function()
 {
   	/**
@@ -216,7 +201,7 @@ BlipFox = (function()
       },
       error: function(request, exception)
       {
-        if (exception instanceof NetworkException)
+        if (exception instanceof BlipFox.NetworkException)
         {
           _getFriends();
         }
@@ -307,7 +292,7 @@ BlipFox = (function()
       },
       error: function(request, exception)
       {
-        if (exception instanceof NetworkException)
+        if (exception instanceof BlipFox.NetworkException)
         {
           _getMessages();
           return;
@@ -382,7 +367,7 @@ BlipFox = (function()
       },
       error: function(request, exception)
       {
-        if (exception instanceof NetworkException)
+        if (exception instanceof BlipFox.NetworkException)
         {
           _getUser(requestUsername);
         }
@@ -508,6 +493,18 @@ BlipFox = (function()
 
   /* Metody publiczne. */
   return {
+
+    /**
+     * Wyjątek do obsługi błędów logowania.
+     * @param string message Opis błędu.
+     */
+    CredentialsException: function(message){ this.message = message; },
+
+    /**
+     * Wyjątek do obsługi błędów sieciowych.
+     * @param string message Opis błędu.
+     */
+    NetworkException: function(message){ this.message = message; },
 
     /* Stałe. */
     Const: {
@@ -653,9 +650,9 @@ BlipFox = (function()
         }
       }
 
-      missingCredentialsError = new CredentialsException(BlipFoxLocaleManager.getLocaleString('enterUsernameAndPassword'));
-      invalidCredentialsError = new CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
-      networkError = new NetworkException('networkError');
+      missingCredentialsError = new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterUsernameAndPassword'));
+      invalidCredentialsError = new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
+      networkError = new BlipFox.NetworkException('networkError');
     },
 
     /**
@@ -686,10 +683,10 @@ BlipFox = (function()
           _togglePopup();
         }
       }
- 			catch (ex)
+      catch (ex)
       {
         BlipFox.log(ex);
-        if (ex instanceof CredentialsException)
+        if (ex instanceof BlipFox.CredentialsException)
         {
           BlipFox.alert(ex.message);
           BlipFox.showPreferences();
@@ -1682,6 +1679,9 @@ BlipFox = (function()
     }
   }
 })();
+
+BlipFox.CredentialsException.prototype = new Error();
+BlipFox.NetworkException.prototype = new Error();
 
 window.addEventListener('load', function(e)
 {
