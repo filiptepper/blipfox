@@ -16,12 +16,14 @@
 			src="chrome://blipfox/locale/Errors.dtd" />
 	</stringbundleset>
 	<script src="js/BlipFox.js" />
+	<script src="js/Application.js" />
 	<script src="js/functions.js" />
 	<script src="js/BlipFoxLocaleManager.js" />
 	<script src="js/BlipFoxEventUtilities.js" />
 	<script src="js/BlipFoxPreferencesManager.js" />
 	<script src="js/BlipFoxRequestManager.js" />
 	<script src="js/BlipFoxLayoutManager.js" />
+	<script src="js/Control.js" />
 	<statusbar id="status-bar">
 		<statusbarpanel
 			class="statusbarpanel-iconic"

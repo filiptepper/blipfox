@@ -119,7 +119,7 @@ BlipFox.Preferences = (function()
      */
     setShortcut: function(element, e)
     {
-      element.value = BlipFox.humanizeKeyCode(e);
+      element.value = BlipFox.Helpers.humanizeKeyCode(e);
       element.setAttribute('shortcut', e.keyCode);
       element.setAttribute('metaKey', e.metaKey);
       element.setAttribute('altKey', e.altKey);
@@ -147,7 +147,7 @@ BlipFox.Preferences = (function()
       window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFoxPreferencesManager.get('passwordFromPM') === 'true' ? true : false;
       window.document.getElementById('blipfox-preferences-autoLogin').checked = BlipFoxPreferencesManager.get('autoLogin') === 'true' ? true : false;
       this.updatePasswordField(window.document.getElementById('blipfox-preferences-passwordFromPM'));
-      this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), BlipFox.getShortcutPreferences());
+      this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), BlipFox.Helpers.getShortcutPreferences());
       window.document.getElementById('blipfox-preferences-noDashboardBackground').checked = BlipFoxPreferencesManager.get('noDashboardBackground') === 'true' ? true : false;
       window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFoxPreferencesManager.get('markNewMessages') === 'true' ? true : false;
       window.document.getElementById('blipfox-preferences-soundNewMessages').checked = BlipFoxPreferencesManager.get('soundNewMessages') === 'true' ? true : false;
@@ -264,7 +264,7 @@ window.addEventListener('load', function(e)
   BlipFox.Preferences.loadPreferences();
 
   /* A tu mały hack - inaczej okienko znika. */
-  BlipFox.Timer().initWithCallback(function()
+  BlipFox.Helpers.getTimer().initWithCallback(function()
   {
     BlipFox.Preferences.toggleSoundSelect(window.document.getElementById('blipfox-preferences-soundNewMessages'), true);
   }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);

@@ -288,7 +288,7 @@ function BlipFoxLayoutManager()
      * Ustawienie fokusu na oknie wpisywania wiadomości.
      * Timeout ze względu na czas potrzebny na rendering elementów.
      */
-    BlipFox.Timer().initWithCallback(function()
+    BlipFox.Helpers.getTimer().initWithCallback(function()
     {
       if (BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED) === true)
       {
@@ -410,7 +410,7 @@ function BlipFoxLayoutManager()
     if (BlipFox.Application.checkStatus(BlipFox.Status.VISIBLE) === true)
     {
       _hideContainer();
-      BlipFox.Timer().initWithCallback(function()
+      BlipFox.Helpers.getTimer().initWithCallback(function()
       {
         _showContainer();
       }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
@@ -523,7 +523,7 @@ function BlipFoxLayoutManager()
   this.setUserStatus = function(userStatus, id)
   {
     var currentUserStatus = window.document.getElementById('blipfox-popup-header-status');
-    var userStatusWrapped = BlipFox.wordwrap(userStatus, 33, ' ', true);
+    var userStatusWrapped = BlipFox.Helpers.wordwrap(userStatus, 33, ' ', true);
     while (currentUserStatus.firstChild)
     {
       currentUserStatus.removeChild(currentUserStatus.firstChild);
@@ -840,7 +840,7 @@ function BlipFoxLayoutManager()
 
       if (message)
     {
-      	message = BlipFox.wordwrap(message, 25, ' ', true);
+      	message = BlipFox.Helpers.wordwrap(message, 25, ' ', true);
       element.appendChild(document.createTextNode(message));
       }
   }

@@ -123,7 +123,7 @@ BlipFoxPreferencesManager = (function()
      		if (cacheExpired || cachedPassword['value'] == '')
      		{
      			cachedPassword['time'] = time;
-     			cachedPassword['value'] = BlipFox.Application.getPasswordFromManager('blip.pl', this.getUsername());
+     			cachedPassword['value'] = BlipFox.Helpers.getPasswordFromManager('blip.pl', this.getUsername());
      		}
 
      		return cachedPassword['value'];
