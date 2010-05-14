@@ -41,56 +41,6 @@ CredentialsException.prototype = new Error();
 function NetworkException(message){this.message = message;};
 NetworkException.prototype = new Error();
 
-/**
- * Obiekt definiujący listę możliwych statusów rozszerzenia.
- */
-var BlipFoxStatus = {
-	/**
-	 *  Rozszerzenie włączone.
-	 */
-	ON: 1,
-
-	/**
-	 *  Rozszerzenie widoczne.
-	 */
-	VISIBLE: 2,
-
-	/**
-	 *  Rozszerzenie zostało zainicjalizowane.
-	 */
-	INITIALIZED: 4,
-
-	/**
-	 * Użytkownik posiada prawidłową nazwę użytkownika i hasło.
-	 */
-	AUTHENTICATED: 8,
-
-	/**
-	 * Dane użytkownika załadowane.
-	 */
-	LOADED_USER: 16,
-
-	/**
-	 * Wiadomości załadowane.
-	 */
-	LOADED_MESSAGES: 32,
-
-	/**
-	 * Załadowani obserwowani.
-	 */
-	LOADED_FRIENDS: 64,
-
-	/**
-	 * Uruchomione pobieranie statusów.
-	 */
-	POLLING: 128,
-
-	/**
-	 * Pierwsze pobranie statusów
-	 */
-	LOADING: 256
-};
-
 BlipFox = (function()
 {
   	/**
@@ -117,7 +67,7 @@ BlipFox = (function()
 
 	/**
 	 * Status rozszerzenia.
-	 * Status rozszerzenia jest obiektem, który przyjmuje wartości z obiektu BlipFoxStatus.
+	 * Status rozszerzenia jest obiektem, który przyjmuje wartości z obiektu BlipFox.Status.
 	 * @var integer
 	 * @private
 	 */
@@ -189,8 +139,8 @@ BlipFox = (function()
 			return false;
 		}
 
-		BlipFox.setStatus(BlipFoxStatus.ON);
-		BlipFox.setStatus(BlipFoxStatus.LOADING);
+		BlipFox.setStatus(BlipFox.Status.ON);
+		BlipFox.setStatus(BlipFox.Status.LOADING);
 
 		/* Pobranie informacji o aktualnym użytkowniku. */
 		_getUser(BlipFoxPreferencesManager.getUsername());
@@ -257,9 +207,9 @@ BlipFox = (function()
 
 				_data._friends.sort();
 
-				BlipFox.setStatus(BlipFoxStatus.LOADED_FRIENDS);
+				BlipFox.setStatus(BlipFox.Status.LOADED_FRIENDS);
 
-				if (BlipFox.checkStatus(BlipFoxStatus.INITIALIZED))
+				if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED))
 				{
 					_layoutManager.showFriends(_data._friends);
 				}
@@ -280,9 +230,9 @@ BlipFox = (function()
 	 */
 	var _getMessages = function()
 	{
-		if (BlipFox.checkStatus(BlipFoxStatus.POLLING) === true)
+		if (BlipFox.checkStatus(BlipFox.Status.POLLING) === true)
 		{
-			BlipFox.unsetStatus(BlipFoxStatus.POLLING);
+			BlipFox.unsetStatus(BlipFox.Status.POLLING);
 		}
 
 		_requestManager.getMessages(
@@ -290,7 +240,7 @@ BlipFox = (function()
 			success: function(request)
 			{
 				/* Po wyłączeniu nie wykonujemy już żadnych operacji. */
-				if (BlipFox.checkStatus(BlipFoxStatus.ON) === false)
+				if (BlipFox.checkStatus(BlipFox.Status.ON) === false)
 				{
 					return;
 				}
@@ -307,7 +257,7 @@ BlipFox = (function()
 					 * Jeżeli okienko jest schowane to zapisywana jest ilość nowych wiadomości.
 					 * Ilość wiadomości pokazywana jest na pasku statusu.
 					 */
-					if (BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false)
+					if (BlipFox.checkStatus(BlipFox.Status.VISIBLE) === false)
 					{
 						var playSound = false;
 
@@ -341,17 +291,17 @@ BlipFox = (function()
 				var date = new Date();
 				_lastMessagePollDate = date.getTime();
 
-				if (BlipFox.checkStatus(BlipFoxStatus.INITIALIZED) === true)
+				if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
 				{
 					_layoutManager.showMessages(_data._messages);
 				}
 
-				BlipFox.setStatus(BlipFoxStatus.LOADED_MESSAGES);
+				BlipFox.setStatus(BlipFox.Status.LOADED_MESSAGES);
 
 				/* Ustawiamy timer do ponownego pobierania wiadomości */
-				if (BlipFox.checkStatus(BlipFoxStatus.POLLING) === false)
+				if (BlipFox.checkStatus(BlipFox.Status.POLLING) === false)
 				{
-					BlipFox.setStatus(BlipFoxStatus.POLLING);
+					BlipFox.setStatus(BlipFox.Status.POLLING);
 					_checkPoll();
 				}
 			},
@@ -368,9 +318,9 @@ BlipFox = (function()
 					_lastMessagePollDate = date.getTime();
 
 					/* Ustawiamy timer do ponownego pobierania wiadomości */
-					if (BlipFox.checkStatus(BlipFoxStatus.POLLING) === false)
+					if (BlipFox.checkStatus(BlipFox.Status.POLLING) === false)
 					{
-						BlipFox.setStatus(BlipFoxStatus.POLLING);
+						BlipFox.setStatus(BlipFox.Status.POLLING);
 						_checkPoll();
 					}
 				}
@@ -413,7 +363,7 @@ BlipFox = (function()
 					_layoutManager.setBackgroundColor('#111111');
 				}
 
-				if (BlipFox.checkStatus(BlipFoxStatus.INITIALIZED))
+				if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED))
 				{
 					_layoutManager.setBackground();
 				}
@@ -428,7 +378,7 @@ BlipFox = (function()
 				  _data._status = { "body": "[Nie ustawiłeś jeszcze żadnego statusu!]", "id": 0 }
 				}
 
-				BlipFox.setStatus(BlipFoxStatus.LOADED_USER);
+				BlipFox.setStatus(BlipFox.Status.LOADED_USER);
 			},
 			error: function(request, exception)
 			{
@@ -450,11 +400,11 @@ BlipFox = (function()
 		try
 		{
 			if (
-				BlipFox.checkStatus(BlipFoxStatus.AUTHENTICATED) === true
+				BlipFox.checkStatus(BlipFox.Status.AUTHENTICATED) === true
 				&&
-				BlipFox.checkStatus(BlipFoxStatus.ON) === true
+				BlipFox.checkStatus(BlipFox.Status.ON) === true
 				&&
-				BlipFox.checkStatus(BlipFoxStatus.LOADED_MESSAGES) === true
+				BlipFox.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
 				)
 			{
 				setTimeout(function()
@@ -471,7 +421,7 @@ BlipFox = (function()
 					}
 				}, 1000);
 			}
-			else if (BlipFox.checkStatus(BlipFoxStatus.ON) === true || BlipFox.checkStatus(BlipFoxStatus.ON) === false)
+			else if (BlipFox.checkStatus(BlipFox.Status.ON) === true || BlipFox.checkStatus(BlipFox.Status.ON) === false)
 			{
 				return;
 			}
@@ -583,6 +533,35 @@ BlipFox = (function()
       BLIP_MESSAGE_MAX_LENGTH: 160
     },
 
+    /* Status rozszerzenia. */
+    Status: {
+      /* Rozszerzenie włączone. */
+      ON: 1,
+
+      /* Rozszerzenie widoczne. */
+      VISIBLE: 2,
+
+      /* Rozszerzenie zostało zainicjalizowane. */
+      INITIALIZED: 4,
+
+      /* Użytkownik posiada prawidłową nazwę użytkownika i hasło. */
+      AUTHENTICATED: 8,
+
+      /* Dane użytkownika załadowane. */
+      LOADED_USER: 16,
+
+      /* Wiadomości załadowane. */
+      LOADED_MESSAGES: 32,
+
+      /* Załadowani obserwowani. */
+      LOADED_FRIENDS: 64,
+
+      /* Uruchomione pobieranie wiadomości. */
+      POLLING: 128,
+
+      /* Pierwsze pobranie wiadomości. */
+      LOADING: 256
+    },
 
 		/**
 		 * Metoda zwraca identyfikator ostatnio pobranej wiadomości.
@@ -602,16 +581,16 @@ BlipFox = (function()
 		isInitialized: function()
 		{
 			if (
-				BlipFox.checkStatus(BlipFoxStatus.LOADED_USER) === true
+				BlipFox.checkStatus(BlipFox.Status.LOADED_USER) === true
 				&&
-				BlipFox.checkStatus(BlipFoxStatus.LOADED_FRIENDS) === true
+				BlipFox.checkStatus(BlipFox.Status.LOADED_FRIENDS) === true
 				&&
-				BlipFox.checkStatus(BlipFoxStatus.LOADED_MESSAGES) === true
+				BlipFox.checkStatus(BlipFox.Status.LOADED_MESSAGES) === true
 				&&
-				BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === true
+				BlipFox.checkStatus(BlipFox.Status.VISIBLE) === true
 			)
 			{
-				BlipFox.setStatus(BlipFoxStatus.INITIALIZED);
+				BlipFox.setStatus(BlipFox.Status.INITIALIZED);
 
 				_layoutManager.initialized();
 
@@ -627,7 +606,7 @@ BlipFox = (function()
 				}, 1);
 			}
 
-			else if (BlipFox.checkStatus(BlipFoxStatus.AUTHENTICATED) === false)
+			else if (BlipFox.checkStatus(BlipFox.Status.AUTHENTICATED) === false)
 			{
 				BlipFox.destroy();
 			}
@@ -688,10 +667,10 @@ BlipFox = (function()
 			try
 			{
 				/* Za każdym razem zakładam, że użytkownik od nowa podał swoje dane. */
-				BlipFox.setStatus(BlipFoxStatus.AUTHENTICATED);
+				BlipFox.setStatus(BlipFox.Status.AUTHENTICATED);
 
 				/* Wtyczka nie była zainicjowana - ładowanie danych. */
-				if (BlipFox.checkStatus(BlipFoxStatus.INITIALIZED) === false)
+				if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === false)
 				{
 					if (_initialize())
 					{
@@ -747,7 +726,7 @@ BlipFox = (function()
 
 		/**
 		 * Metoda weryfikująca, czy dany status jest ustawiony.
-		 * @param integer status Właściwość obiektu BlipFoxStatus.
+		 * @param integer status Właściwość obiektu BlipFox.Status.
 		 * @return boolean
 		 * @public
 		 */
@@ -759,7 +738,7 @@ BlipFox = (function()
 
 		/**
 		 * Metoda ustawiająca status.
-		 * @param integer status Właściwość obiektu BlipFoxStatus.
+		 * @param integer status Właściwość obiektu BlipFox.Status.
 		 * @public
 		 */
 		setStatus: function(status)
@@ -769,7 +748,7 @@ BlipFox = (function()
 
 		/**
 		 * Metoda usuwająca status.
-		 * @param integer status Właściwość obiektu BlipFoxStatus.
+		 * @param integer status Właściwość obiektu BlipFox.Status.
 		 * @public
 		 */
 		unsetStatus: function(status)
@@ -823,14 +802,14 @@ BlipFox = (function()
 		 */
 		destroy: function()
 		{
-			BlipFox.unsetStatus(BlipFoxStatus.POOLING);
-			BlipFox.unsetStatus(BlipFoxStatus.LOADED_FRIENDS);
-			BlipFox.unsetStatus(BlipFoxStatus.LOADED_MESSAGES);
-			BlipFox.unsetStatus(BlipFoxStatus.LOADED_USER);
-			BlipFox.unsetStatus(BlipFoxStatus.AUTHENTICATED);
-			BlipFox.unsetStatus(BlipFoxStatus.INITIALIZED);
-			BlipFox.unsetStatus(BlipFoxStatus.VISIBLE);
-			BlipFox.unsetStatus(BlipFoxStatus.ON);
+			BlipFox.unsetStatus(BlipFox.Status.POOLING);
+			BlipFox.unsetStatus(BlipFox.Status.LOADED_FRIENDS);
+			BlipFox.unsetStatus(BlipFox.Status.LOADED_MESSAGES);
+			BlipFox.unsetStatus(BlipFox.Status.LOADED_USER);
+			BlipFox.unsetStatus(BlipFox.Status.AUTHENTICATED);
+			BlipFox.unsetStatus(BlipFox.Status.INITIALIZED);
+			BlipFox.unsetStatus(BlipFox.Status.VISIBLE);
+			BlipFox.unsetStatus(BlipFox.Status.ON);
 
 			_lastMessageId = null;
 			_layoutManager.destroy();
@@ -1720,7 +1699,7 @@ window.addEventListener('keydown', function(e)
 
 window.addEventListener('click', function(e)
 {
-	if (BlipFoxPreferencesManager.get('hideOnClick') == 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === true && BlipFox.checkStatus(BlipFoxStatus.INITIALIZED) === true)
+	if (BlipFoxPreferencesManager.get('hideOnClick') == 'true' && BlipFox.checkStatus(BlipFox.Status.VISIBLE) === true && BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
 	{
 		var panel = window.document.getElementById('blipfox-panel').boxObject;
 

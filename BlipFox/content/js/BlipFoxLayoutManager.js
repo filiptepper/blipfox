@@ -118,7 +118,7 @@ function BlipFoxLayoutManager()
 		}
 
 		/* Usunięcie oznaczenia kolorem z listy nowych wiadomości. */
-		if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.INITIALIZED) === true)
+		if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
 		{
 			var messagesList = window.document.getElementById('blipfox-popup-messages');
 			var messagesCount = messagesList.childNodes.length;
@@ -265,7 +265,7 @@ function BlipFoxLayoutManager()
 	 */
 	var _hidePopup = function()
 	{
-		BlipFox.unsetStatus(BlipFoxStatus.VISIBLE);
+		BlipFox.unsetStatus(BlipFox.Status.VISIBLE);
 		_hideContainer();
 	}
 
@@ -276,7 +276,7 @@ function BlipFoxLayoutManager()
 	var _showPopup = function()
 	{
 		/* Ustawienie statusu rozszerzenia na widoczny. */
-		BlipFox.setStatus(BlipFoxStatus.VISIBLE);
+		BlipFox.setStatus(BlipFox.Status.VISIBLE);
 
 		/* Wyzerowanie licznika wiadomości. */
 		_setStatusbarCount(null);
@@ -290,7 +290,7 @@ function BlipFoxLayoutManager()
 		 */
 		setTimeout(function()
 		{
-			if (BlipFox.checkStatus(BlipFoxStatus.INITIALIZED) === true)
+			if (BlipFox.checkStatus(BlipFox.Status.INITIALIZED) === true)
 			{
 				_getInputMessage().focus();
 			}
@@ -407,7 +407,7 @@ function BlipFoxLayoutManager()
 	 */
 	this.restoreOverlay = function(e)
 	{
-		if (BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === true)
+		if (BlipFox.checkStatus(BlipFox.Status.VISIBLE) === true)
 		{
 			_hideContainer();
 			setTimeout(function()
@@ -423,7 +423,7 @@ function BlipFoxLayoutManager()
 	 */
 	this.togglePopup = function()
 	{
-		if (BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false)
+		if (BlipFox.checkStatus(BlipFox.Status.VISIBLE) === false)
 		{
 			_showPopup();
 		}
@@ -508,9 +508,9 @@ function BlipFoxLayoutManager()
 			this.setUserStatus(lastUserStatus, lastUserStatusId);
 		}
 
-		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === true)
+		if (BlipFox.checkStatus(BlipFox.Status.LOADING) === true)
 		{
-			BlipFox.unsetStatus(BlipFoxStatus.LOADING);
+			BlipFox.unsetStatus(BlipFox.Status.LOADING);
 		}
 	}
 
@@ -553,7 +553,7 @@ function BlipFoxLayoutManager()
 	{
 		var messageContainer = document.createElement('vbox');
 
-		if (BlipFox.checkStatus(BlipFoxStatus.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
+		if (BlipFox.checkStatus(BlipFox.Status.LOADING) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
 		{
 			var notificationImage = null;
 			if (typeof message.user.avatar != 'undefined')
@@ -583,7 +583,7 @@ function BlipFoxLayoutManager()
 			messageContainer.className = 'blipfox-notification';
 
 			/* Oznaczanie nowych wiadomości. */
-			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFox.Status.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
 			{
 				messageContainer.setAttribute('new_message', 'true');
 			}
@@ -604,7 +604,7 @@ function BlipFoxLayoutManager()
 			messageContainer.setAttribute('transport', message.transport.name.toLowerCase());
 
 			/* Oznaczanie nowych wiadomości. */
-			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFoxStatus.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
+			if (BlipFoxPreferencesManager.get('markNewMessages') === 'true' && BlipFox.checkStatus(BlipFox.Status.VISIBLE) === false && message.user.login != BlipFoxPreferencesManager.get('username'))
 			{
 				messageContainer.setAttribute('new_message', 'true');
 			}
