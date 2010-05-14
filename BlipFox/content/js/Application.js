@@ -105,7 +105,7 @@ BlipFox.Application = (function()
  var _initialize = function()
  {
    /* Brak nazwy użytkownika lub hasła. */
-   if (BlipFoxPreferencesManager.getUsername() === '' || BlipFoxPreferencesManager.getPassword() === '')
+   if (BlipFox.PreferencesManager.getUsername() === '' || BlipFox.PreferencesManager.getPassword() === '')
    {
      BlipFox.Application.showPreferences();
      return false;
@@ -115,7 +115,7 @@ BlipFox.Application = (function()
    BlipFox.Application.setStatus(BlipFox.Status.LOADING);
 
    /* Pobranie informacji o aktualnym użytkowniku. */
-   _getUser(BlipFoxPreferencesManager.getUsername());
+   _getUser(BlipFox.PreferencesManager.getUsername());
 
    /* Wypełnienie listy znajomych. */
    _getFriends();
@@ -236,11 +236,11 @@ BlipFox.Application = (function()
            for (var i = 0; i < messagesLength; i++)
            {
              /* Nie doliczam wiadomości wysłanych przez użytkownika. */
-             if (_data._messages[i].user.login !== BlipFoxPreferencesManager.getUsername())
+             if (_data._messages[i].user.login !== BlipFox.PreferencesManager.getUsername())
              {
                if (_unreadCount <= 100)
                {
-                 if (_data._messages[i].type != 'Notice' || (_data._messages[i].type == 'Notice' && BlipFoxPreferencesManager.get('showNotifications') === 'true')) {
+                 if (_data._messages[i].type != 'Notice' || (_data._messages[i].type == 'Notice' && BlipFox.PreferencesManager.get('showNotifications') === 'true')) {
                    _unreadCount++;
                  }
                }
@@ -252,7 +252,7 @@ BlipFox.Application = (function()
            {
              _layoutManager.setStatusbarCount(_unreadCount);
            }
-           if (BlipFoxPreferencesManager.get('soundNewMessages') == 'true' && playSound === true)
+           if (BlipFox.PreferencesManager.get('soundNewMessages') == 'true' && playSound === true)
            {
              BlipFox.Application.playMessageSound();
            }
@@ -322,7 +322,7 @@ BlipFox.Application = (function()
         * wstawiany jest kolor wybrany przez użytkownika.
         * Jeżeli użytkownik nie posiada zdefiniowanych preferencji to ustawiany jest kolor szary.
         */
-       if (typeof user.background !== 'undefined' && typeof user.background.url !== 'undefined' && BlipFoxPreferencesManager.get('noDashboardBackground') === 'false')
+       if (typeof user.background !== 'undefined' && typeof user.background.url !== 'undefined' && BlipFox.PreferencesManager.get('noDashboardBackground') === 'false')
        {
          _layoutManager.setBackgroundImage(user.background.url);
        }
@@ -400,7 +400,7 @@ BlipFox.Application = (function()
      else
      {
        BlipFox.Application.destroy();
-       throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
+       throw new BlipFox.CredentialsException(BlipFox.LocaleManager.getLocaleString('enterValidUsernameAndPassword'));
      }
    }
    catch (ex)
@@ -511,7 +511,7 @@ BlipFox.Application = (function()
          _layoutManager.setUserStatus(_data._status.body, _data._status.id);
          window.document.getElementById('blipfox-popup-header').click =
 
-         window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFoxPreferencesManager.getUsername());
+         window.document.getElementById('blipfox-input-dashboard').setAttribute('username', BlipFox.PreferencesManager.getUsername());
          _layoutManager.getInputMessage().focus();
        }, 1, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
      }
@@ -556,7 +556,7 @@ BlipFox.Application = (function()
      var hWindow = Components.classes["@mozilla.org/appshell/appShellService;1"].getService(Components.interfaces.nsIAppShellService).hiddenDOMWindow;
      if ( !hWindow.blipFoxInstance ) {
        hWindow.blipFoxInstance = true;
-       var autoLogin = BlipFoxPreferencesManager.get('autoLogin');
+       var autoLogin = BlipFox.PreferencesManager.get('autoLogin');
        if ( autoLogin == 'true' ) {
          BlipFox.Application.togglePopup();
        }
@@ -688,7 +688,7 @@ BlipFox.Application = (function()
      inputMessage.style.fontSize = '13px';
 
      /* Obsługa korekty pisowni. */
-     if (BlipFoxPreferencesManager.get('useSpellchecker') === 'true')
+     if (BlipFox.PreferencesManager.get('useSpellchecker') === 'true')
      {
        inputMessage.setAttribute('spellcheck', true);
      }
@@ -1110,7 +1110,7 @@ BlipFox.Application = (function()
 
      if (inputMessage.value.length > BlipFox.Const.BLIP_MESSAGE_MAX_LENGTH)
      {
-       BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('statusTooLong'));
+       BlipFox.Application.alert(BlipFox.LocaleManager.getLocaleString('statusTooLong'));
        return false;
      }
 
@@ -1140,7 +1140,7 @@ BlipFox.Application = (function()
            _emptyInputFile();
            inputMessage.readOnly = false;
            _layoutManager.disableProcessingThrobber();
-           BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
+           BlipFox.Application.alert(BlipFox.LocaleManager.getLocaleString('messageSendFailed'));
          }
        }
 
@@ -1164,7 +1164,7 @@ BlipFox.Application = (function()
          _emptyInputFile();
          inputMessage.readOnly = false;
          _layoutManager.disableProcessingThrobber();
-         BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('messageSendFailed'));
+         BlipFox.Application.alert(BlipFox.LocaleManager.getLocaleString('messageSendFailed'));
        }
      }
 
@@ -1177,7 +1177,7 @@ BlipFox.Application = (function()
     */
    turnoff: function()
    {
-     var doTurnOff = confirm(BlipFoxLocaleManager.getLocaleString('turnOffConfirmation'));
+     var doTurnOff = confirm(BlipFox.LocaleManager.getLocaleString('turnOffConfirmation'));
      if (doTurnOff === true)
      {
        window.document.getElementById('blipfox-statusbar-context-turnon').setAttribute('visible', true);
@@ -1228,7 +1228,7 @@ BlipFox.Application = (function()
      _getFriends();
 
      /* Odświeżenie informacji o użytkowniku. */
-     _getUser(BlipFoxPreferencesManager.getUsername());
+     _getUser(BlipFox.PreferencesManager.getUsername());
 
      /* Pobranie wiadomości. */
      _getMessages();
@@ -1252,7 +1252,7 @@ BlipFox.Application = (function()
    deleteMessage: function(element)
    {
      messageId = element.getAttribute('messageId');
-     if (confirm(BlipFoxLocaleManager.getLocaleString('deleteConfirmation')))
+     if (confirm(BlipFox.LocaleManager.getLocaleString('deleteConfirmation')))
      {
        _layoutManager.enableProcessingThrobber();
        _requestManager.deleteMessage(messageId, element.getAttribute('messageType'),
@@ -1273,7 +1273,7 @@ BlipFox.Application = (function()
          error: function(e)
          {
            _layoutManager.disableProcessingThrobber();
-           BlipFox.Application.alert(BlipFoxLocaleManager.getLocaleString('deleteFailed'));
+           BlipFox.Application.alert(BlipFox.LocaleManager.getLocaleString('deleteFailed'));
          }
        });
      }
@@ -1345,13 +1345,13 @@ BlipFox.Application = (function()
     */
    playMessageSound: function()
    {
-     if (BlipFoxPreferencesManager.get('soundFile') != '')
+     if (BlipFox.PreferencesManager.get('soundFile') != '')
      {
        try
        {
          var sound = Components.classes['@mozilla.org/sound;1'].createInstance(Components.interfaces.nsISound);
          var ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
-         var soundFile = ioService.newURI('file://' + BlipFoxPreferencesManager.get('soundFile'), null, null);
+         var soundFile = ioService.newURI('file://' + BlipFox.PreferencesManager.get('soundFile'), null, null);
          sound.play(soundFile);
        }
        catch (ex)
@@ -1446,7 +1446,7 @@ BlipFox.Application = (function()
      netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
      var nsIFilePicker = Components.interfaces.nsIFilePicker;
      var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-     fp.init(window, BlipFoxLocaleManager.getLocaleString('selectFile'), nsIFilePicker.modeOpen);
+     fp.init(window, BlipFox.LocaleManager.getLocaleString('selectFile'), nsIFilePicker.modeOpen);
      fp.appendFilters(nsIFilePicker.filterImages);
      var res = fp.show();
      if (res == nsIFilePicker.returnOK)
@@ -1507,7 +1507,7 @@ BlipFox.Application = (function()
     */
    showUserSecretary: function()
    {
-     var dataString = _getUserSecretaryParameters(BlipFoxPreferencesManager.getUsername(), BlipFoxPreferencesManager.getPassword());
+     var dataString = _getUserSecretaryParameters(BlipFox.PreferencesManager.getUsername(), BlipFox.PreferencesManager.getPassword());
      try {
        this.postUrl(BlipFox.Const.BLIPFOX_SECRETARY_URL, dataString);
      } catch (ex) {

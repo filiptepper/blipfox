@@ -20,13 +20,10 @@
  * THE SOFTWARE.
  */
 
-/* Obiekt obsługujący preferencje. */
-var BlipFoxPreferencesManager = {};
-
 /* Czas trzymania hasla z menadzera hasel w cache (w ms) */
 const PASSWORD_CACHE_TIME = 5 * 60 * 1000;
 
-BlipFoxPreferencesManager = (function()
+BlipFox.PreferencesManager = (function()
 {
   /**
    * Usługa przeglądarki do obsługi dostępu do preferencji.

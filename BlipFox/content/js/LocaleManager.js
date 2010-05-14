@@ -20,12 +20,9 @@
  * THE SOFTWARE.
  */
 
-/* Inicjalizacja obiektu do obsługi tłumaczeń. */
-var BlipFoxLocaleManager = {};
-
 window.addEventListener('load', function()
 {
-  BlipFoxLocaleManager = (function()
+  BlipFox.LocaleManager = (function()
   {
     /* Obiekt zawierający tłumaczenia. */
     var _localeStrings = window.document.getElementById('blipfox-error-strings');

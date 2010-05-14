@@ -42,12 +42,12 @@ BlipFox.RequestManager = function()
    */
   function _init()
   {
-    _username = BlipFoxPreferencesManager.getUsername();
-    _password = BlipFoxPreferencesManager.getPassword();
+    _username = BlipFox.PreferencesManager.getUsername();
+    _password = BlipFox.PreferencesManager.getPassword();
 
     if (_username === '' || _password === '')
     {
-      throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterUsernameAndPassword'));
+      throw new BlipFox.CredentialsException(BlipFox.LocaleManager.getLocaleString('enterUsernameAndPassword'));
     }
   };
 
@@ -257,7 +257,7 @@ BlipFox.RequestManager = function()
         {
           /* Błędna nazwa użytkownika i/lub hasło. */
           BlipFox.Application.unsetStatus(BlipFoxStatus.AUTHENTICATED);
-          throw new BlipFox.CredentialsException(BlipFoxLocaleManager.getLocaleString('enterValidUsernameAndPassword'));
+          throw new BlipFox.CredentialsException(BlipFox.LocaleManager.getLocaleString('enterValidUsernameAndPassword'));
         }
         else if (request.readyState == 4 && request.status == 503)
         {

@@ -18,9 +18,9 @@
 	<script src="js/BlipFox.js" />
 	<script src="js/Application.js" />
 	<script src="js/functions.js" />
-	<script src="js/BlipFoxLocaleManager.js" />
+	<script src="js/LocaleManager.js" />
 	<script src="js/BlipFoxEventUtilities.js" />
-	<script src="js/BlipFoxPreferencesManager.js" />
+	<script src="js/PreferencesManager.js" />
 	<script src="js/RequestManager.js" />
 	<script src="js/LayoutManager.js" />
 	<script src="js/Control.js" />

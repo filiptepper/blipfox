@@ -16,9 +16,9 @@
 			id="blipfox-error-strings"
 			src="chrome://blipfox/locale/Errors.dtd" />
 	</stringbundleset>
-	<script src="js/functions.js" />
-	<script src="js/BlipFoxLocaleManager.js" />
-	<script src="js/BlipFoxPreferencesManager.js" />
+	<script src="js/BlipFox.js" />
+	<script src="js/LocaleManager.js" />
+	<script src="js/PreferencesManager.js" />
 	<script src="js/Preferences.js" />
 	<groupbox>
 		<caption label="&blip.caption;" />

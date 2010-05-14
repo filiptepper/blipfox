@@ -20,12 +20,6 @@
  * THE SOFTWARE.
  */
 
-/**
- * Obiekt obsługuje okienko preferencji.
- */
-if (typeof BlipFox === "undefined") { var BlipFox = {}; }
-BlipFox.Timer = function() { return Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer); }
-
 BlipFox.Preferences = (function()
 {
   /**
@@ -67,7 +61,7 @@ BlipFox.Preferences = (function()
    */
   var _savePreference = function(preference, value)
   {
-    BlipFoxPreferencesManager.set(preference, value);
+    BlipFox.PreferencesManager.set(preference, value);
   }
 
   /**
@@ -96,7 +90,7 @@ BlipFox.Preferences = (function()
       'showNotifications': _getCheckboxPreference('blipfox-preferences-showNotifications'),
       'notifyNotifications': _getCheckboxPreference('blipfox-preferences-notifyNotifications'),
       'useSpellchecker': _getCheckboxPreference('blipfox-preferences-useSpellchecker'),
-      'soundFile': (window.document.getElementById('blipfox-preferences-soundFile').value == BlipFoxLocaleManager.getLocaleString('noFile') ? '' : window.document.getElementById('blipfox-preferences-soundFile').value)
+      'soundFile': (window.document.getElementById('blipfox-preferences-soundFile').value == BlipFox.LocaleManager.getLocaleString('noFile') ? '' : window.document.getElementById('blipfox-preferences-soundFile').value)
     };
 
     if (preferences['passwordFromPM'] === 'true')
@@ -133,30 +127,30 @@ BlipFox.Preferences = (function()
      */
     loadPreferences: function()
     {
-      if (BlipFoxPreferencesManager.get('soundFile') === '')
+      if (BlipFox.PreferencesManager.get('soundFile') === '')
       {
-        window.document.getElementById('blipfox-preferences-soundFile').value = BlipFoxLocaleManager.getLocaleString('noFile');
+        window.document.getElementById('blipfox-preferences-soundFile').value = BlipFox.LocaleManager.getLocaleString('noFile');
       }
       else
       {
-        window.document.getElementById('blipfox-preferences-soundFile').value = BlipFoxPreferencesManager.get('soundFile');
+        window.document.getElementById('blipfox-preferences-soundFile').value = BlipFox.PreferencesManager.get('soundFile');
       }
 
-      window.document.getElementById('blipfox-preferences-username').value = BlipFoxPreferencesManager.get('username');
-      window.document.getElementById('blipfox-preferences-password').value = BlipFoxPreferencesManager.get('password');
-      window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFoxPreferencesManager.get('passwordFromPM') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-autoLogin').checked = BlipFoxPreferencesManager.get('autoLogin') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-username').value = BlipFox.PreferencesManager.get('username');
+      window.document.getElementById('blipfox-preferences-password').value = BlipFox.PreferencesManager.get('password');
+      window.document.getElementById('blipfox-preferences-passwordFromPM').checked = BlipFox.PreferencesManager.get('passwordFromPM') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-autoLogin').checked = BlipFox.PreferencesManager.get('autoLogin') === 'true' ? true : false;
       this.updatePasswordField(window.document.getElementById('blipfox-preferences-passwordFromPM'));
       this.setShortcut(window.document.getElementById('blipfox-preferences-shortcut'), BlipFox.Helpers.getShortcutPreferences());
-      window.document.getElementById('blipfox-preferences-noDashboardBackground').checked = BlipFoxPreferencesManager.get('noDashboardBackground') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFoxPreferencesManager.get('markNewMessages') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-soundNewMessages').checked = BlipFoxPreferencesManager.get('soundNewMessages') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-hideOnClick').checked = BlipFoxPreferencesManager.get('hideOnClick') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-notifyStatuses').checked = BlipFoxPreferencesManager.get('notifyStatuses') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-notifyMessages').checked = BlipFoxPreferencesManager.get('notifyMessages') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-showNotifications').checked = BlipFoxPreferencesManager.get('showNotifications') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-notifyNotifications').checked = BlipFoxPreferencesManager.get('notifyNotifications') === 'true' ? true : false;
-      window.document.getElementById('blipfox-preferences-useSpellchecker').checked = BlipFoxPreferencesManager.get('useSpellchecker') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-noDashboardBackground').checked = BlipFox.PreferencesManager.get('noDashboardBackground') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-markNewMessages').checked = BlipFox.PreferencesManager.get('markNewMessages') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-soundNewMessages').checked = BlipFox.PreferencesManager.get('soundNewMessages') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-hideOnClick').checked = BlipFox.PreferencesManager.get('hideOnClick') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-notifyStatuses').checked = BlipFox.PreferencesManager.get('notifyStatuses') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-notifyMessages').checked = BlipFox.PreferencesManager.get('notifyMessages') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-showNotifications').checked = BlipFox.PreferencesManager.get('showNotifications') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-notifyNotifications').checked = BlipFox.PreferencesManager.get('notifyNotifications') === 'true' ? true : false;
+      window.document.getElementById('blipfox-preferences-useSpellchecker').checked = BlipFox.PreferencesManager.get('useSpellchecker') === 'true' ? true : false;
     },
 
     /**
@@ -215,7 +209,7 @@ BlipFox.Preferences = (function()
       netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
       var nsIFilePicker = Components.interfaces.nsIFilePicker;
       var fp = Components.classes['@mozilla.org/filepicker;1'].createInstance(nsIFilePicker);
-      fp.init(window, BlipFoxLocaleManager.getLocaleString('selectFile'), nsIFilePicker.modeOpen);
+      fp.init(window, BlipFox.LocaleManager.getLocaleString('selectFile'), nsIFilePicker.modeOpen);
       fp.appendFilters('Audio', '*.wav', '*.aiff');
       var res = fp.show();
       if (res == nsIFilePicker.returnOK)

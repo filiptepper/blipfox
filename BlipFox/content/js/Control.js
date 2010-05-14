@@ -36,7 +36,7 @@ window.addEventListener('keydown', function(e)
 
 window.addEventListener('click', function(e)
 {
-  if (BlipFoxPreferencesManager.get('hideOnClick') == 'true' && BlipFox.Application.checkStatus(BlipFox.Status.VISIBLE) === true && BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED) === true)
+  if (BlipFox.PreferencesManager.get('hideOnClick') == 'true' && BlipFox.Application.checkStatus(BlipFox.Status.VISIBLE) === true && BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED) === true)
   {
     var panel = window.document.getElementById('blipfox-panel').boxObject;
 

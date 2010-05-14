@@ -142,11 +142,11 @@ BlipFox.Helpers = (function(){
 
       var fakeEvent =
       {
-        altKey: BlipFoxPreferencesManager.get('shortcutAlt') == 'true' ? true : false,
-        metaKey: BlipFoxPreferencesManager.get('shortcutMeta') == 'true' ? true : false,
-        ctrlKey: BlipFoxPreferencesManager.get('shortcutCtrl') == 'true' ? true : false,
-        shiftKey: BlipFoxPreferencesManager.get('shortcutShift') == 'true' ? true : false,
-        keyCode: BlipFoxPreferencesManager.get('shortcutKey'),
+        altKey: BlipFox.PreferencesManager.get('shortcutAlt') == 'true' ? true : false,
+        metaKey: BlipFox.PreferencesManager.get('shortcutMeta') == 'true' ? true : false,
+        ctrlKey: BlipFox.PreferencesManager.get('shortcutCtrl') == 'true' ? true : false,
+        shiftKey: BlipFox.PreferencesManager.get('shortcutShift') == 'true' ? true : false,
+        keyCode: BlipFox.PreferencesManager.get('shortcutKey'),
       }
 
       return fakeEvent;
