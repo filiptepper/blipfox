@@ -19,7 +19,7 @@
 	<script src="js/Application.js" />
 	<script src="js/functions.js" />
 	<script src="js/LocaleManager.js" />
-	<script src="js/BlipFoxEventUtilities.js" />
+	<script src="js/EventUtilities.js" />
 	<script src="js/PreferencesManager.js" />
 	<script src="js/RequestManager.js" />
 	<script src="js/LayoutManager.js" />

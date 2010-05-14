@@ -32,10 +32,7 @@ const LEFT_MOUSE_BUTTON = 1;
  */
 const RIGHT_MOUSE_BUTTON = 2;
 
-/* Inicjalizacja obiektu z metodami pomocniczymi. */
-var BlipFoxEventUtilities = {};
-
-BlipFoxEventUtilities = (function()
+BlipFox.EventUtilities = (function()
 {
   /* Metody publiczne. */
   return {

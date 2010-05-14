@@ -619,7 +619,7 @@ BlipFox.Application = (function()
     */
    handleStatusbarClick: function(e)
    {
-     switch (BlipFoxEventUtilities.getMouseButton(e))
+     switch (BlipFox.EventUtilities.getMouseButton(e))
      {
        case LEFT_MOUSE_BUTTON:
          /* Lewy przycisk myszy. */
@@ -839,7 +839,7 @@ BlipFox.Application = (function()
     */
    showStatus: function(e, element)
    {
-     if (BlipFoxEventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+     if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
      {
        this.openUrl(this.getStatusLink(element.getAttribute('messageId')));
      }
@@ -875,7 +875,7 @@ BlipFox.Application = (function()
     */
    showDirectedMessage: function(e, element)
    {
-     if (BlipFoxEventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+     if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
      {
        this.openUrl(this.getDirectedMessageLink(element.getAttribute('messageId')));
      }
@@ -889,7 +889,7 @@ BlipFox.Application = (function()
     */
    showPrivateMessage: function(e, element)
    {
-     if (BlipFoxEventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
+     if (BlipFox.EventUtilities.getMouseButton(e) == LEFT_MOUSE_BUTTON)
      {
        this.openUrl(this.getPrivateMessageLink(element.getAttribute('messageId')));
      }
@@ -1378,7 +1378,7 @@ BlipFox.Application = (function()
     */
    showTextContext: function(e)
    {
-     if (BlipFoxEventUtilities.getMouseButton(e) == RIGHT_MOUSE_BUTTON && window.getSelection() != '')
+     if (BlipFox.EventUtilities.getMouseButton(e) == RIGHT_MOUSE_BUTTON && window.getSelection() != '')
      {
        window.document.getElementById('blipfox-text-context').showPopup(e.target, e.screenX, e.screenY);
      }
