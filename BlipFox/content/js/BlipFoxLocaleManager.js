@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,26 +21,26 @@
  */
 
 /* Inicjalizacja obiektu do obsługi tłumaczeń. */
-var BlipFoxLocaleManager = {}; 
+var BlipFoxLocaleManager = {};
 
 window.addEventListener('load', function()
 {
-	BlipFoxLocaleManager = (function()
-	{
-		/* Obiekt zawierający tłumaczenia. */
-		var _localeStrings = window.document.getElementById('blipfox-error-strings');
+  BlipFoxLocaleManager = (function()
+  {
+    /* Obiekt zawierający tłumaczenia. */
+    var _localeStrings = window.document.getElementById('blipfox-error-strings');
 
-		return {
-			/**
-			 * Metoda pobiera tłumaczenie w zależności od aktualnego locale przeglądarki.
-			 * @param string localeString Klucz tablicy obiektu tłumaczeń.
-			 * @return string Tłumaczenie.
-			 * @public
-			 */
-			getLocaleString: function(localeString)	
-			{
-				return _localeStrings.getString(localeString);				
-			}
-		}
-	})();
+    return {
+      /**
+       * Metoda pobiera tłumaczenie w zależności od aktualnego locale przeglądarki.
+       * @param string localeString Klucz tablicy obiektu tłumaczeń.
+       * @return string Tłumaczenie.
+       * @public
+       */
+      getLocaleString: function(localeString)
+      {
+        return _localeStrings.getString(localeString);
+      }
+    }
+  })();
 }, false);

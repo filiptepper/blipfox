@@ -28,110 +28,135 @@ const PASSWORD_CACHE_TIME = 5 * 60 * 1000;
 
 BlipFoxPreferencesManager = (function()
 {
-	/**
-	 * Usługa przeglądarki do obsługi dostępu do preferencji.
-	 * @var Object
-	 * @private
-	 */
-	var preferencesService = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService).getBranch('extensions.blipfox.');
+  /**
+   * Usługa przeglądarki do obsługi dostępu do preferencji.
+   * @var Object
+   * @private
+   */
+  var preferencesService = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService).getBranch('extensions.blipfox.');
 
-	/**
-	 * Obiekt zawierające domyślne preferencje.
-	 * @var Object
-	 * @private
-	 */
-	var defaults =
-	{
-		username: '',
-		password: '',
-		passwordFromPM: 'false',
-		shortcutKey: '66',
-		shortcutMeta: 'false',
-		shortcutAlt: 'false',
-		shortcutCtrl: 'true',
-		shortcutShift: 'true',
-		noDashboardBackground: 'false',
-		markNewMessages: 'false',
-		soundNewMessages: 'false',
-		hideOnClick: 'false',
-		useSpellchecker: 'false',
-		showEmbeds: 'true',
-		notifyMessages: 'false',
-		notifyStatuses: 'false',
-		autoLogin: 'false'
-	};
+  /**
+   * Obiekt zawierające domyślne preferencje.
+   * @var Object
+   * @private
+   */
+  var defaults =
+  {
+    username: '',
+    password: '',
+    passwordFromPM: 'false',
+    shortcutKey: '66',
+    shortcutMeta: 'false',
+    shortcutAlt: 'false',
+    shortcutCtrl: 'true',
+    shortcutShift: 'true',
+    noDashboardBackground: 'false',
+    markNewMessages: 'false',
+    soundNewMessages: 'false',
+    hideOnClick: 'false',
+    useSpellchecker: 'false',
+    showEmbeds: 'true',
+    notifyMessages: 'false',
+    notifyStatuses: 'false',
+    autoLogin: 'false'
+  };
 
-	/*
-	 * Obiekt zawiera informacje o keszowanym hasle (w przypadku pobierania
-	 * z menadzera hasel)
-	 * @var Object
-	 * @private
-	 */
-	var cachedPassword =
-	{
-		time: '0',
-		value: ''
-	};
+  /*
+   * Obiekt zawiera informacje o keszowanym hasle (w przypadku pobierania
+   * z menadzera hasel)
+   * @var Object
+   * @private
+   */
+  var cachedPassword =
+  {
+    time: '0',
+    value: ''
+  };
 
-	return {
-		/**
-		 * Metoda pobiera preferencję użytkownika.
-		 * @param string preference Nazwa.
-		 */
-		get: function(preference)
-		{
-			var value = null;
-			try
-			{
-				value = preferencesService.getCharPref(preference);
-			}
-			catch (ex)
-			{
-				value = defaults[preference];
-			}
+  return {
+    /**
+     * Metoda pobiera preferencję użytkownika.
+     * @param string preference Nazwa.
+     */
+    get: function(preference)
+    {
+      var value = null;
+      try
+      {
+        value = preferencesService.getCharPref(preference);
+      }
+      catch (ex)
+      {
+        value = defaults[preference];
+      }
 
-			return value;
-		},
+      return value;
+    },
 
-		/**
-		 * Metoda ustawia preferencję użytkownika.
-		 * @param string preference Nazwa.
-		 * @param string value Wartość.
-		 */
-		set: function(preference, value)
-		{
-			return preferencesService.setCharPref(preference, value);
-		},
+    /**
+     * Metoda ustawia preferencję użytkownika.
+     * @param string preference Nazwa.
+     * @param string value Wartość.
+     */
+    set: function(preference, value)
+    {
+      return preferencesService.setCharPref(preference, value);
+    },
 
-		/**
-		 * Metoda zwraca zapisana nazwe uzytkownika (dla zgodnosci z getPassword())
-		 */
-		getUsername: function()
-		{
-			return this.get('username');
-		},
+    /**
+     * Metoda zwraca zapisana nazwe uzytkownika (dla zgodnosci z getPassword())
+     */
+    getUsername: function()
+    {
+      return this.get('username');
+    },
 
-		/**
-		 * Metoda zwraca zapisane haslo uzytkownika
-		 */
-		 getPassword: function()
-		 {
-		 	if (this.get('passwordFromPM') === 'true')
-		 	{
-		 		var time = new Date().getTime();
-		 		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
-		 		if (cacheExpired || cachedPassword['value'] == '')
-		 		{
-		 			cachedPassword['time'] = time;
-		 			cachedPassword['value'] = getPasswordFromManager('blip.pl', this.getUsername());
-		 		}
+    /**
+     * Metoda zwraca zapisane haslo uzytkownika
+     */
+     getPassword: function()
+     {
+     	if (this.get('passwordFromPM') === 'true')
+     	{
+     		var time = new Date().getTime();
+     		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
+     		if (cacheExpired || cachedPassword['value'] == '')
+     		{
+     			cachedPassword['time'] = time;
+     			cachedPassword['value'] = getPasswordFromManager('blip.pl', this.getUsername());
+     		}
 
-		 		return cachedPassword['value'];
-		 	}
-		 	else
-		 	{
-		 		return this.get('password');
-		 	}
-		 }
-	}
+     		return cachedPassword['value'];
+     	}
+     	else
+     	{
+     		return this.get('password');
+     	}
+     }
+  }
+})();
+
+    /**
+     * Metoda zwraca zapisane haslo uzytkownika
+     */
+     getPassword: function()
+     {
+     	if (this.get('passwordFromPM') === 'true')
+     	{
+     		var time = new Date().getTime();
+     		var cacheExpired = time - cachedPassword['time'] > PASSWORD_CACHE_TIME;
+     		if (cacheExpired || cachedPassword['value'] == '')
+     		{
+     			cachedPassword['time'] = time;
+     			cachedPassword['value'] = getPasswordFromManager('blip.pl', this.getUsername());
+     		}
+
+     		return cachedPassword['value'];
+     	}
+     	else
+     	{
+     		return this.get('password');
+     	}
+     }
+  }
 })();

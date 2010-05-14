@@ -25,46 +25,46 @@ const IS_GD_API_URL = 'http://is.gd/api.php?longurl=';
 function BlipFoxUrlCompresser()
 {
 
-	this.sendGetRequest = function(url, callback, param)
-	{
-		var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
+  this.sendGetRequest = function(url, callback, param)
+  {
+    var request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 
-		request.open('GET', url, true);
-		request.onreadystatechange = function()
-		{
+    request.open('GET', url, true);
+    request.onreadystatechange = function()
+    {
  
-			try
-			{
-				if (request.readyState == 4 && request.status == 200)
-				{
-					if (typeof callback.success === 'function')
-					{
-						callback.success.call(BlipFox, request, param);
-					}
-				}
-				else if (request.readyState == 4)
-				{
-					if (typeof callback.error === 'function')
-					{
-						callback.error(request);
-					}
-				}
-			}
-			catch (ex)
-			{
-			  BlipFox.log(ex);
-				if (typeof callback.error === 'function')
-				{
-					callback.error(request, ex);
-				}
-			};
-		}
+      try
+      {
+        if (request.readyState == 4 && request.status == 200)
+        {
+          if (typeof callback.success === 'function')
+          {
+            callback.success.call(BlipFox, request, param);
+          }
+        }
+        else if (request.readyState == 4)
+        {
+          if (typeof callback.error === 'function')
+          {
+            callback.error(request);
+          }
+        }
+      }
+      catch (ex)
+      {
+        BlipFox.log(ex);
+        if (typeof callback.error === 'function')
+        {
+          callback.error(request, ex);
+        }
+      };
+    }
 
-		request.send(null);
-	},
+    request.send(null);
+  },
 
-	this.compressUrl = function(url, callback)
-	{
-		return this.sendGetRequest(IS_GD_API_URL + url, callback, url);
-	}
+  this.compressUrl = function(url, callback)
+  {
+    return this.sendGetRequest(IS_GD_API_URL + url, callback, url);
+  }
 }
