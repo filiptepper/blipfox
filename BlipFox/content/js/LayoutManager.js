@@ -247,8 +247,14 @@ BlipFox.LayoutManager = function()
     _container.id = 'blipfox-panel';
 
     _panel = document.createElement('panel');
-    _panel.setAttribute('noautofocus', 'true');
-    _panel.setAttribute('noautohide', 'true');
+    _panel.setAttribute('noautofocus', true);
+
+    if (navigator.platform.match("Linux") && navigator.userAgent.match("Firefox/3.6")) {
+      _panel.setAttribute("noautohide", false);
+    } else {
+      _panel.setAttribute("noautohide", true);
+    }
+
     _panel.appendChild(_container);
 
     var popupset = window.document.getElementById('browser-bottombox');
