@@ -53,26 +53,6 @@ BlipFox.LayoutManager = function()
   }
 
   /**
-   * Metoda znajduje wśród elementów XUL obiekt wyświetlający listę znajomych.
-   * @return object Obiekt wyświetlający listę znajomych.
-   * @private
-   */
-  var _getInputFriends = function()
-  {
-    return window.document.getElementById('blipfox-input-friends');
-  }
-
-  /**
-   * Wrapper publiczny na metodę _getFriendsMenulist.
-   * @return object Obiekt wyświetlający listę znajomych.
-   * @public
-   */
-  this.getInputFriends = function()
-  {
-    return _getInputFriends();
-  }
-
-  /**
    * Metoda znajduje wśród elementów XUL obiekt do wpisywania treści wiadomości.
    * @return object Obiekt do wpisywania treści wiadomości.
    * @private
@@ -895,29 +875,6 @@ BlipFox.LayoutManager = function()
     {
       _container.style.backgroundImage = 'url(' + _backgroundImage + ')';
     }
-  }
-
-  /**
-   * Metoda przygotowuje listę obserwowanych do listy wyboru.
-   * @param Array friends Lista obserwowanych z API.
-   */
-  this.showFriends = function(friends)
-  {
-    // var friendsList = _getInputFriends();
-    //
-    // /* Usunięcie istniejących znajomych z listy */
-    // var friendsLength = friends.length;
-    // for (var i = friendsLength; i >= 0; i--)
-    // {
-    // 	friendsList.removeItemAt(i);
-    // }
-    // friendsList.insertItemAt(0, '---' , '');
-    //
-    // var friendsLength = friends.length;
-    // for (i = 0; i < friendsLength; i++)
-    // {
-    // 	friendsList.insertItemAt(i + 1, friends[i], friends[i]);
-    // }
   }
 
   /**

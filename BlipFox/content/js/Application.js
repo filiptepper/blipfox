@@ -180,11 +180,6 @@ BlipFox.Application = (function()
        _data._friends.sort();
 
        BlipFox.Application.setStatus(BlipFox.Status.LOADED_FRIENDS);
-
-       if (BlipFox.Application.checkStatus(BlipFox.Status.INITIALIZED))
-       {
-         _layoutManager.showFriends(_data._friends);
-       }
      },
      error: function(request, exception)
      {
@@ -506,7 +501,6 @@ BlipFox.Application = (function()
 
        BlipFox.Helpers.getTimer().initWithCallback(function()
        {
-         _layoutManager.showFriends(_data._friends);
          _layoutManager.showMessages(_data._messages);
          _layoutManager.setUserStatus(_data._status.body, _data._status.id);
          window.document.getElementById('blipfox-popup-header').click =
